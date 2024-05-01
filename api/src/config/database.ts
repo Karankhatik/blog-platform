@@ -10,4 +10,4 @@ const connectDatabase = async () => {
   }
 };
 
-module.exports = connectDatabase;
+export default connectDatabase;

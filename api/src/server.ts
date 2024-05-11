@@ -26,8 +26,8 @@ app.use(fileUpload({
 app.use(logger('dev'));
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3000', 
-  exposedHeaders: ['Authorization'],
+  origin: 'https://intake-learn.vercel.app/', 
+  exposedHeaders: ['accessToken', 'refreshToken'],
   credentials: true, 
 }));
 

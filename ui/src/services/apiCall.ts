@@ -48,9 +48,9 @@ const getDataFromApi = async (request: any) => {
     let errMessage = err?.response?.data?.message;
     let messages = ['Refresh token expired', 'Refresh token expired or used', 'Invalid refresh token','invalid signature', 'invalid token', 'jwt malformed', 'Not authorized to access this route.', 'jwt expired', 'Unauthorized', 'User may not exist.', 'Session expired'];
     if (messages.includes(errMessage)) {
-      localStorage.clear();
-      window.location.href = "/auth/login";
-      window.location.reload();
+      // localStorage.clear();
+      // window.location.href = "/auth/login";
+      // window.location.reload();
     } else {
       toast.error(errMessage);
       return { flag: false, error: err.response };

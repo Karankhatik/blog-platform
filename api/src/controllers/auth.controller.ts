@@ -8,10 +8,16 @@ import ApiError from "../utils/APIError";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { TokenExpiredError } from 'jsonwebtoken';
 
-const options = {
+// Define the type for your cookie options more precisely
+const options: {
+    httpOnly: boolean;
+    secure: boolean;
+    sameSite: 'lax' | 'strict' | 'none';  
+} = {
     httpOnly: true,
-    secure: true
-}
+    secure: true,
+    sameSite: 'none'  
+};
 
 const generateAccessAndRefereshTokens = async (userId: string) => {
     try {
@@ -177,6 +183,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
 export const logout = async (req: any, res: Response, next: NextFunction) => {
     try {
+        console.log(req)
         if (req.admin) {
             console.log(req.admin)
             const admin = await Admin.findByIdAndUpdate(

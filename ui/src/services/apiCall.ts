@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 
-export const url = 'http://localhost:8000/api/v1/';
+const url = process.env.NEXT_PUBLIC_API_SERVER_URL;
 
 const axios_instance = axios.create({
   headers: {

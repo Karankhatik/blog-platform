@@ -83,7 +83,7 @@ const SignUp: React.FC = () => {
     if (otp.length === 6) {
       setLoadingOtp(true);
       try {
-        const response = await verifyEmail(email, otp);
+        const response = await verifyEmail(email, Number(otp));
         if (response.success) {
           router.push('/auth/login');
           setSuccess(response.message);
@@ -112,12 +112,12 @@ const SignUp: React.FC = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timer | undefined;
-
+  
     if (timerActive) {
       interval = setInterval(() => {
         setTimer((prev) => {
           if (prev <= 1) {
-            clearInterval(interval!);
+            clearInterval(interval as NodeJS.Timeout); // Use type assertion here
             setTimerActive(false);
             return 0;
           }
@@ -125,9 +125,10 @@ const SignUp: React.FC = () => {
         });
       }, 1000);
     }
-
-    return () => clearInterval(interval);
+  
+    return () => clearInterval(interval as NodeJS.Timeout); // And here as well
   }, [timerActive]);
+  
 
   const formatTime = (): string => {
     const minutes = Math.floor(timer / 60);

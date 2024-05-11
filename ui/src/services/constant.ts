@@ -1,12 +1,12 @@
 export const url = "http://localhost:8000/api/v1/";
 
 //***************Login API's*******************
-export const login = {
+export const loginAPI = {
     url: url + 'auth/login',
     method: 'POST',
 };
 
-export const Logout = {
+export const logoutApI = {
     url: url + 'auth/logout',
     method: 'GET',
 }

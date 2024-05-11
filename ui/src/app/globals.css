@@ -1,33 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Palanquin:wght@100;200;300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+/* Example in global.css or specific module CSS */
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --custom-font-size: 1rem; /* Default font size */
+  --custom-text-color: #656565; /* Default text color */
+  --custom-text-header-color: #656565;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+
+/* globals.css or similar */
+body{
+  font-family: 'Mulish', Helvetica, Arial, sans-serif;
+}
+
+.text-para {
+  text-align: justify; /* Justify text to ensure each line has the same length */
+    text-justify: inter-word; /* Improves spacing between words for a more even appearance */
+}
+
+@layer base {
+  html {
+    --color-primary: #ffffff;
+    --color-secondary: #ffffff;
+    --color-buttons: #0a0909;
+    --color-button-text: #ffffff;
+    --color-typography: #0c0b0b;
+    --button-hover: #f3830b;
+    --typography-hover: #f3830b;
+    --border-color: #9ea0a5;
+    --header-color: #0c0b0b;
+    --bgFooter-color: #f0f0f0;
+    --toolTipBG: #0c0b0b;
+    --toolTipText: #f0f0f0;
+}
+
+
+  @import "../styles/themes/theme1.css";
+  @import "../styles/themes/theme2.css";
+  @import "../styles/themes/theme3.css";
+  @import "../styles/themes/theme4.css";
+  @import "../styles/themes/theme5.css";
+  @import "../styles/themes/theme6.css";
+  @import "../styles/themes/theme7.css";
+  @import "../styles/themes/theme8.css";
+  @import "../styles/themes/theme9.css";
+  @import "../styles/themes/theme10.css";
+  @import "../styles/themes/theme11.css";
+  @import "../styles/themes/theme12.css";
+  @import "../styles/articleTheme/theme1.css";
+  @import "../styles/articleTheme/theme2.css";
+  @import "../styles/articleTheme/theme3.css";
+  @import "../styles/articleTheme/theme4.css";
+}
+
+
+
+@layer utilities {  
+  .text-typography-hover {
+    @apply text-typography transition hover:text-typographyHover
+  }
+  .btn {
+    @apply inline-block rounded-md bg-buttons px-1 py-1 bg-buttons text-buttonTypography transition  hover:text-buttonHover
+  }
+  .headerText{
+    @apply text-3xl leading-9 font-extrabold text-headerColor sm:text-[35px]
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+@keyframes shimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.shimmer {
+  animation: shimmer 1.5s infinite linear;
+  background: #d1d2d2;
+  background: linear-gradient(to right, #f6f7f8 8%, #edeef1 18%, #f6f7f8 33%);
+  background-size: 800px 104px;
+  position: relative;
+}
+
+.card-placeholder {
+  width: 100%; /* Adjust based on your grid setup */
+  height: 200px; /* Example height, adjust as needed */
+  border: 1px solid #c4c7ca; /* Border color similar to your CoursesCard */
+  border-radius: 0.5rem; /* Rounded corners */
+}
+
+.header {
+  transition: transform 0.3s ease-in-out;
+}
+
+.header.visible {
+  transform: translateY(0);
+}
+
+.header.hidden {
+  transform: translateY(-100%);
 }

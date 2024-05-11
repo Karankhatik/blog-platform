@@ -28,11 +28,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const router = express_1.default.Router();
-const AdminRoute = __importStar(require("../controllers/admin"));
+const AdminRoute = __importStar(require("../controllers/admin.controller"));
 const admin_1 = require("../middleware/joiValidation/admin");
 // Temporary use
 router.post("/register", (0, admin_1.validateMiddleware)(admin_1.adminParamValidation.register), AdminRoute.register);
-// Routes
-router.post("/login", (0, admin_1.validateMiddleware)(admin_1.adminParamValidation.login), AdminRoute.login);
-router.get("/logout", AdminRoute.logout);
 exports.default = router;

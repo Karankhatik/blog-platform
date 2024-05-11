@@ -1,0 +1,10 @@
+/* Theme 6 */
+html[data-theme="theme6"] {
+    --color-primary: #000000; /* Night sky black */
+    --color-secondary: #778899; /* Moonlit grey */
+    --color-buttons: #556b2f; /* Cactus green */
+    --color-typography: #f4a460; /* Sand beige */
+    --button-hover: #00ced1; /* Oasis blue */
+    --typography-hover: #daa520; /* Dune gold */
+    --border-color: #8b4513; /* Rock brown */
+}

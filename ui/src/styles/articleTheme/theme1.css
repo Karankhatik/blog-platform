@@ -1,0 +1,5 @@
+/* Theme 1 */
+html[data-theme="articleTheme1"] {
+    --custom-text-header-color: #d43434;
+    --custom-text-color: #181816;  
+}

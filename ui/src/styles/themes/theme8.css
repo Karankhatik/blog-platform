@@ -1,0 +1,10 @@
+/* Theme 8 */
+html[data-theme="theme8"] {
+    --color-primary: #8B0000; /* Maple red */
+    --color-secondary: #FF8C00; /* Pumpkin orange */
+    --color-buttons: #FFD700; /* Harvest gold */
+    --color-typography: #F5DEB3; /* Wheat beige */
+    --button-hover: #8B4513; /* Chestnut brown */
+    --typography-hover: #FF6347; /* Apple red */
+    --border-color: #A52A2A; /* Acorn brown */
+}

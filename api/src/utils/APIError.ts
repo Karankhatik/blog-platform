@@ -1,41 +1,29 @@
-import httpStatus from 'http-status';
+class ApiError extends Error {
+  statusCode: number;
+  data: any;
+  message: string;
+  success: boolean;
+  errors: any[];
 
-/**
- * Extendable Error class used as a base for specific error types.
- * @extends Error
- */
-class ExtendableError extends Error {
-  public status: number;
-  public isPublic: boolean;
-
-  constructor(message: string, status: number, isPublic: boolean) {
-    super(message);
-    this.name = this.constructor.name;
-    this.message = message;
-    this.status = status;
-    this.isPublic = isPublic;
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-/**
- * Class representing an API error.
- * @extends ExtendableError
- */
-class APIError extends ExtendableError {
-  /**
-   * Creates an API error.
-   * @param message - Error message.
-   * @param status - HTTP status code of error, defaults to 500 Internal Server Error.
-   * @param isPublic - Whether the message should be visible to user or not, defaults to true.
-   */
   constructor(
-    message: string,
-    status: number = httpStatus.INTERNAL_SERVER_ERROR,
-    isPublic: boolean = true
+      statusCode: number,
+      message: string = "Something went wrong",
+      errors: any[] = [],
+      stack?: string
   ) {
-    super(message, status, isPublic);
+      super(message);
+      this.statusCode = statusCode;
+      this.data = null; 
+      this.message = message;
+      this.success = false;
+      this.errors = errors;
+
+      if (stack) {
+          this.stack = stack;
+      } else {
+          Error.captureStackTrace(this, this.constructor);
+      }
   }
 }
 
-export default APIError;
+export default ApiError ;

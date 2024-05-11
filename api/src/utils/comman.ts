@@ -22,7 +22,7 @@ const generateJWTAccessToken = (user: User): string => {
 const generateOTP = (): string => {
   const digits = '123456789';
   let otp = '';
-  for (let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 6; i++) {
     let index = Math.floor(Math.random() * digits.length);
     otp += digits[index];
   }

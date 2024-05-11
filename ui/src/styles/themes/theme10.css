@@ -1,0 +1,9 @@
+/* Theme 10 */
+html[data-theme="theme10"] {
+    --color-secondary: #FF00FF; /* Neon pink */
+    --color-buttons: #FFFF00; /* Laser lemon */
+    --color-typography: #00FF00; /* Digital green */
+    --button-hover: #800080; /* Arcade purple */
+    --typography-hover: #FFA500; /* Synthwave orange */
+    --border-color: #00FFFF; /* Fluorescent cyan */
+}

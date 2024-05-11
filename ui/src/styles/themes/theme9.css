@@ -1,0 +1,10 @@
+/* Theme 9 */
+html[data-theme="theme9"] {
+    --color-primary: #000000; /* Space black */
+    --color-secondary: #8A2BE2; /* Galaxy purple */
+    --color-buttons: #FF0000; /* Rocket red */
+    --color-typography: #C0C0C0; /* Starlight silver */
+    --button-hover: #696969; /* Meteorite gray */
+    --typography-hover: #32CD32; /* Comet green */
+    --border-color: #FFFFFF; /* Astronaut white */
+}

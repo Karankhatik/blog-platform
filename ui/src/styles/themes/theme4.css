@@ -1,0 +1,10 @@
+/* Theme 2 */
+html[data-theme="theme4"] {
+    --color-primary: #013220; /* Dark forest green */
+    --color-secondary: #8fbc8f; /* Moss green */
+    --color-buttons: #800000; /* Berry red */
+    --color-typography: #f5f5f5; /* Dew white */
+    --button-hover: #228b22; /* Pine green */
+    --typography-hover: #a0522d; /* Earth brown */
+    --border-color: #8b4513; /* Tree bark brown */
+}

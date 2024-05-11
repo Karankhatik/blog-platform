@@ -10,10 +10,10 @@ import routes from './routes';
 
 const app = express();
 
-// app.use((req: Request, res: Response, next: NextFunction) => {
-//     res.header("Content-Type", "application/json");
-//     next();
-// });
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.header("Content-Type", "application/json");
+    next();
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -25,10 +25,20 @@ app.use(fileUpload({
 
 app.use(logger('dev'));
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  exposedHeaders: ['Authorization'],
+  credentials: true, 
+}));
 
 app.use("/api/v1", routes);
 
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  // Set the status code and send the JSON response
+  res.status(err.status || httpStatus.INTERNAL_SERVER_ERROR)
+      .header('Content-Type', 'application/json') 
+      .json({ success: false, message: err.message});
+});
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });

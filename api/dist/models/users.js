@@ -22,8 +22,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importStar(require("mongoose"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 // Schema definition
 const userSchema = new mongoose_1.Schema({
     name: {
@@ -57,11 +61,31 @@ const userSchema = new mongoose_1.Schema({
         type: String,
         required: false,
     },
+    refreshToken: String,
     otp: Number,
     otp_expiry: Date,
     resetPasswordOtp: Number,
     resetPasswordOtpExpiry: Date,
 }, { timestamps: true });
+userSchema.methods.generateAccessToken = function () {
+    const secret = process.env.ACCESS_TOKEN_SECRET || '2sdnkn4rcsdcno4fh'; //default secret key
+    return jsonwebtoken_1.default.sign({
+        _id: this._id,
+        email: this.email,
+        username: this.username,
+        fullName: this.fullName
+    }, secret, {
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY || '1h'
+    });
+};
+userSchema.methods.generateRefreshToken = function () {
+    const secret = process.env.REFRESH_TOKEN_SECRET || 'kjvldkfvlndfdfbvdvnsdv'; //default secret key
+    return jsonwebtoken_1.default.sign({
+        _id: this._id
+    }, secret, {
+        expiresIn: process.env.REFRESH_TOKEN_EXPIRY || '7d'
+    });
+};
 // Create the model according to the schema.
 const User = mongoose_1.default.model('User', userSchema);
 exports.default = User;

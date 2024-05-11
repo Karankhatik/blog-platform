@@ -24,19 +24,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const userRoute = __importStar(require("../controllers/users"));
+const userRoute = __importStar(require("../controllers/users.controller"));
 const user_1 = require("../middleware/joiValidation/user");
-const auth_1 = require("../middleware/auth");
+const auth_middleware_1 = require("../middleware/auth.middleware");
 const router = (0, express_1.Router)();
 router.post("/register", (0, user_1.validateMiddleware)(user_1.userParamValidation.register), userRoute.register); //test done
 router.post("/verify", (0, user_1.validateMiddleware)(user_1.userParamValidation.verify), userRoute.verify); //test done
-router.post("/login", (0, user_1.validateMiddleware)(user_1.userParamValidation.login), userRoute.login); //test done
-router.get("/logout/:id", userRoute.logout); //test done
-router.get("/me", auth_1.protect, userRoute.getMyProfile);
-router.put("/updateprofile", auth_1.protect, (0, user_1.validateMiddleware)(user_1.userParamValidation.updateProfile), userRoute.updateProfile);
-router.put("/updatepassword", auth_1.protect, userRoute.updatePassword);
+router.get("/me", auth_middleware_1.protect, userRoute.getMyProfile);
+router.put("/updateprofile", auth_middleware_1.protect, (0, user_1.validateMiddleware)(user_1.userParamValidation.updateProfile), userRoute.updateProfile);
+router.put("/updatepassword", auth_middleware_1.protect, userRoute.updatePassword);
 router.post("/forgetpassword", (0, user_1.validateMiddleware)(user_1.userParamValidation.forgetPassword), userRoute.forgetPassword);
-router.post("/resetpassword", (0, user_1.validateMiddleware)(user_1.userParamValidation.resetPassword), userRoute.resetPassword);
-router.put("/reSendOtp", userRoute.reSendOtp); //test done
-router.post("/applyForEditor", auth_1.protect, userRoute.applyForReporter);
+router.patch("/resetpassword", userRoute.resetPassword);
+router.post("/reSendOtp", userRoute.reSendOtp); //test done
+router.post("/applyForEditor", auth_middleware_1.protect, userRoute.applyForEditor);
 exports.default = router;

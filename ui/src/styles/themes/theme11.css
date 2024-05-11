@@ -1,0 +1,10 @@
+html[data-theme="theme11"] {
+  --color-primary: #704214; /* Sepia brown */
+  --color-secondary: #f5f5dc; /* Antique beige */
+  --color-buttons: #d4af37; /* Old gold */
+  --color-typography: #fffff0; /* Parchment white */
+  --button-hover: #cd7f32; /* Faded bronze */
+  --typography-hover: #a52a2a; /* Rustic red */
+  --border-color: #b87333; /* Aged copper */
+  }
+  

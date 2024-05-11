@@ -1,0 +1,10 @@
+/* Urban Chic Theme */
+html[data-theme="theme12"] {
+    --color-primary: #a8a9ad; /* Concrete gray */
+    --color-secondary: #4682b4; /* Steel blue */
+    --color-buttons: #ffd700; /* Taxi yellow */
+    --color-typography: #ffffff; /* Streetlight white */
+    --button-hover: #32cd32; /* Graffiti green */
+    --typography-hover: #b22222; /* Brick red */
+    --border-color: #c0c0c0; /* Sidewalk silver */
+}

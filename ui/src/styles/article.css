@@ -1,0 +1,158 @@
+.content p {
+    line-height: 1.6; /* Adjust line height for better readability */
+    color: var(--custom-text-color);
+    text-align: justify; /* Justify text to ensure each line has the same length */
+    text-justify: inter-word; /* Improves spacing between words for a more even appearance */
+    max-width: 100%; /* Full width on mobile by default */
+    margin-right: 0;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: var(--custom-font-size);
+}
+
+
+
+/* Heading styles */
+.content h1,
+.content h2,
+.content h3,
+.content h4, 
+.content h5,
+.content h6 {
+    margin-bottom: 1.25rem; /* 20px */
+    margin-top: 1rem; /* 20px */
+    font-weight: 700;
+    color: var(--custom-text-header-color);    
+    text-align: left; /* Align text to the left for all headings */
+}
+
+.content h1 {
+    font-size: calc(var(--custom-font-size) + 0.9em); /* Slightly smaller on mobile */
+}
+
+.content figcaption {
+    color: var(--custom-text-color);
+    display: block; 
+    text-align: center;
+    margin-top: 15px;
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+.content h2 {
+    font-size: calc(var(--custom-font-size) + 0.7em); /* Slightly smaller on mobile */
+}
+
+.content h3 {
+    font-size: calc(var(--custom-font-size) + 0.5em); /* Slightly smaller on mobile */
+}
+
+.content h4 {
+    font-size: calc(var(--custom-font-size) + 0.3em); /* Slightly smaller on mobile */
+}
+.content h5 {
+    font-size: calc(var(--custom-font-size) + 0.1em); /* Slightly smaller on mobile */
+}
+
+.content h6 {
+    font-size: var(--custom-font-size); /* Slightly smaller on mobile */
+}
+
+
+
+/* Base image styles inside .content */
+.content img {
+    max-width: 100%; 
+    border-radius: 0.625rem; 
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;    
+}
+
+
+@media (min-width: 768px) {
+    .content img {
+        max-width: 60%;     
+    }    
+}
+
+@media (min-width: 1024px) {
+    .content img {
+        max-width: 60%;        
+    }   
+}
+
+
+
+/* Styling for unordered lists */
+.content ul {  
+    color: var(--custom-text-header-color); 
+    list-style-type: disc; /* Disc style for list items */
+    margin-bottom: 15px; /* Bottom margin for spacing between list and following content */
+}
+
+/* Styling for ordered lists */
+.content ol { 
+    color: var(--custom-text-header-color);   
+    list-style-type: decimal; /* Number style for list items */
+    margin-bottom: 15px; /* Bottom margin for spacing between list and following content */
+}
+
+.content li {
+    font-size: var(--custom-font-size);
+    line-height: 1.6; /* Matches <p> tag line height */
+    color: var(--custom-text-color);
+    text-align: justify; /* Optional: Justifies the text within */
+    list-style-position: inside; /* Positions the bullet or number inside the content flow */
+    margin-top: 15px; /* Matches <p> tag margin */
+    margin-bottom: 15px; /* Matches <p> tag margin */
+}
+
+/* Responsive adjustments for tablets */
+@media (min-width: 768px) {
+    .content ul, .content ol {
+        padding-left: 25px; /* Slightly more indentation on larger screens */
+    }
+}
+
+/* Responsive adjustments for desktops */
+@media (min-width: 1024px) {
+    .content ul, .content ol {
+        padding-left: 30px; /* Further increase indentation for desktops */
+    }
+}
+
+/* Anchor tag (link) styles */
+.content a {
+     /* Primary color for links */
+    text-decoration: none; /* Remove underline from links */
+    transition: color 0.3s ease-in-out; /* Smooth transition for color change */
+    color: #0095ff;
+}
+
+.content a:hover,
+.content a:focus {
+     /* Darker shade of primary color for hover/focus state */
+    text-decoration: underline; /* Add underline on hover/focus for better visibility */
+}
+
+/* Responsive adjustments for tablets */
+@media (min-width: 768px) {
+    .content ul {
+        padding-left: 25px; /* Slightly more indentation on larger screens */
+    }
+}
+
+/* Responsive adjustments for desktops */
+@media (min-width: 1024px) {
+    .content ul {
+        padding-left: 30px; /* Further increase indentation for desktops */
+    }
+}
+
+/* Assuming your content container has an ID or a unique class */
+.content-container * {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    box-sizing: border-box !important; /* Ensures padding doesn't add to the width */
+}

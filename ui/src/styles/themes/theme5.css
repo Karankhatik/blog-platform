@@ -1,0 +1,10 @@
+/* Theme 5 */
+html[data-theme="theme5"] {
+    --color-primary: #6a0dad; /* Twilight purple */
+    --color-secondary: #ffc0cb; /* Sunset pink */
+    --color-buttons: #ff4500; /* Dusk orange */
+    --color-typography: #fdf5e6; /* Cloud white */
+    --button-hover: #d02090; /* Evening magenta */
+    --typography-hover: #000080; /* Night blue */
+    --border-color: #e6e6fa; /* Horizon lavender */
+}

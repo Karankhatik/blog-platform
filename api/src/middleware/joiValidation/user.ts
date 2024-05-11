@@ -1,5 +1,6 @@
 import Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
+import * as StatusCodes from "http-status";
 
 interface ValidationSchemas {
   register: Joi.ObjectSchema;
@@ -31,6 +32,7 @@ const userParamValidation: ValidationSchemas = {
   resetPassword: Joi.object({
     otp: Joi.string().min(3).required(),
     newPassword: Joi.string().min(6).required(),
+    email: Joi.string().lowercase().email().required(),
   }),
   updatePassword: Joi.object({    
     newPassword: Joi.string().min(6).required(),
@@ -46,7 +48,7 @@ const validateMiddleware = (schema: Joi.ObjectSchema) => {
     const validation = schema.validate(req.body);
     if (validation.error) {
       const errorMessage = validation.error.details[0].message;
-      return res.status(400).json({ error: errorMessage });
+      return res.status(StatusCodes.NO_CONTENT).json({ success: false, message: errorMessage });
     }
     next();
   };

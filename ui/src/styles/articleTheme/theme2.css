@@ -1,0 +1,5 @@
+/* Theme 2 */
+html[data-theme="articleTheme2"] {
+    --custom-text-header-color: #e75d13;
+    --custom-text-color: #cbc521;
+}

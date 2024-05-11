@@ -105,7 +105,7 @@ export const refreshAccessToken = async (req: Request, res: Response, next: Next
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        
+        console.log("kya aa r dekhte hai -->  ", process.env.ACCESS_TOKEN_EXPIRY, process.env.REFRESH_TOKEN_EXPIRY)
         // Sanitize each input
         const email = await sanitiseReqBody(req.body.email);
         const password = await sanitiseReqBody(req.body.password);

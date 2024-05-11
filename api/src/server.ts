@@ -24,14 +24,56 @@ app.use(fileUpload({
 }));
 
 app.use(logger('dev'));
-app.use(helmet());
-app.use(cors({
-  origin: 'https://intake-learn.vercel.app/', 
-  exposedHeaders: ['accessToken', 'refreshToken'],
-  credentials: true, 
+
+app.use((req: Request,res: Response, next: NextFunction) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader(`Permissions-Policy`, `accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()`);
+  next();
+});
+
+// Define allowed origins
+const allowedOrigins: string[] = [
+  'http://localhost:3000',
+  'https://intake-learn.vercel.app/'
+];
+
+// Define CORS options with TypeScript typing
+const corsOptions: cors.CorsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); 
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+  optionsSuccessStatus: 200 
+};
+
+app.use(cors(corsOptions));
+
+// set helmet to protect server from malicious attacks...
+app.use(helmet({
+  contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+          "block-all-mixed-content": []
+      },
+  },
+  frameguard: {
+      action: "deny"
+  }
 }));
 
+app.use(helmet());
+
 app.use("/api/v1", routes);
+
+app.use((req, res, next: NextFunction) => {
+  return next(new APIError(httpStatus.NOT_FOUND, "API Not Found"));
+});
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   // Set the status code and send the JSON response
@@ -39,6 +81,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
       .header('Content-Type', 'application/json') 
       .json({ success: false, message: err.message});
 });
+
+
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScript Server");
 });

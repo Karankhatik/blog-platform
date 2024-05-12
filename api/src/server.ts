@@ -32,24 +32,25 @@ app.use((req: Request,res: Response, next: NextFunction) => {
   next();
 });
 
-// Extract the single allowed origin from the environment variable
-const allowedOrigin: string | undefined = process.env.CLIENT_SERVER_URL;
+// Define allowed origins
+const allowedOrigins: string[] = [
+  'http://localhost:3000',
+  'https://intake-learn.vercel.app'
+];
 
 // Define CORS options with TypeScript typing
 const corsOptions: cors.CorsOptions = {
   origin: (origin, callback) => {
-    // Allow requests if there's no origin (e.g., Mobile apps, Postman) or if the origin matches the allowed one
-    if (!origin || origin === allowedOrigin) {
-      callback(null, true);
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); 
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
-  optionsSuccessStatus: 200 // Defaults to 204, but may be set to 200 if needed
+  optionsSuccessStatus: 200 
 };
-
 
 app.use(cors(corsOptions));
 

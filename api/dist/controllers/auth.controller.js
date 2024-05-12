@@ -165,7 +165,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             message: "Logged in successfully",
             user: {
                 name: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.name,
-                isAdmin: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.isAdmin
+                isAdmin: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.isAdmin,
+                id: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin._id
             }
         });
     }

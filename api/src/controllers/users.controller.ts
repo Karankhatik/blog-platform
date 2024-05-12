@@ -51,7 +51,7 @@ const register = async (req: Request, res: Response) => {
     sanitiseBody.password = null;
     sanitiseBody.otp = null;
 
-    res.status(httpStatus.CREATED).json({ success: true, message: resMessage, user: user });
+    res.status(httpStatus.CREATED).json({ success: true, message: resMessage});
   } catch (error) {  
     console.log(error);  
     res.status(httpStatus.BAD_REQUEST).json({
@@ -96,7 +96,7 @@ const verify = async (req: Request, res: Response, next: NextFunction) => {
       user.otp_expiry = null;
 
       await user.save();
-      res.status(httpStatus.OK).json({ success: true, message: "Account Verified", user: user });
+      res.status(httpStatus.OK).json({ success: true, message: "Account Verified" });
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).json({
       success: false,

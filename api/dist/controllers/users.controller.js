@@ -56,7 +56,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         let resMessage = "OTP sent to your email, please verify your account";
         sanitiseBody.password = null;
         sanitiseBody.otp = null;
-        res.status(http_status_1.default.CREATED).json({ success: true, message: resMessage, user: user });
+        res.status(http_status_1.default.CREATED).json({ success: true, message: resMessage });
     }
     catch (error) {
         console.log(error);
@@ -99,7 +99,7 @@ const verify = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         user.otp = null;
         user.otp_expiry = null;
         yield user.save();
-        res.status(http_status_1.default.OK).json({ success: true, message: "Account Verified", user: user });
+        res.status(http_status_1.default.OK).json({ success: true, message: "Account Verified" });
     }
     catch (error) {
         return res.status(http_status_1.default.BAD_REQUEST).json({

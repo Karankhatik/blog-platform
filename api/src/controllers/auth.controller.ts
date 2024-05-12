@@ -165,7 +165,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
                     message: "Logged in successfully",
                     user: {
                         name: loggedInAdmin?.name,
-                        isAdmin: loggedInAdmin?.isAdmin
+                        isAdmin: loggedInAdmin?.isAdmin,
+                        id: loggedInAdmin?._id
                     }
                 },
             );

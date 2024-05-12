@@ -31,7 +31,7 @@ const SignUp: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [success, setSuccess] = useState<string>('');
   const [timer, setTimer] = useState<number>(120);
-  
+
   const [loading, setLoading] = useState<boolean>(false);
 
   // Hooks related to OTP input
@@ -57,7 +57,7 @@ const SignUp: React.FC = () => {
           toast(response.message);
         }
       } catch {
-        toast.error("An unexpected error occurred. Please try again.");
+        //toast.error("An unexpected error occurred. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -112,7 +112,7 @@ const SignUp: React.FC = () => {
 
   useEffect(() => {
     let interval: NodeJS.Timer | undefined;
-  
+
     if (timerActive) {
       interval = setInterval(() => {
         setTimer((prev) => {
@@ -125,10 +125,10 @@ const SignUp: React.FC = () => {
         });
       }, 1000);
     }
-  
+
     return () => clearInterval(interval as NodeJS.Timeout); // And here as well
   }, [timerActive]);
-  
+
 
   const formatTime = (): string => {
     const minutes = Math.floor(timer / 60);
@@ -140,9 +140,7 @@ const SignUp: React.FC = () => {
     const response = await resendEmailOTP(email);
     if (response.success) {
       toast.success(response.message);
-      startTimer(); // Restart the timer
-    } else {
-      toast.error("Failed to resend OTP. Please try again.");
+      startTimer();
     }
   };
 
@@ -151,7 +149,7 @@ const SignUp: React.FC = () => {
       <div className="max-w-sm w-full border border-gray-300 p-8 text-gray-600 space-y-5 rounded-lg shadow-2xl" style={{ minHeight: '500px' }}>
         {showOTP ? (
           <div className="mt-5">
-            <button className="text-black hover:text-orange-500" onClick={() => { setOtp(''); setSuccess(''); }}>
+            <button className="text-black hover:text-orange-500" onClick={() => { setOtp(''); setSuccess(''); setShowOTP(false); setTimer(120); setTimerActive(false); }}>
               {backIcon}
             </button>
             <p className="text-gray-800 text-2xl font-bold sm:text-3xl mb-4 mt-3">Enter OTP</p>
@@ -167,8 +165,8 @@ const SignUp: React.FC = () => {
             />
             {timer === 0 ? (
               <span className="mt-10" onClick={handleResendOTP}>
-                 <LoaderButton loading={loadingOtp} buttonText="Resend OTP" />
-              </span>              
+                <LoaderButton loading={loadingOtp} buttonText="Resend OTP" />
+              </span>
             ) : <span className="mt-10" onClick={handleOTPChange}>
               <LoaderButton loading={loadingOtp} buttonText="Submit OTP" />
             </span>}

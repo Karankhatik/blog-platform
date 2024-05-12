@@ -44,9 +44,11 @@ const httpStatus = __importStar(require("http-status"));
 const APIError_1 = __importDefault(require("../utils/APIError"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const jsonwebtoken_2 = require("jsonwebtoken");
+// Define the type for your cookie options more precisely
 const options = {
     httpOnly: true,
-    secure: true
+    secure: true,
+    sameSite: 'none'
 };
 const generateAccessAndRefereshTokens = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -173,7 +175,6 @@ exports.login = login;
 const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (req.admin) {
-            console.log(req.admin);
             const admin = yield admin_1.default.findByIdAndUpdate(req.admin._id, {
                 $unset: {
                     refreshToken: 1
@@ -188,7 +189,6 @@ const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
                 .json({ success: true, message: "Logged out successfully" });
         }
         else if (req.user) {
-            console.log(req.user);
             const user = yield users_1.default.findByIdAndUpdate(req.user._id, {
                 $unset: {
                     refreshToken: 1

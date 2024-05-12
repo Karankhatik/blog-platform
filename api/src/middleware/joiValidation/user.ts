@@ -1,6 +1,8 @@
 import Joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
-import * as StatusCodes from "http-status";
+import * as httpStatus from "http-status";
+import ApiError from "../../utils/APIError";
+
 
 interface ValidationSchemas {
   register: Joi.ObjectSchema;
@@ -23,14 +25,14 @@ const userParamValidation: ValidationSchemas = {
     password: Joi.string().required()
   }),
   verify: Joi.object({
-    otp: Joi.string().min(3).required(),
     email: Joi.string().lowercase().email().required(),
+    otp: Joi.number().min(6).required(),    
   }),
   forgetPassword: Joi.object({
     email: Joi.string().lowercase().email().required(),
   }),
   resetPassword: Joi.object({
-    otp: Joi.string().min(3).required(),
+    otp: Joi.number().min(6).required(),
     newPassword: Joi.string().min(6).required(),
     email: Joi.string().lowercase().email().required(),
   }),
@@ -46,12 +48,15 @@ const userParamValidation: ValidationSchemas = {
 const validateMiddleware = (schema: Joi.ObjectSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const validation = schema.validate(req.body);
+console.log("gnghjghjgh")
     if (validation.error) {
+      console.log(validation.error)
       const errorMessage = validation.error.details[0].message;
-      return res.status(StatusCodes.NO_CONTENT).json({ success: false, message: errorMessage });
+      throw next (new ApiError(httpStatus.NO_CONTENT, errorMessage));
     }
     next();
   };
 };
+
 
 export { userParamValidation, validateMiddleware };

@@ -1,42 +1,25 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import jwt from "jsonwebtoken"
-
-// Define an interface representing a document in MongoDB.
-interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  verified: boolean;
-  isReporter: boolean;
-  isRequested: boolean;
-  logout: boolean;
-  refreshToken: string;
-  profileImage?: string; 
-  otp?: number | null;                                
-  otp_expiry?: Date | null; 
-  resetPasswordOtp?: number; 
-  resetPasswordOtpExpiry?: Date; 
-  generateAccessToken: () => string;
-  generateRefreshToken: () => string;
-}
-
+import { IUser } from '../utils/types';
 
 // Schema definition
 const userSchema: Schema = new Schema({
   name: {
     type: String,
-    required: true,
+    required: true,  
+    trim: true,  
   },
   email: {
     type: String,
     required: true,
     unique: true,
+    trim: true,
   },
   password: {
     type: String,
     required: true,
-    minlength: [6, "Password must be at least 6 characters long"],
     select: false,
+    trim: true,
   },
   verified: {
     type: Boolean,
@@ -56,14 +39,12 @@ const userSchema: Schema = new Schema({
   },
   refreshToken: String,
   otp: Number,
-  otp_expiry: Date,
-  resetPasswordOtp: Number,
-  resetPasswordOtpExpiry: Date,
+  otp_expiry: Date
 }, { timestamps: true });
 
 
 userSchema.methods.generateAccessToken = function(){
-  const secret = process.env.ACCESS_TOKEN_SECRET || '2sdnkn4rcsdcno4fh'; //default secret key
+  const secret = process.env.ACCESS_TOKEN_SECRET || '2sdnk@#78n4878909())()rcsdcno4fh'; //default secret key
   return jwt.sign(
       {
           _id: this._id,

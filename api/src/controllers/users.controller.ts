@@ -1,9 +1,7 @@
 import httpStatus from "http-status";
-import User from "../models/users"; 
+import User from "../models/users.model"; 
 import sendMail from "../utils/sendMail"; 
-import { encryptPassword, generateJWTAccessToken, generateOTP, decryptPassword } from "../utils/comman"; 
-import ejs from "ejs";
-import path from "path";
+import { encryptPassword, generateOTP } from "../utils/comman"; 
 import sanitiseReqBody from '../helpers/sanetize'; 
 import ApiError from "../utils/APIError"; 
 import { Request, Response, NextFunction } from 'express';
@@ -255,7 +253,7 @@ const reSendOtp = async (req: Request, res: Response, next: NextFunction) => {
       const htmlContent = await otpSendToEmailForResetPassword(otp);
   
       await sendMail({ email: email, subject: "Request for Resetting Password", bodyHtml: htmlContent });
-      return res.status(httpStatus.OK).json({ success: true, message: `OTP sent to ${email}` });
+      return res.status(httpStatus.OK).json({ success: true, message: `OTP sent to your email, please verify your account` });
     } catch (error) {
       return next(new ApiError(httpStatus.BAD_REQUEST, "Invalid Email"));
     }
@@ -270,8 +268,7 @@ const reSendOtp = async (req: Request, res: Response, next: NextFunction) => {
         sanitiseBody[key] = safeValue;
       }
       const { otp, newPassword, email } = sanitiseBody;
-      console.log("otp", otp, "newPassword", newPassword, "email", email)
-  
+
       const user = await User.findOne({email});      
   
       if (!user) {

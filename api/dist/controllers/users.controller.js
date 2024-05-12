@@ -69,6 +69,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.register = register;
 const verify = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        console.log("svnv");
         let sanitiseBody = {};
         for (let key in req.body) {
             let unsafeValue = req.body[key];
@@ -253,7 +254,6 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             sanitiseBody[key] = safeValue;
         }
         const { otp, newPassword, email } = sanitiseBody;
-        console.log("otp", otp, "newPassword", newPassword, "email", email);
         const user = yield users_1.default.findOne({ email });
         if (!user) {
             return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "User not found"));

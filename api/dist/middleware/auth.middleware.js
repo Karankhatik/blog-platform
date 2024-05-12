@@ -21,6 +21,7 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     let token;
     let message = "jwt expired";
     token = req.cookies.accessToken || req.body.accessToken || req.headers["accessToken"];
+    console.log(token);
     // Check token
     if (!token) {
         return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: message });

@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import Admin from '../models/admin';
-import { encryptPassword, decryptPassword, generateJWTAccessToken } from '../utils/comman';
+import Admin from '../models/admin.model';
+import { encryptPassword, decryptPassword } from '../utils/comman';
 import sanitiseReqBody from '../helpers/sanetize';
 import * as httpStatus from "http-status";
 import  ApiError  from "../utils/APIError";

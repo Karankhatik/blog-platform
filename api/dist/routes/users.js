@@ -34,7 +34,7 @@ router.get("/me", auth_middleware_1.protect, userRoute.getMyProfile);
 router.put("/updateprofile", auth_middleware_1.protect, (0, user_1.validateMiddleware)(user_1.userParamValidation.updateProfile), userRoute.updateProfile);
 router.put("/updatepassword", auth_middleware_1.protect, userRoute.updatePassword);
 router.post("/forgetpassword", (0, user_1.validateMiddleware)(user_1.userParamValidation.forgetPassword), userRoute.forgetPassword);
-router.patch("/resetpassword", userRoute.resetPassword);
+router.patch("/resetPassword", (0, user_1.validateMiddleware)(user_1.userParamValidation.resetPassword), userRoute.resetPassword);
 router.post("/reSendOtp", userRoute.reSendOtp); //test done
 router.post("/applyForEditor", auth_middleware_1.protect, userRoute.applyForEditor);
 exports.default = router;

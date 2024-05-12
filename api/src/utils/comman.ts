@@ -1,23 +1,5 @@
-import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-dotenv.config();
-
-interface User {
-  _id: string;
-  email: string;
-}
-
-const generateJWTAccessToken = (user: User): string => {
-  return jwt.sign(
-    {
-      _id: user._id,
-      email: user.email,
-    },
-    process.env.TOKEN_SECRET as string
-  );
-}
 
 const generateOTP = (): string => {
   const digits = '123456789';
@@ -40,8 +22,7 @@ const decryptPassword = async (enteredPassword: string, userPassword: string): P
   return result;
 };
 
-export {
-  generateJWTAccessToken,
+export {  
   generateOTP,
   encryptPassword,
   decryptPassword

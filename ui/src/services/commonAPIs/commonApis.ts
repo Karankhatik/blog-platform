@@ -1,5 +1,3 @@
-// Assume the token and refreshToken are stored in localStorage
-import { toast } from 'react-toastify';
 import { loginAPI, logoutApI } from '../constant';
 import  getDataFromApi  from '../apiCall';
 import { LoginForm } from "@/types/validation";

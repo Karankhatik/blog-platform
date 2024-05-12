@@ -32,16 +32,6 @@ export const userForgotPassword = {
 }
 
 export const userResetPassword = {
-    url: url + 'users/resetpassword',
+    url: url + 'users/resetPassword',
     method: 'PATCH',
 }
-
-// export const ForgotPassword = {
-//     url: url + 'auth/forgotPassword',
-//     method: 'POST',
-// }
-
-// export const CheckForgotPassword = {
-//     url: url + 'auth/checkForgotPassword',
-//     method: 'GET',
-// }

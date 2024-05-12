@@ -1,23 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import Admin from '../models/admin';
-import User from '../models/users';
-import { encryptPassword, decryptPassword, generateJWTAccessToken } from '../utils/comman';
+import Admin from '../models/admin.model';
+import User from '../models/users.model';
+import { decryptPassword } from '../utils/comman';
 import sanitiseReqBody from '../helpers/sanetize';
 import * as httpStatus from "http-status";
 import ApiError from "../utils/APIError";
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { TokenExpiredError } from 'jsonwebtoken';
-
-// Define the type for your cookie options more precisely
-const options: {
-    httpOnly: boolean;
-    secure: boolean;
-    sameSite: 'lax' | 'strict' | 'none';  
-} = {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none'  
-};
+import { options } from '../utils/types';
 
 const generateAccessAndRefereshTokens = async (userId: string) => {
     try {
@@ -55,7 +45,7 @@ const generateAccessAndRefereshTokens = async (userId: string) => {
 
 
 export const refreshAccessToken = async (req: Request, res: Response, next: NextFunction) => {
-    const incomingRefreshToken = req.cookies.refreshToken;  
+    const incomingRefreshToken = req.cookies.refreshToken;
 
     if (!incomingRefreshToken) {
         return next(new ApiError(httpStatus.UNAUTHORIZED, "Session expired"));
@@ -67,8 +57,8 @@ export const refreshAccessToken = async (req: Request, res: Response, next: Next
 
     try {
         const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET as string) as TokenPayload;
- 
-        
+
+
         if (!decodedToken) {
             return next(new ApiError(httpStatus.UNAUTHORIZED, "Invalid refresh token"));
         }
@@ -94,15 +84,11 @@ export const refreshAccessToken = async (req: Request, res: Response, next: Next
             .json({
                 success: true,
                 message: "Access token refreshed",
-                accessToken,
-                refreshToken
             });
     } catch (error) {
-               
         if (error instanceof TokenExpiredError) {
-            return next(new ApiError(httpStatus.UNAUTHORIZED, "Refresh token expired"));
+            return next(new ApiError(httpStatus.UNAUTHORIZED, "Jwt expired"));
         }
-
         return next(new ApiError(httpStatus.UNAUTHORIZED, "Invalid refresh token"));
     }
 };
@@ -111,14 +97,13 @@ export const refreshAccessToken = async (req: Request, res: Response, next: Next
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log("kya aa r dekhte hai -->  ", process.env.ACCESS_TOKEN_EXPIRY, process.env.REFRESH_TOKEN_EXPIRY)
         // Sanitize each input
         const email = await sanitiseReqBody(req.body.email);
         const password = await sanitiseReqBody(req.body.password);
 
         const admin = await Admin.findOne({ email });
 
-        if (!admin) {            
+        if (!admin) {
             const user = await User.findOne({ email: email }).select("+password");
             if (!user) {
                 return next(new ApiError(httpStatus.NOT_FOUND, "User not found"));
@@ -128,7 +113,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
             if (!isMatched) {
                 return res.status(httpStatus.BAD_REQUEST).json({
                     success: false,
-                    message: "Invalid user password.",
+                    message: "Invalid password.",
                 });
             }
             const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
@@ -142,7 +127,13 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
                         {
                             success: true,
                             message: "Logged in successfully",
-                            user: user, accessToken, refreshToken
+                            user: {
+                                name: user.name,
+                                isEditor: user?.isEditor,
+                                isRequested: user?.isRequested,
+                                email: user.email,
+                                id: user._id
+                            },
                         },
                     );
             } else {
@@ -172,7 +163,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
                 {
                     success: true,
                     message: "Logged in successfully",
-                    admin: loggedInAdmin, accessToken, refreshToken
+                    user: {
+                        name: loggedInAdmin?.name,
+                        isAdmin: loggedInAdmin?.isAdmin
+                    }
                 },
             );
     } catch (error: any) {
@@ -183,9 +177,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
 export const logout = async (req: any, res: Response, next: NextFunction) => {
     try {
-        console.log(req)
         if (req.admin) {
-            console.log(req.admin)
             const admin = await Admin.findByIdAndUpdate(
                 req.admin._id,
                 {
@@ -203,8 +195,7 @@ export const logout = async (req: any, res: Response, next: NextFunction) => {
                 .clearCookie("accessToken", options)
                 .clearCookie("refreshToken", options)
                 .json({ success: true, message: "Logged out successfully" });
-        } else if(req.user) {
-            console.log(req.user)
+        } else if (req.user) {
             const user = await User.findByIdAndUpdate(
                 req.user._id,
                 {
@@ -225,6 +216,6 @@ export const logout = async (req: any, res: Response, next: NextFunction) => {
         }
 
     } catch (error: any) {
-        throw next (new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found"));
+        throw next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found"));
     }
 };

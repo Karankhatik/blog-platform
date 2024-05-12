@@ -28,7 +28,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateMiddleware = exports.userParamValidation = void 0;
 const joi_1 = __importDefault(require("joi"));
-const StatusCodes = __importStar(require("http-status"));
+const httpStatus = __importStar(require("http-status"));
+const APIError_1 = __importDefault(require("../../utils/APIError"));
 const userParamValidation = {
     register: joi_1.default.object({
         name: joi_1.default.string().min(3).required(),
@@ -40,14 +41,14 @@ const userParamValidation = {
         password: joi_1.default.string().required()
     }),
     verify: joi_1.default.object({
-        otp: joi_1.default.string().min(3).required(),
         email: joi_1.default.string().lowercase().email().required(),
+        otp: joi_1.default.number().min(6).required(),
     }),
     forgetPassword: joi_1.default.object({
         email: joi_1.default.string().lowercase().email().required(),
     }),
     resetPassword: joi_1.default.object({
-        otp: joi_1.default.string().min(3).required(),
+        otp: joi_1.default.number().min(6).required(),
         newPassword: joi_1.default.string().min(6).required(),
         email: joi_1.default.string().lowercase().email().required(),
     }),
@@ -63,9 +64,11 @@ exports.userParamValidation = userParamValidation;
 const validateMiddleware = (schema) => {
     return (req, res, next) => {
         const validation = schema.validate(req.body);
+        console.log("gnghjghjgh");
         if (validation.error) {
+            console.log(validation.error);
             const errorMessage = validation.error.details[0].message;
-            return res.status(StatusCodes.NO_CONTENT).json({ success: false, message: errorMessage });
+            throw next(new APIError_1.default(httpStatus.NO_CONTENT, errorMessage));
         }
         next();
     };

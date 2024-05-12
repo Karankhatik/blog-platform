@@ -33,10 +33,10 @@ app.use((req: Request,res: Response, next: NextFunction) => {
 });
 
 // Define allowed origins
-const allowedOrigins: string[] = [
-  'http://localhost:3000',
-  'https://intake-learn.vercel.app'
-];
+const allowedOrigins: string = process.env.CLIENT_SERVER_URL || 'http://localhost:3000';
+//   'http://localhost:3000',
+//   'https://intake-learn.vercel.app'
+// ];
 
 // Define CORS options with TypeScript typing
 const corsOptions: cors.CorsOptions = {
@@ -47,7 +47,7 @@ const corsOptions: cors.CorsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
   optionsSuccessStatus: 200 
 };

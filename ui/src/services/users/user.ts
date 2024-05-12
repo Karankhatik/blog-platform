@@ -36,7 +36,7 @@ export const forgotPassword = async (email:string) => {
 
 export const resetPassword = async (otp: number, newPassword: string, email: string) => {
     let request: any = userResetPassword;
-    request.data = {otp: otp, newPassword : newPassword, email};
+    request.data = {otp: otp, newPassword : newPassword, email: email};
     const result: any = await getDataFromApi(request);
     return result?.data;
 };

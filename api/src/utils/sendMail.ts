@@ -1,10 +1,6 @@
 import { createTransport } from 'nodemailer';
+import { EmailOptions } from '../utils/types';
 
-interface EmailOptions {
-  email: string;
-  subject: string;
-  bodyHtml: string;
-}
 
 const sendMail = async ({ email, subject, bodyHtml }: EmailOptions) => {
   const transport = createTransport({

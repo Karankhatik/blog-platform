@@ -15,8 +15,8 @@ router.put("/updateprofile", protect, validateMiddleware(userParamValidation.upd
 router.put("/updatepassword", protect, userRoute.updatePassword);
 
 router.post("/forgetpassword", validateMiddleware(userParamValidation.forgetPassword), userRoute.forgetPassword);
-router.patch("/resetpassword", userRoute.resetPassword);
-router.post("/reSendOtp", userRoute.reSendOtp); //test done
+router.patch("/resetPassword", validateMiddleware(userParamValidation.resetPassword),  userRoute.resetPassword);
+router.post("/reSendOtp",  userRoute.reSendOtp); //test done
 router.post("/applyForEditor", protect, userRoute.applyForEditor);
 
 export default router;

@@ -32,14 +32,11 @@ app.use((req, res, next) => {
     next();
 });
 // Define allowed origins
-const allowedOrigins = [
-    'http://localhost:3000',
-    'https://intake-learn.vercel.app'
-];
+const allowedOrigins = process.env.CLIENT_SERVER_URL;
 // Define CORS options with TypeScript typing
 const corsOptions = {
     origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
+        if (!origin || (allowedOrigins === null || allowedOrigins === void 0 ? void 0 : allowedOrigins.includes(origin))) {
             callback(null, true);
         }
         else {

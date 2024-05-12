@@ -36,7 +36,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.register = void 0;
-const admin_1 = __importDefault(require("../models/admin"));
+const admin_model_1 = __importDefault(require("../models/admin.model"));
 const comman_1 = require("../utils/comman");
 const sanetize_1 = __importDefault(require("../helpers/sanetize"));
 const httpStatus = __importStar(require("http-status"));
@@ -47,7 +47,7 @@ const options = {
 };
 const generateAccessAndRefereshTokens = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const admin = yield admin_1.default.findById(userId);
+        const admin = yield admin_model_1.default.findById(userId);
         if (!admin)
             throw new APIError_1.default(httpStatus.NOT_FOUND, "Admin not found");
         const accessToken = admin.generateAccessToken();
@@ -68,7 +68,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             let safeValue = yield (0, sanetize_1.default)(unsafeValue);
             sanitisedBody[key] = safeValue;
         }
-        let admin = yield admin_1.default.findOne({ email: sanitisedBody.email });
+        let admin = yield admin_model_1.default.findOne({ email: sanitisedBody.email });
         if (admin) {
             return res
                 .status(httpStatus.BAD_REQUEST)
@@ -76,7 +76,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         let encryptedPassword = yield (0, comman_1.encryptPassword)(sanitisedBody.password);
         sanitisedBody.password = encryptedPassword;
-        admin = yield admin_1.default.create(sanitisedBody);
+        admin = yield admin_model_1.default.create(sanitisedBody);
         res.status(httpStatus.CREATED).json({
             success: true,
             message: "Admin signup successfully",

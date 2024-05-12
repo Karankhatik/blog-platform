@@ -36,25 +36,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.logout = exports.login = exports.refreshAccessToken = void 0;
-const admin_1 = __importDefault(require("../models/admin"));
-const users_1 = __importDefault(require("../models/users"));
+const admin_model_1 = __importDefault(require("../models/admin.model"));
+const users_model_1 = __importDefault(require("../models/users.model"));
 const comman_1 = require("../utils/comman");
 const sanetize_1 = __importDefault(require("../helpers/sanetize"));
 const httpStatus = __importStar(require("http-status"));
 const APIError_1 = __importDefault(require("../utils/APIError"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const jsonwebtoken_2 = require("jsonwebtoken");
-// Define the type for your cookie options more precisely
-const options = {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'none'
-};
+const types_1 = require("../utils/types");
 const generateAccessAndRefereshTokens = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const admin = yield admin_1.default.findById(userId);
+        const admin = yield admin_model_1.default.findById(userId);
         if (!admin) {
-            const user = yield users_1.default.findById(userId);
+            const user = yield users_model_1.default.findById(userId);
             if (!user)
                 throw new APIError_1.default(httpStatus.NOT_FOUND, "User not found");
             const accessToken = user.generateAccessToken();
@@ -86,8 +81,8 @@ const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0,
             return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Invalid refresh token"));
         }
         // Check if the token belongs to an admin or a user
-        const admin = yield admin_1.default.findById(decodedToken._id).catch(err => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
-        const user = admin ? null : yield users_1.default.findById(decodedToken._id).catch(err => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
+        const admin = yield admin_model_1.default.findById(decodedToken._id).catch(err => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
+        const user = admin ? null : yield users_model_1.default.findById(decodedToken._id).catch(err => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
         const tokenOwner = admin || user;
         if (!tokenOwner || incomingRefreshToken !== tokenOwner.refreshToken) {
             return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Refresh token expired or used"));
@@ -97,18 +92,16 @@ const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0,
         // Send the new tokens back
         return res
             .status(httpStatus.OK)
-            .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options)
+            .cookie("accessToken", accessToken, types_1.options)
+            .cookie("refreshToken", refreshToken, types_1.options)
             .json({
             success: true,
             message: "Access token refreshed",
-            accessToken,
-            refreshToken
         });
     }
     catch (error) {
         if (error instanceof jsonwebtoken_2.TokenExpiredError) {
-            return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Refresh token expired"));
+            return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Jwt expired"));
         }
         return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Invalid refresh token"));
     }
@@ -119,9 +112,9 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         // Sanitize each input
         const email = yield (0, sanetize_1.default)(req.body.email);
         const password = yield (0, sanetize_1.default)(req.body.password);
-        const admin = yield admin_1.default.findOne({ email });
+        const admin = yield admin_model_1.default.findOne({ email });
         if (!admin) {
-            const user = yield users_1.default.findOne({ email: email }).select("+password");
+            const user = yield users_model_1.default.findOne({ email: email }).select("+password");
             if (!user) {
                 return next(new APIError_1.default(httpStatus.NOT_FOUND, "User not found"));
             }
@@ -129,19 +122,25 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             if (!isMatched) {
                 return res.status(httpStatus.BAD_REQUEST).json({
                     success: false,
-                    message: "Invalid user password.",
+                    message: "Invalid password.",
                 });
             }
             const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(user._id);
             if (user.verified) {
                 return res
                     .status(httpStatus.OK)
-                    .cookie("accessToken", accessToken, options)
-                    .cookie("refreshToken", refreshToken, options)
+                    .cookie("accessToken", accessToken, types_1.options)
+                    .cookie("refreshToken", refreshToken, types_1.options)
                     .json({
                     success: true,
                     message: "Logged in successfully",
-                    user: user, accessToken, refreshToken
+                    user: {
+                        name: user.name,
+                        isEditor: user === null || user === void 0 ? void 0 : user.isEditor,
+                        isRequested: user === null || user === void 0 ? void 0 : user.isRequested,
+                        email: user.email,
+                        id: user._id
+                    },
                 });
             }
             else {
@@ -156,15 +155,18 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Invalid credentials"));
         }
         const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(admin._id);
-        const loggedInAdmin = yield admin_1.default.findById(admin._id).select("-password -refreshToken");
+        const loggedInAdmin = yield admin_model_1.default.findById(admin._id).select("-password -refreshToken");
         return res
             .status(httpStatus.OK)
-            .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options)
+            .cookie("accessToken", accessToken, types_1.options)
+            .cookie("refreshToken", refreshToken, types_1.options)
             .json({
             success: true,
             message: "Logged in successfully",
-            admin: loggedInAdmin, accessToken, refreshToken
+            user: {
+                name: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.name,
+                isAdmin: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.isAdmin
+            }
         });
     }
     catch (error) {
@@ -175,7 +177,7 @@ exports.login = login;
 const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         if (req.admin) {
-            const admin = yield admin_1.default.findByIdAndUpdate(req.admin._id, {
+            const admin = yield admin_model_1.default.findByIdAndUpdate(req.admin._id, {
                 $unset: {
                     refreshToken: 1
                 }
@@ -184,12 +186,12 @@ const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             });
             return res
                 .status(200)
-                .clearCookie("accessToken", options)
-                .clearCookie("refreshToken", options)
+                .clearCookie("accessToken", types_1.options)
+                .clearCookie("refreshToken", types_1.options)
                 .json({ success: true, message: "Logged out successfully" });
         }
         else if (req.user) {
-            const user = yield users_1.default.findByIdAndUpdate(req.user._id, {
+            const user = yield users_model_1.default.findByIdAndUpdate(req.user._id, {
                 $unset: {
                     refreshToken: 1
                 }
@@ -198,8 +200,8 @@ const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             });
             return res
                 .status(200)
-                .clearCookie("accessToken", options)
-                .clearCookie("refreshToken", options)
+                .clearCookie("accessToken", types_1.options)
+                .clearCookie("refreshToken", types_1.options)
                 .json({ success: true, message: "Logged out successfully" });
         }
     }

@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.applyForEditor = exports.reSendOtp = exports.resetPassword = exports.forgetPassword = exports.updatePassword = exports.updateProfile = exports.getMyProfile = exports.verify = exports.register = void 0;
 const http_status_1 = __importDefault(require("http-status"));
-const users_1 = __importDefault(require("../models/users"));
+const users_model_1 = __importDefault(require("../models/users.model"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
 const comman_1 = require("../utils/comman");
 const sanetize_1 = __importDefault(require("../helpers/sanetize"));
@@ -29,7 +29,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             let safeValue = yield (0, sanetize_1.default)(unsafeValue);
             sanitiseBody[key] = safeValue;
         }
-        let user = yield users_1.default.findOne({ email: sanitiseBody.email });
+        let user = yield users_model_1.default.findOne({ email: sanitiseBody.email });
         if (user && user.verified) {
             return res.status(http_status_1.default.CONFLICT).json({
                 success: false,
@@ -37,7 +37,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
         }
         if (user && !user.verified) {
-            yield users_1.default.findByIdAndDelete(user._id);
+            yield users_model_1.default.findByIdAndDelete(user._id);
         }
         let encryptedPassword = yield (0, comman_1.encryptPassword)(sanitiseBody.password);
         const otp = (0, comman_1.generateOTP)();
@@ -45,7 +45,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         sanitiseBody.otp = otp;
         sanitiseBody.otp_expiry = new Date(Date.now() + Number(process.env.OTP_EXPIRE) * 60 * 1000);
         let htmlContent = yield (0, otpSendToEmailForSignUp_1.otpSendToEmailForSignUp)(sanitiseBody.otp);
-        user = yield users_1.default.create({
+        user = yield users_model_1.default.create({
             name: sanitiseBody.name,
             email: sanitiseBody.email,
             password: sanitiseBody.password,
@@ -69,7 +69,6 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.register = register;
 const verify = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log("svnv");
         let sanitiseBody = {};
         for (let key in req.body) {
             let unsafeValue = req.body[key];
@@ -77,7 +76,7 @@ const verify = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             sanitiseBody[key] = safeValue;
         }
         const otp = Number(sanitiseBody.otp);
-        const user = yield users_1.default.findOne({ email: sanitiseBody.email });
+        const user = yield users_model_1.default.findOne({ email: sanitiseBody.email });
         if (!user) {
             return res.status(http_status_1.default.NOT_FOUND).json({
                 success: false,
@@ -113,7 +112,7 @@ exports.verify = verify;
 const getMyProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = yield (0, sanetize_1.default)(req.body.email);
-        const user = yield users_1.default.findById(id);
+        const user = yield users_model_1.default.findById(id);
         if (!user) {
             return;
             //return next(new APIError("Invalid User!.", httpStatus.BAD_REQUEST, true));
@@ -133,7 +132,7 @@ const updateProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             let safeValue = yield (0, sanetize_1.default)(unsafeValue);
             sanitiseBody[key] = safeValue;
         }
-        const user = yield users_1.default.findById(sanitiseBody._id);
+        const user = yield users_model_1.default.findById(sanitiseBody._id);
         if (!user) {
             return;
             //return next(new APIError("Invalid User!.", httpStatus.BAD_REQUEST, true));
@@ -156,7 +155,7 @@ const updatePassword = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             let safeValue = yield (0, sanetize_1.default)(unsafeValue);
             sanitiseBody[key] = safeValue;
         }
-        const user = yield users_1.default.findById(sanitiseBody._id);
+        const user = yield users_model_1.default.findById(sanitiseBody._id);
         if (!user) {
             return;
             //return next(new APIError("Invalid User!.", httpStatus.BAD_REQUEST, true));
@@ -174,7 +173,7 @@ exports.updatePassword = updatePassword;
 const reSendOtp = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let email = yield (0, sanetize_1.default)(req.body.email);
-        const user = yield users_1.default.findOne({ email: email });
+        const user = yield users_model_1.default.findOne({ email: email });
         if (!user) {
             return res.status(http_status_1.default.NOT_FOUND).json({
                 success: false,
@@ -209,7 +208,7 @@ const applyForEditor = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
             return;
             // return next(new APIError("You have already requested for Editor.", httpStatus.BAD_REQUEST, true));
         }
-        const user = yield users_1.default.findById(sanitiseBody._id);
+        const user = yield users_model_1.default.findById(sanitiseBody._id);
         if (!user) {
             return;
             //return next(new APIError("User not found.", httpStatus.NOT_FOUND, true));
@@ -228,7 +227,7 @@ exports.applyForEditor = applyForEditor;
 const forgetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const email = yield (0, sanetize_1.default)(req.body.email);
-        const user = yield users_1.default.findOne({ email });
+        const user = yield users_model_1.default.findOne({ email });
         if (!user) {
             return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "Invalid Email"));
         }
@@ -238,7 +237,7 @@ const forgetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, fun
         yield user.save();
         const htmlContent = yield (0, otpSendToEmailForResetPassword_1.otpSendToEmailForResetPassword)(otp);
         yield (0, sendMail_1.default)({ email: email, subject: "Request for Resetting Password", bodyHtml: htmlContent });
-        return res.status(http_status_1.default.OK).json({ success: true, message: `OTP sent to ${email}` });
+        return res.status(http_status_1.default.OK).json({ success: true, message: `OTP sent to your email, please verify your account` });
     }
     catch (error) {
         return next(new APIError_1.default(http_status_1.default.BAD_REQUEST, "Invalid Email"));
@@ -254,7 +253,7 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             sanitiseBody[key] = safeValue;
         }
         const { otp, newPassword, email } = sanitiseBody;
-        const user = yield users_1.default.findOne({ email });
+        const user = yield users_model_1.default.findOne({ email });
         if (!user) {
             return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "User not found"));
         }

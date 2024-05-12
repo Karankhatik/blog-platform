@@ -47,7 +47,7 @@ function Navbar() {
     //   }, []);
 
     const handleLogout = async () => {
-        const response = await logout();        
+        const response = await logout();
         if (response.success) {
             dispatch(setAuthState(false));
             router.push('/auth/login');
@@ -104,36 +104,22 @@ function Navbar() {
                                     role="menu"
                                 >
                                     {navbarItems.map((item, index) => (
-                                        <div key={index}>
-                                            {item.subMenu ? (
-                                                <div className="relative">
-                                                    <div onClick={() => setIsCompanyDropdownOpen(!isCompanyDropdownOpen)} className="flex cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" role="menuitem">
-                                                        <span role="menuitem"> Company </span>
-                                                        <span className='mt'>
-                                                            {isCompanyDropdownOpen ? <Image src={DropUpIcon} alt="DropUpIcon" /> : <Image src={DropDownIcon} alt="DropDownIcon" />}
-                                                        </span>
-                                                    </div>
-                                                    {isCompanyDropdownOpen && (
-                                                        <div className="ml-2">
-                                                            {item.subMenu.map((subItem, subIndex) => (
-                                                                <Link key={subIndex} href={subItem.href} onClick={() => setIsMobileMenuOpen(false)}>
-                                                                    <span className="block px-4 py-2 text-sm text-typography-hover" role="menuitem">
-                                                                        {subItem.label}
-                                                                    </span>
-                                                                </Link>
-                                                            ))}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            ) :
+                                        (item.label === "Login" || item.label === "Register") && authState ? null : (
+                                            <div key={index}>
                                                 <Link href={item.href} onClick={() => setIsMobileMenuOpen(false)}>
                                                     <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" role="menuitem">
                                                         {item.label}
                                                     </span>
                                                 </Link>
-                                            }
-                                        </div>
+                                            </div>
+                                        )
                                     ))}
+                                    {
+                                        authState &&
+                                        <div>
+                                            <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" onClick={() => handleLogout()}>logout</span>
+                                        </div>
+                                    }
                                 </div>
                             </nav>
                         </div>

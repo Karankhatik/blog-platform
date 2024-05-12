@@ -34,9 +34,7 @@ app.use((req: Request,res: Response, next: NextFunction) => {
 
 // Define allowed origins
 const allowedOrigins: string = process.env.CLIENT_SERVER_URL || 'http://localhost:3000';
-//   'http://localhost:3000',
-//   'https://intake-learn.vercel.app'
-// ];
+
 
 // Define CORS options with TypeScript typing
 const corsOptions: cors.CorsOptions = {

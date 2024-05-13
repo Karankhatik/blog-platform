@@ -43,12 +43,15 @@ export interface AuthRequest extends Request {
     admin?: any;
   }
 
-export const options: {
+  export const options: {
     httpOnly: boolean;
     secure: boolean;
-    sameSite: 'lax' | 'strict' | 'none';  
+    sameSite: 'lax' | 'strict' | 'none';
+    path: string;
 } = {
     httpOnly: true,
     secure: true,
-    sameSite: 'none'  
+    sameSite: 'none',
+    path: '/',
+    
 };

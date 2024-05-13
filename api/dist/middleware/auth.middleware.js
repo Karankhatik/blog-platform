@@ -18,6 +18,7 @@ const http_status_1 = __importDefault(require("http-status"));
 const users_model_1 = __importDefault(require("../models/users.model"));
 const admin_model_1 = __importDefault(require("../models/admin.model"));
 const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.cookies);
     let token = req.cookies.accessToken || req.headers["accessToken"];
     // Check token
     if (!token) {
@@ -40,6 +41,7 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         }
     }
     catch (error) {
+        console.log(error);
         return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: "Invalid access token" });
     }
 });

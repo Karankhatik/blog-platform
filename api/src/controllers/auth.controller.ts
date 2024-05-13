@@ -45,7 +45,7 @@ const generateAccessAndRefereshTokens = async (userId: string) => {
 
 
 export const refreshAccessToken = async (req: Request, res: Response, next: NextFunction) => {
-    const incomingRefreshToken = req.cookies.refreshToken;
+    const incomingRefreshToken = req.cookies.refreshToken || req.headers["refreshToken"];
 
     if (!incomingRefreshToken) {
         return next(new ApiError(httpStatus.UNAUTHORIZED, "Session expired"));
@@ -135,6 +135,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
                                 email: user.email,
                                 id: user._id
                             },
+                            accessToken,
+                            refreshToken
                         },
                     );
             } else {

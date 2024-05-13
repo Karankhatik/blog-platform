@@ -11,8 +11,9 @@ import { TokenPayload, AuthRequest } from '../utils/types';
 
 const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
 
-  console.log(req.cookies);
+  
   let token = req.cookies.accessToken || req.headers["accessToken"];
+  console.log("token --> ", token);
   // Check token
   if (!token) {
     return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: "Unauthorized request" });

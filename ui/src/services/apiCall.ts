@@ -10,9 +10,11 @@ const axios_instance = axios.create({
   },
   withCredentials: true,
 });
+  
+
 
 const refresh_token = async () => {
-  return await axios.post(`${url}auth/refreshToken`, {
+  return await axios.post(`${url}auth/refreshToken`, { refreshToken: localStorage.getItem('refreshToken') }, {
     withCredentials: true,
   });
 }
@@ -45,7 +47,7 @@ const getDataFromApi = async (request: any) => {
     }
   } catch (err: any) {
     let errMessage = err?.response?.data?.message;
-    let messages = ['Session expired', 'Invalid refresh token', 'Refresh token expired or used', 'Jwt expired'];
+    let messages = ['Refresh token expired', 'Refresh token expired or used', 'Invalid refresh token','invalid signature', 'invalid token', 'jwt malformed', 'Not authorized to access this route.', 'jwt expired', 'Unauthorized', 'User may not exist.', 'Session expired'];
     if (messages.includes(errMessage)) {
       localStorage.clear();
       window.location.href = "/auth/login";

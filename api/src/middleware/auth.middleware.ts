@@ -11,6 +11,7 @@ import { TokenPayload, AuthRequest } from '../utils/types';
 
 const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
 
+  console.log(req.cookies);
   let token = req.cookies.accessToken || req.headers["accessToken"];
   // Check token
   if (!token) {
@@ -34,6 +35,7 @@ const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
       next();
     }
   } catch (error: any) {
+    console.log(error);
     return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: "Invalid access token" });
   }
 };

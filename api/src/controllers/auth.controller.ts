@@ -96,6 +96,7 @@ export const refreshAccessToken = async (req: Request, res: Response, next: Next
 
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
+
     try {
         // Sanitize each input
         const email = await sanitiseReqBody(req.body.email);
@@ -177,6 +178,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
 
 export const logout = async (req: any, res: Response, next: NextFunction) => {
+    console.log("hitting logout");
     try {
         if (req.admin) {
             const admin = await Admin.findByIdAndUpdate(
@@ -217,6 +219,7 @@ export const logout = async (req: any, res: Response, next: NextFunction) => {
         }
 
     } catch (error: any) {
+        console.log(error);
         throw next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found"));
     }
 };

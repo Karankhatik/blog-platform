@@ -11,17 +11,19 @@ const axios_instance = axios.create({
   withCredentials: true,
 });
 
+axios_instance.interceptors.request.use(config => {
+  config.headers["access-token"] = localStorage.getItem('acessToken');
+  //config.headers["refresh-token"] = localStorage.getItem('refreshToken');
+  return config;
+});
+
 const refresh_token = async () => {
   return await axios.post(`${url}auth/refreshToken`, { refreshToken: localStorage.getItem('refreshToken') }, {
     withCredentials: true,
   });
 }
 
-axios_instance.interceptors.request.use(config => {
-  config.headers["access-token"] = localStorage.getItem('acessToken');
-  //config.headers["refresh-token"] = localStorage.getItem('refreshToken');
-  return config;
-});
+
 
 let refreshing_token: any = null;
 

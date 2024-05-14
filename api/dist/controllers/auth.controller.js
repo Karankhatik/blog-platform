@@ -71,7 +71,7 @@ const generateAccessAndRefereshTokens = (userId) => __awaiter(void 0, void 0, vo
     }
 });
 const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const incomingRefreshToken = req.cookies.refreshToken;
+    const incomingRefreshToken = req.cookies.refreshToken || req.headers["refreshToken"];
     if (!incomingRefreshToken) {
         return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Session expired"));
     }
@@ -141,6 +141,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                         email: user.email,
                         id: user._id
                     },
+                    accessToken,
+                    refreshToken
                 });
             }
             else {

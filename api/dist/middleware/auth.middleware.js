@@ -18,8 +18,8 @@ const http_status_1 = __importDefault(require("http-status"));
 const users_model_1 = __importDefault(require("../models/users.model"));
 const admin_model_1 = __importDefault(require("../models/admin.model"));
 const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.cookies);
     let token = req.cookies.accessToken || req.headers["accessToken"];
+    console.log("token --> ", token);
     // Check token
     if (!token) {
         return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: "Unauthorized request" });

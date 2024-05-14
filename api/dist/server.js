@@ -8,7 +8,6 @@ const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const morgan_1 = __importDefault(require("morgan"));
-const helmet_1 = __importDefault(require("helmet"));
 const http_status_1 = __importDefault(require("http-status"));
 const APIError_1 = __importDefault(require("./utils/APIError"));
 const routes_1 = __importDefault(require("./routes"));
@@ -25,12 +24,12 @@ app.use((0, express_fileupload_1.default)({
     useTempFiles: true,
 }));
 app.use((0, morgan_1.default)('dev'));
-app.use((req, res, next) => {
-    res.setHeader('Cache-Control', 'no-cache, no-store');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader(`Permissions-Policy`, `accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()`);
-    next();
-});
+// app.use((req: Request,res: Response, next: NextFunction) => {
+//   res.setHeader('Cache-Control', 'no-cache, no-store');
+//   res.setHeader('Pragma', 'no-cache');
+//   res.setHeader(`Permissions-Policy`, `accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()`);
+//   next();
+// });
 // Define allowed origins
 const allowedOrigins = [
     'http://localhost:3000',
@@ -51,19 +50,19 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 app.use((0, cors_1.default)(corsOptions));
-// set helmet to protect server from malicious attacks...
-app.use((0, helmet_1.default)({
-    contentSecurityPolicy: {
-        useDefaults: true,
-        directives: {
-            "block-all-mixed-content": []
-        },
-    },
-    frameguard: {
-        action: "deny"
-    }
-}));
-app.use((0, helmet_1.default)());
+// // set helmet to protect server from malicious attacks...
+// app.use(helmet({
+//   contentSecurityPolicy: {
+//       useDefaults: true,
+//       directives: {
+//           "block-all-mixed-content": []
+//       },
+//   },
+//   frameguard: {
+//       action: "deny"
+//   }
+// }));
+// app.use(helmet());
 app.use("/api/v1", routes_1.default);
 app.use((req, res, next) => {
     return next(new APIError_1.default(http_status_1.default.NOT_FOUND, "API Not Found"));

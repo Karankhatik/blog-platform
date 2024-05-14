@@ -19,7 +19,7 @@ const refresh_token = async () => {
 
 axios_instance.interceptors.request.use(config => {
   config.headers["access-token"] = localStorage.getItem('acessToken');
-  config.headers["refresh-token"] = localStorage.getItem('refreshToken');
+  //config.headers["refresh-token"] = localStorage.getItem('refreshToken');
   return config;
 });
 
@@ -47,8 +47,8 @@ const getDataFromApi = async (request: any) => {
   try {
     const response: any = await axios_instance(request);
     if (response.status === 200 || response.status === 201 || response?.code === 200 || response.code === 201) {
-      localStorage.setItem('acessToken' , response?.accessToken);
-      localStorage.setItem('refreshToken' , response?.refreshToken);
+      localStorage.setItem('acessToken' , response?.data.accessToken);
+      localStorage.setItem('refreshToken' , response?.data?.refreshToken);
       return { data: response.data, flag: true };
     }
   } catch (err: any) {

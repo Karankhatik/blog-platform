@@ -54,20 +54,20 @@ const corsOptions: cors.CorsOptions = {
 
 app.use(cors(corsOptions));
 
-// set helmet to protect server from malicious attacks...
-app.use(helmet({
-  contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-          "block-all-mixed-content": []
-      },
-  },
-  frameguard: {
-      action: "deny"
-  }
-}));
+// // set helmet to protect server from malicious attacks...
+// app.use(helmet({
+//   contentSecurityPolicy: {
+//       useDefaults: true,
+//       directives: {
+//           "block-all-mixed-content": []
+//       },
+//   },
+//   frameguard: {
+//       action: "deny"
+//   }
+// }));
 
-app.use(helmet());
+// app.use(helmet());
 
 app.use("/api/v1", routes);
 

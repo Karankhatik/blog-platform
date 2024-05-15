@@ -14,7 +14,6 @@ const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
   const accessToken = req.headers['access-token'];
   console.log(accessToken)
   let token = req.cookies.accessToken || accessToken;
-  // console.log("token --> ", token);
   // Check token
   if (!token) {
     return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: "Unauthorized request" });
@@ -36,9 +35,8 @@ const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
       req.user = user;
       next();
     }
-  } catch (error: any) {
-    console.log(error);
-    return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: "Invalid access token" });
+  } catch (error: any) {    
+    return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: "jwt expired" });
   }
 };
 

@@ -23,14 +23,15 @@ app.use(fileUpload({
     useTempFiles: true,
 }));
 
-app.use(logger('dev'));
+app.use(logger(`\x1b[37m\x1b[7m :date \x1b[0m \x1b[33m\x1b[1m:status\x1b[0m \x1b[2m:url\x1b[0m \x1b[1m\x1b[33m:method\x1b[0m :res[content-length] - :response-time ms`));
 
-// app.use((req: Request,res: Response, next: NextFunction) => {
-//   res.setHeader('Cache-Control', 'no-cache, no-store');
-//   res.setHeader('Pragma', 'no-cache');
-//   res.setHeader(`Permissions-Policy`, `accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()`);
-//   next();
-// });
+
+app.use((req: Request,res: Response, next: NextFunction) => {
+  res.setHeader('Cache-Control', 'no-cache, no-store');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader(`Permissions-Policy`, `accelerometer=(),ambient-light-sensor=(),autoplay=(),battery=(),camera=(),display-capture=(),document-domain=(),encrypted-media=(),fullscreen=(),gamepad=(),geolocation=(),gyroscope=(),layout-animations=(self),legacy-image-formats=(self),magnetometer=(),microphone=(),midi=(),oversized-images=(self),payment=(),picture-in-picture=(),publickey-credentials-get=(),speaker-selection=(),sync-xhr=(self),unoptimized-images=(self),unsized-media=(self),usb=(),screen-wake-lock=(),web-share=(),xr-spatial-tracking=()`);
+  next();
+});
 
 // Define allowed origins
 const allowedOrigins: string[] = [
@@ -54,20 +55,20 @@ const corsOptions: cors.CorsOptions = {
 
 app.use(cors(corsOptions));
 
-// // set helmet to protect server from malicious attacks...
-// app.use(helmet({
-//   contentSecurityPolicy: {
-//       useDefaults: true,
-//       directives: {
-//           "block-all-mixed-content": []
-//       },
-//   },
-//   frameguard: {
-//       action: "deny"
-//   }
-// }));
+// set helmet to protect server from malicious attacks...
+app.use(helmet({
+  contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+          "block-all-mixed-content": []
+      },
+  },
+  frameguard: {
+      action: "deny"
+  }
+}));
 
-// app.use(helmet());
+app.use(helmet());
 
 app.use("/api/v1", routes);
 

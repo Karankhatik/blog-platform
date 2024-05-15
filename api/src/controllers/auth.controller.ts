@@ -174,13 +174,13 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
                 },
             );
     } catch (error: any) {
+        console.log(error);
         throw next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found"));
     }
 }
 
 
 export const logout = async (req: any, res: Response, next: NextFunction) => {
-    console.log("hitting logout");
     try {
         if (req.admin) {
             const admin = await Admin.findByIdAndUpdate(

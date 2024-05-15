@@ -44,7 +44,7 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     }
     catch (error) {
         console.log(error);
-        return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: "Invalid access token" });
+        return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: "jwt expired" });
     }
 });
 exports.protect = protect;

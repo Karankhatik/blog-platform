@@ -48,7 +48,6 @@ const userParamValidation: ValidationSchemas = {
 const validateMiddleware = (schema: Joi.ObjectSchema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const validation = schema.validate(req.body);
-console.log("gnghjghjgh")
     if (validation.error) {
       console.log(validation.error)
       const errorMessage = validation.error.details[0].message;

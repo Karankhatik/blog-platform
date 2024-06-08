@@ -8,21 +8,19 @@ import { navbarItems } from '@/data/navbarData';
 import DropUpIcon from '@/assets/up-arrow.svg';
 import DropDownIcon from '@/assets/down-arrow.svg';
 import ToggleThemeButton from "@/components/ToggleThemeButton";
-import { logout } from "@/services/commonAPIs/commonApis";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { useRouter } from 'next/navigation';
-import { setAuthState } from "@/store/authSlice";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
+
+import ProfileIcon from "./ProfileIcon";
+
 
 function Navbar() {
 
-    const [isCompanyDropdownOpen, setIsCompanyDropdownOpen] = useState<boolean>(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
     const [active, setActive] = useState<string | null>(null);
-    const router = useRouter();
+
     const { authState } = useSelector((state: any) => state.auth);
-    const dispatch = useDispatch();
+
 
     // useEffect(() => {
     //     const disableRightClick = (event: MouseEvent): void => {
@@ -46,15 +44,6 @@ function Navbar() {
     //     };
     //   }, []);
 
-    const handleLogout = async () => {
-        const response = await logout();
-        if (response.success) {
-            dispatch(setAuthState(false));
-            router.push('/auth/login');
-            toast.success(response.message);
-        }
-    }
-
 
 
     return (
@@ -76,19 +65,18 @@ function Navbar() {
                                     </Link>
                                 </li>
                             )
-                        )}
-                        {
-                            authState &&
-                            <li>
-                                <button className="text-typography-hover text-sm" onClick={() => handleLogout()}>logout</button>
-                            </li>
-                        }
-
+                        )} 
                     </ul>
                 </nav>
 
                 <div className="flex items-center gap-4">
                     <ToggleThemeButton />
+                    {
+                        authState && (
+                            <ProfileIcon />
+                        )
+                    }
+
                     {/* Mobile Menu */}
                     <div className="block md:hidden">
                         <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="rounded p-2 ">
@@ -113,13 +101,7 @@ function Navbar() {
                                                 </Link>
                                             </div>
                                         )
-                                    ))}
-                                    {
-                                        authState &&
-                                        <div>
-                                            <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" onClick={() => handleLogout()}>logout</span>
-                                        </div>
-                                    }
+                                    ))}                                    
                                 </div>
                             </nav>
                         </div>

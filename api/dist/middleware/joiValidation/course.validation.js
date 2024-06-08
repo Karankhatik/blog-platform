@@ -26,10 +26,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const router = express_1.default.Router();
-const AdminRoute = __importStar(require("../controllers/admin.controller"));
-const admin_validation_1 = require("../middleware/joiValidation/admin.validation");
-// Temporary use
-router.post("/register", (0, admin_validation_1.validateMiddleware)(admin_validation_1.adminParamValidation.register), AdminRoute.register);
-exports.default = router;
+exports.validateCourseMiddleware = exports.courseParamValidation = void 0;
+const joi_1 = __importDefault(require("joi"));
+const httpStatus = __importStar(require("http-status"));
+const APIError_1 = __importDefault(require("../../utils/APIError"));
+const courseParamValidation = {
+    createCourse: joi_1.default.object({
+        title: joi_1.default.string().required(),
+        description: joi_1.default.string().required(),
+        userId: joi_1.default.string().required(), // Assuming userId is a string; adjust as necessary for your ObjectId validation if needed
+    }),
+    updateCourse: joi_1.default.object({
+        title: joi_1.default.string().optional(),
+        description: joi_1.default.string().optional(),
+        chapters: joi_1.default.array()
+    })
+};
+exports.courseParamValidation = courseParamValidation;
+const validateCourseMiddleware = (schema) => {
+    return (req, res, next) => {
+        const { error } = schema.validate(req.body);
+        if (error) {
+            const errorMessage = error.details[0].message;
+            return next(new APIError_1.default(httpStatus.BAD_REQUEST, errorMessage));
+        }
+        next();
+    };
+};
+exports.validateCourseMiddleware = validateCourseMiddleware;

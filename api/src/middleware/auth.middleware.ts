@@ -44,11 +44,10 @@ const authorize = async (req: AuthRequest, res: Response, next: NextFunction) =>
   const user = req.user;
   const admin = req.admin;
 
-  if ((user?.isEditor && user?.verified) || (admin?.isAdmin && admin?.verified)) {
+  if ((user?.isEditor && user?.verified) || (admin?.isAdmin)) {
     next();
   } else {
-    const message = "You can't access this please login!";
-    return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: message });
+    return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: "Access denied!" });
   }
 }
  

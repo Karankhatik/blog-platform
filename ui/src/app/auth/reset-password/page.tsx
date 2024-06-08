@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { validateForm, commonValidationRules } from "@/helpers/validation";
 import { ResetPasswordEmailForm, PasswordResetForm } from "@/types/validation";
 import { forgotPassword, resetPassword } from '@/services/users/user';
+import PasswordInput from '@/components/inputFields/passwordField';
 
 
 interface FormErrors {
@@ -54,11 +55,8 @@ const ResetPassword = () => {
             password: newPassword,
             email: email
         };
-
-
-        const { isValid, errors } = await validateForm(formData, commonValidationRules);
-
-
+        const { isValid, errors } = await validateForm(formData, commonValidationRules); 
+               
         if (isValid) {
             try {
                 setLoading(true);
@@ -70,18 +68,21 @@ const ResetPassword = () => {
                     setEmail('');
                     setOtp('');
                     setNewPassword('');
-                } else {
-                    setErrors(errors);
                 }
-            }
-            catch (error) {
-                //do nothing
+            } catch (error) {              
+                // do nothing 
             } finally {
                 setLoading(false);
             }
+        } else {-
+            setErrors(errors);
 
-        };
+        }
     }
+
+    const gettingPasswordValue = (password: string) => {
+        setNewPassword(password);
+      }
 
         return (
             <main className="w-full mt-10 flex flex-col items-center justify-center px-4">
@@ -116,14 +117,9 @@ const ResetPassword = () => {
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => setOtp(e.target.value)}
                                     maxLength={6}
                                 />
-                                {errors.otp && <p className="text-red-500 text-xs mb-2">{errors.otp}</p>}
-                                <input
-                                    type="password"
-                                    placeholder="New Password"
-                                    className="block w-full px-4 py-2 mb-4 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-                                    value={newPassword}
-                                    onChange={(e: ChangeEvent<HTMLInputElement>) => setNewPassword(e.target.value)}
-                                />
+                                {errors.otp && <p className="text-red-500 text-xs mb-2">{errors.otp}</p>}                               
+
+                                <PasswordInput gettingPasswordValue={gettingPasswordValue} isPassword={true} />
                                 {errors.password && <p className="text-red-500 text-xs mb-2">{errors.password}</p>}
                                 <LoaderButton loading={loading} buttonText="Submit Password" />
                             </form>

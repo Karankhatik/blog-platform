@@ -24,17 +24,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const userRoute = __importStar(require("../controllers/users.controller"));
-const user_validation_1 = require("../middleware/joiValidation/user.validation");
+const courseController = __importStar(require("../controllers/course.controller")); //import { userParamValidation, validateMiddleware } from '../middleware/joiValidation/user';
 const auth_middleware_1 = require("../middleware/auth.middleware");
+const course_validation_1 = require("../middleware/joiValidation/course.validation");
+const auth_middleware_2 = require("../middleware/auth.middleware");
 const router = (0, express_1.Router)();
-router.post("/register", (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.register), userRoute.register); //test done
-router.post("/verify", (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.verify), userRoute.verify); //test done
-router.get("/me", auth_middleware_1.protect, userRoute.getMyProfile);
-router.put("/updateprofile", auth_middleware_1.protect, (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.updateProfile), userRoute.updateProfile);
-router.put("/updatepassword", auth_middleware_1.protect, userRoute.updatePassword);
-router.post("/forgetpassword", (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.forgetPassword), userRoute.forgetPassword);
-router.patch("/resetPassword", (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.resetPassword), userRoute.resetPassword);
-router.post("/reSendOtp", userRoute.reSendOtp); //test done
-router.post("/applyForEditor", auth_middleware_1.protect, userRoute.applyForEditor);
+router.post('/', auth_middleware_1.protect, auth_middleware_2.authorize, (0, course_validation_1.validateCourseMiddleware)(course_validation_1.courseParamValidation.createCourse), courseController.createCourse); // Create a new course
+router.get('/', auth_middleware_1.protect, courseController.getAllCourses); // Get all courses
+router.get('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, courseController.getCourseById); // Get a specific course by id
+router.patch('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, (0, course_validation_1.validateCourseMiddleware)(course_validation_1.courseParamValidation.updateCourse), courseController.updateCourse); // Update a specific course
+router.delete('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, courseController.deleteCourse); // Delete a specific course
 exports.default = router;

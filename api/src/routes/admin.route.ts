@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import * as AdminRoute from '../controllers/admin.controller';
-import {adminParamValidation, validateMiddleware}  from '../middleware/joiValidation/admin';
+import {adminParamValidation, validateMiddleware}  from '../middleware/joiValidation/admin.validation';
 
 
 // Temporary use

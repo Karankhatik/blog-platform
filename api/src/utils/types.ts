@@ -1,5 +1,5 @@
 
-import { Document } from 'mongoose';
+import { Document, Schema } from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
 import { Request } from 'express';
 
@@ -55,3 +55,16 @@ export interface AuthRequest extends Request {
     path: '/'        // Cookie is available across the entire site
 };
 
+export interface IChapter extends Document {
+  title: string;
+  content: string;
+  userId: string;
+  courseId: Schema.Types.ObjectId;
+}
+
+export interface ICourse extends Document {
+  title: string;
+  description: string;
+  userId: string;
+  chapters: IChapter[];
+}

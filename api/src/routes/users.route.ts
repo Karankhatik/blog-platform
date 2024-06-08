@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as userRoute from '../controllers/users.controller';
-import { userParamValidation, validateMiddleware } from '../middleware/joiValidation/user';
+import { userParamValidation, validateMiddleware } from '../middleware/joiValidation/user.validation';
 import { protect } from '../middleware/auth.middleware';
 
 const router = Router();

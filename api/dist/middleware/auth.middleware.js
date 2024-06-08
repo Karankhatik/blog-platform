@@ -21,7 +21,6 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     const accessToken = req.headers['access-token'];
     console.log(accessToken);
     let token = req.cookies.accessToken || accessToken;
-    // console.log("token --> ", token);
     // Check token
     if (!token) {
         return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: "Unauthorized request" });
@@ -43,7 +42,6 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         }
     }
     catch (error) {
-        console.log(error);
         return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: "jwt expired" });
     }
 });
@@ -51,12 +49,11 @@ exports.protect = protect;
 const authorize = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     const admin = req.admin;
-    if (((user === null || user === void 0 ? void 0 : user.isEditor) && (user === null || user === void 0 ? void 0 : user.verified)) || ((admin === null || admin === void 0 ? void 0 : admin.isAdmin) && (admin === null || admin === void 0 ? void 0 : admin.verified))) {
+    if (((user === null || user === void 0 ? void 0 : user.isEditor) && (user === null || user === void 0 ? void 0 : user.verified)) || (admin === null || admin === void 0 ? void 0 : admin.isAdmin)) {
         next();
     }
     else {
-        const message = "You can't access this please login!";
-        return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: message });
+        return res.status(http_status_1.default.UNAUTHORIZED).json({ success: false, message: "Access denied!" });
     }
 });
 exports.authorize = authorize;

@@ -173,12 +173,12 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         });
     }
     catch (error) {
+        console.log(error);
         throw next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, "User not found"));
     }
 });
 exports.login = login;
 const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("hitting logout");
     try {
         if (req.admin) {
             const admin = yield admin_model_1.default.findByIdAndUpdate(req.admin._id, {

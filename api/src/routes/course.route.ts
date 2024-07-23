@@ -8,7 +8,7 @@ const router = Router();
 router.post('/', protect, authorize, validateCourseMiddleware(courseParamValidation.createCourse), courseController.createCourse); // Create a new course
 router.get('/',  courseController.getAllCourses); // Get all courses
 router.get('/:id', protect, authorize, courseController.getCourseById); // Get a specific course by id
-router.patch('/:id', protect, authorize, validateCourseMiddleware(courseParamValidation.updateCourse), courseController.updateCourse); // Update a specific course
+router.put('/:id', protect, authorize, validateCourseMiddleware(courseParamValidation.updateCourse), courseController.updateCourse); // Update a specific course
 router.delete('/:id', protect, authorize, courseController.deleteCourse); // Delete a specific course
 
 

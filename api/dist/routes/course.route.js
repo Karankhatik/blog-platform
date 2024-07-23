@@ -32,6 +32,6 @@ const router = (0, express_1.Router)();
 router.post('/', auth_middleware_1.protect, auth_middleware_2.authorize, (0, course_validation_1.validateCourseMiddleware)(course_validation_1.courseParamValidation.createCourse), courseController.createCourse); // Create a new course
 router.get('/', courseController.getAllCourses); // Get all courses
 router.get('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, courseController.getCourseById); // Get a specific course by id
-router.patch('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, (0, course_validation_1.validateCourseMiddleware)(course_validation_1.courseParamValidation.updateCourse), courseController.updateCourse); // Update a specific course
+router.put('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, (0, course_validation_1.validateCourseMiddleware)(course_validation_1.courseParamValidation.updateCourse), courseController.updateCourse); // Update a specific course
 router.delete('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, courseController.deleteCourse); // Delete a specific course
 exports.default = router;

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyForEditor = exports.reSendOtp = exports.resetPassword = exports.forgetPassword = exports.updatePassword = exports.updateProfile = exports.getMyProfile = exports.verify = exports.register = void 0;
+exports.deleteUserByAdmin = exports.updateUserByAdmin = exports.getAllUsers = exports.applyForEditor = exports.reSendOtp = exports.resetPassword = exports.forgetPassword = exports.updatePassword = exports.updateProfile = exports.getMyProfile = exports.verify = exports.register = void 0;
 const http_status_1 = __importDefault(require("http-status"));
 const users_model_1 = __importDefault(require("../models/users.model"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
@@ -282,3 +282,89 @@ const resetPassword = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.resetPassword = resetPassword;
+const getAllUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Ensure page and limit are positive integers
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+        console.log("page: ", page, "limit: ", limit);
+        const skip = (page - 1) * limit;
+        const searchFilters = {};
+        let users = [];
+        let totalCount;
+        // Search query parameter
+        if (req.query.email) {
+            searchFilters.email = { $regex: req.query.email, $options: 'i' };
+            users = yield users_model_1.default.find(searchFilters).select("-otp -otp_expiry -password")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit);
+            totalCount = yield users_model_1.default.countDocuments(searchFilters);
+        }
+        else {
+            users = yield users_model_1.default.find().select("-otp -otp_expiry -password")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit);
+            totalCount = yield users_model_1.default.countDocuments();
+        }
+        return res.status(http_status_1.default.OK).json({
+            success: true,
+            message: "Users found!",
+            users: users,
+            count: users.length,
+            total: totalCount,
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit)
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "Request failed. Please check your request and try again."));
+    }
+});
+exports.getAllUsers = getAllUsers;
+const updateUserByAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        let sanitiseBody = {};
+        for (const key in req.body) {
+            const unsafeValue = req.body[key];
+            const safeValue = yield (0, sanetize_1.default)(unsafeValue);
+            sanitiseBody[key] = safeValue;
+        }
+        const { name, isEditor, isRequested } = sanitiseBody;
+        if (!name && !isEditor) {
+            return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "Request failed. Please check your request and try again."));
+        }
+        const user = yield users_model_1.default.findById({
+            _id: req.params.id,
+        });
+        if (!user) {
+            return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "User not found"));
+        }
+        user.isEditor = isEditor ? true : false;
+        user.name = name ? name : user.name;
+        user.isRequested = isRequested ? true : false;
+        yield user.save();
+        return res.status(http_status_1.default.OK).json({ success: true, message: "User updated successfully" });
+    }
+    catch (error) {
+        console.log(error);
+        return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "Request failed. Please check your request and try again."));
+    }
+});
+exports.updateUserByAdmin = updateUserByAdmin;
+const deleteUserByAdmin = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const user = yield users_model_1.default.findByIdAndDelete(req.params.id);
+        if (!user) {
+            return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "User not found"));
+        }
+        return res.status(http_status_1.default.OK).json({ success: true, message: "User deleted successfully" });
+    }
+    catch (error) {
+        console.log(error);
+        return next(new APIError_1.default(http_status_1.default.UNAUTHORIZED, "Request failed. Please check your request and try again."));
+    }
+});
+exports.deleteUserByAdmin = deleteUserByAdmin;

@@ -35,3 +35,62 @@ export const userResetPassword = {
     url: url + 'users/resetPassword',
     method: 'PATCH',
 }
+
+export const getAllUsers = {
+    url: url + 'users/all',
+    method: 'GET',
+}
+
+export const deleteUser = {
+    url : url + 'users/deleteUser',
+    method: 'DELETE'
+}
+
+export const updateUser = {
+    url: url + 'users/updateUser',
+    method: 'PUT',
+}
+
+//***************Course API's*******************
+
+export const getAllCourse = {
+    url: url + 'course',
+    method: 'GET',
+}
+
+export const deleteCourse = {
+    url : url + 'course',
+    method: 'DELETE'
+}
+
+export const updateCourse = {
+    url: url + 'course',
+    method: 'PUT',
+}
+
+export const createCourse = {
+    url: url + 'course',
+    method: 'POST',
+};
+
+//***************Chapter API's*******************
+
+export const getAllChapter = {
+    url: url + 'chapters',
+    method: 'GET',
+}
+
+export const deleteChapter = {
+    url : url + 'chapters',
+    method: 'DELETE'
+}
+
+export const updateChapter = {
+    url: url + 'chapters',
+    method: 'PUT',
+}
+
+export const createChapter = {
+    url: url + 'chapters',
+    method: 'POST',
+};

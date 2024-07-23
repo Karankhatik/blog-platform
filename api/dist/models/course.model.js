@@ -12,7 +12,6 @@ const CourseSchema = new mongoose_1.Schema({
     },
     userId: {
         type: String,
-        required: true,
         ref: 'User' // This reference indicates the model to which this ID relates
     },
     chapterIds: [{

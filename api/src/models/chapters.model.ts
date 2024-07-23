@@ -9,8 +9,7 @@ const ChapterSchema = new Schema<IChapter>({
     required: true
   },
   content: {
-    type: String,
-    required: true
+    type: String,    
   },
   userId: {
     type: String,

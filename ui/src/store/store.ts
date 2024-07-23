@@ -4,6 +4,7 @@ import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { persistReducer } from "redux-persist";
 import { authReducer } from "@/store/authSlice";
 import createWebStorage from "redux-persist/lib/storage/createWebStorage";
+import {isOpenReducer } from "./isOpenSlice";
 
 const createNoopStorage = () => {
   return {
@@ -34,6 +35,7 @@ const persistedReducer = persistReducer(authPersistConfig, authReducer);
 
 const rootReducer = combineReducers({
   auth: persistedReducer,
+  isOpen: isOpenReducer
 });
 
 export const store = configureStore({

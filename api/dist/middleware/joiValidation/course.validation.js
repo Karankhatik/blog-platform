@@ -34,12 +34,11 @@ const courseParamValidation = {
     createCourse: joi_1.default.object({
         title: joi_1.default.string().required(),
         description: joi_1.default.string().required(),
-        userId: joi_1.default.string().required(), // Assuming userId is a string; adjust as necessary for your ObjectId validation if needed
+        // Assuming userId is a string; adjust as necessary for your ObjectId validation if needed
     }),
     updateCourse: joi_1.default.object({
         title: joi_1.default.string().optional(),
         description: joi_1.default.string().optional(),
-        chapters: joi_1.default.array()
     })
 };
 exports.courseParamValidation = courseParamValidation;

@@ -18,7 +18,6 @@ const CourseSchema = new Schema<ICourse>({
   },
   userId: {
     type: String,
-    required: true,
     ref: 'User' // This reference indicates the model to which this ID relates
   },
   chapterIds: [{

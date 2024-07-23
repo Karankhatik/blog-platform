@@ -9,7 +9,6 @@ const ChapterSchema = new mongoose_1.Schema({
     },
     content: {
         type: String,
-        required: true
     },
     userId: {
         type: String,

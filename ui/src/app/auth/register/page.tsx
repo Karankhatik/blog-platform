@@ -7,11 +7,11 @@ import { validateForm, registrationValidationRules } from "@/helpers/validation"
 import { registerUser, verifyEmail, resendEmailOTP } from '@/services/users/user';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import { LoaderButton } from '@/components/Buttons';
+import { LoaderButton } from '@/components/ButtonComponent';
 import { useRouter } from 'next/navigation';
 import { RegistrationForm } from '@/types/validation';
 import Toast from '@/helpers/toasters';
-import PasswordInput from '@/components/inputFields/passwordField';
+import PasswordInput from '@/components/inputFields/PasswordField';
 
 const backIcon = (
   <svg width="40" height="24" viewBox="0 0 40 24" fill="none" xmlns="http://www.w3.org/2000/svg">

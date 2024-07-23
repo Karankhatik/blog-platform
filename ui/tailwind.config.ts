@@ -3,7 +3,8 @@ module.exports = {
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/sections/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/sections/**/*.{js,ts,jsx,tsx,mdx}',   
+
   ],
   theme: {
     fontSize: {
@@ -25,15 +26,17 @@ module.exports = {
         typography: 'var(--color-typography)',
         buttonHover: 'var(--button-hover)',
         buttonTypography: 'var(--color-button-text)',
-        typographyHover: 'var(--typography-hover)', 
+        typographyHover: 'var(--typography-hover)',
         borderColor: 'var(--border-color)',
         headerColor: 'var(--header-color)',
         bgFooter: 'var(--bgFooter-color)',
         toolTipBG: 'var(--toolTipBG)',
         toolTipText: 'var(--toolTipText)',
-      }, 
-      
+      },
+
     },
   },
-  plugins: [],
+  plugins: [
+    
+  ]
 };

@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/navbarComponent/navbar";
+import Navbar from "@/components/navbarComponent/Navbar";
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
+import Script from 'next/script'
+//import tinymce from "../../public/tinymce/tinymce"
 
 const ReduxProvider = dynamic(() => import("@/store/reduxProvider"), {
   ssr: false
@@ -27,7 +29,7 @@ export default function RootLayout({
       <body className={inter.className}>
       <ReduxProvider>      
       <div className='bg-primary'>
-      <div className='mx-auto  max-w-screen-xl px-4 sm:px-6 lg:px-8'>
+      <div className='mx-auto  px-2 md:px-8 lg:px-8'>
         <Navbar/>
         {children}
       </div>
@@ -35,7 +37,8 @@ export default function RootLayout({
       <ToastContainer />
       </ReduxProvider>
         </body>
-
+        <Script src="/tinymce/tinymce.min.js"  />
     </html>
+    
   );
 }

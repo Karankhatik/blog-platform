@@ -2,15 +2,18 @@
 import React, { useState } from "react";
 
 import menuIcon from '@/assets/menu.svg';
+import burgerMenu from '@/assets/burger-menu.svg';
 import Image from "next/image";
 import Link from "next/link";
 import { navbarItems } from '@/data/navbarData';
 import DropUpIcon from '@/assets/up-arrow.svg';
 import DropDownIcon from '@/assets/down-arrow.svg';
+import { HamBurggerIcon } from "@/assets/navbarIcon";
 import ToggleThemeButton from "@/components/ToggleThemeButton";
-import { useSelector, useDispatch } from "react-redux";
-
-
+import { useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "@/store/store";
+import { setIsOpenDashboardSidebar } from '@/store/isOpenSlice';
+import { usePathname } from "next/navigation";
 import ProfileIcon from "./ProfileIcon";
 
 
@@ -18,9 +21,10 @@ function Navbar() {
 
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
     const [active, setActive] = useState<string | null>(null);
-
+    const dispatch = useAppDispatch();
     const { authState } = useSelector((state: any) => state.auth);
-
+    const isOpenDashboardSidebar = useAppSelector((state) => state.isOpen.isOpenDashboardSidebar);
+    const pathname = usePathname()
 
     // useEffect(() => {
     //     const disableRightClick = (event: MouseEvent): void => {
@@ -42,17 +46,29 @@ function Navbar() {
     //       document.removeEventListener('contextmenu', disableRightClick);
     //       document.removeEventListener('keydown', disableCertainKeys);
     //     };
-    //   }, []);
-
-
+    //   }, []);    
 
     return (
-        <nav className="flex h-16 items-center justify-between ">
+        <nav className="flex h-16 items-center justify-between">
 
-            <div className="flex-1 md:flex md:items-center md:gap-12">
-                <Link href={'/'}>
-                    <span className="block text-typography text-lg">Intake Learn</span>
-                </Link>
+            <div className="flex-1 md:flex md:items-center md:gap-6">
+                {
+                    pathname.includes('dashboard') ? (
+                        <>
+                            <span className=' cursor-pointer' onClick={() => dispatch(setIsOpenDashboardSidebar(!isOpenDashboardSidebar))}>
+                                <Image src={burgerMenu} alt="burherMenu" width={25} height={25} />
+                            </span>
+
+                            <Link href={'/'}>
+                                <span className="hidden md:block text-typography text-lg ">Intake Learn</span>
+                            </Link>
+                        </>
+                    ) : (
+                        <Link href={'/'}>
+                            <span className="block text-typography text-lg ">Intake Learn</span>
+                        </Link>
+                    )
+                }
             </div>
             <div className="md:flex md:items-center md:gap-12">
                 <nav aria-label="Global" className="hidden md:block">
@@ -65,7 +81,7 @@ function Navbar() {
                                     </Link>
                                 </li>
                             )
-                        )} 
+                        )}
                     </ul>
                 </nav>
 
@@ -101,7 +117,7 @@ function Navbar() {
                                                 </Link>
                                             </div>
                                         )
-                                    ))}                                    
+                                    ))}
                                 </div>
                             </nav>
                         </div>

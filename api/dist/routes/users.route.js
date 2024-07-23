@@ -27,6 +27,7 @@ const express_1 = require("express");
 const userRoute = __importStar(require("../controllers/users.controller"));
 const user_validation_1 = require("../middleware/joiValidation/user.validation");
 const auth_middleware_1 = require("../middleware/auth.middleware");
+const auth_middleware_2 = require("../middleware/auth.middleware");
 const router = (0, express_1.Router)();
 router.post("/register", (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.register), userRoute.register); //test done
 router.post("/verify", (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.verify), userRoute.verify); //test done
@@ -37,4 +38,7 @@ router.post("/forgetpassword", (0, user_validation_1.validateMiddleware)(user_va
 router.patch("/resetPassword", (0, user_validation_1.validateMiddleware)(user_validation_1.userParamValidation.resetPassword), userRoute.resetPassword);
 router.post("/reSendOtp", userRoute.reSendOtp); //test done
 router.post("/applyForEditor", auth_middleware_1.protect, userRoute.applyForEditor);
+router.get("/all", auth_middleware_1.protect, auth_middleware_2.authorize, userRoute.getAllUsers);
+router.put("/updateUser/:id", auth_middleware_1.protect, auth_middleware_2.authorize, userRoute.updateUserByAdmin);
+router.delete("/deleteUser/:id", auth_middleware_1.protect, auth_middleware_2.authorize, userRoute.deleteUserByAdmin);
 exports.default = router;

@@ -45,6 +45,13 @@ const ProfileIcon = () => {
                                 </Link>
                             </div>
                             <div>
+                                <Link href={'/dashboard'} onClick={() => setIsProfileMenuOpen(false)}>
+                                    <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" role="menuitem">
+                                        Dashboard
+                                    </span>
+                                </Link>
+                            </div>
+                            <div>
                                 <span onClick={() => handleLogout()} className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" role="menuitem">
                                     Logout
                                 </span>

@@ -11,14 +11,14 @@ interface ChapterValidationSchemas {
 const chapterParamValidation: ChapterValidationSchemas = {
   createChapter: Joi.object({
     title: Joi.string().required(),
-    content: Joi.string().required(),
+    content: Joi.string().allow(''),
     userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(), // Validate MongoDB ObjectId format
-    course: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+    courseId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
   }),
   updateChapter: Joi.object({
     title: Joi.string().optional(),
-    content: Joi.string().optional(),
-    course: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional()
+    content: Joi.string().allow(''),
+    courseId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional(),    
   })
 };
 

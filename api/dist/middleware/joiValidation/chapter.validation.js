@@ -10,14 +10,14 @@ const APIError_1 = __importDefault(require("../../utils/APIError"));
 const chapterParamValidation = {
     createChapter: joi_1.default.object({
         title: joi_1.default.string().required(),
-        content: joi_1.default.string().required(),
+        content: joi_1.default.string().allow(''),
         userId: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).required(), // Validate MongoDB ObjectId format
-        course: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).required()
+        courseId: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).required()
     }),
     updateChapter: joi_1.default.object({
         title: joi_1.default.string().optional(),
-        content: joi_1.default.string().optional(),
-        course: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).optional()
+        content: joi_1.default.string().allow(''),
+        courseId: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).optional(),
     })
 };
 exports.chapterParamValidation = chapterParamValidation;

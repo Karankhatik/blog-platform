@@ -1,6 +1,6 @@
 import getDataFromApi from '../apiCall';
-import { userSignUp, verifyOtp, resendEmailOTPAPI, userForgotPassword, userResetPassword } from '../constant';
-import { RegistrationForm, LoginForm, PasswordResetForm } from '@/types/validation';
+import { userSignUp, verifyOtp, deleteUser, updateUser,  resendEmailOTPAPI, getAllUsers, userForgotPassword, userResetPassword } from '../constant';
+import { RegistrationForm, } from '@/types/validation';
 
 export const registerUser = async (formData: RegistrationForm) => {
     let request: any = userSignUp;
@@ -40,6 +40,35 @@ export const resetPassword = async (otp: number, newPassword: string, email: str
     const result: any = await getDataFromApi(request);
     return result?.data;
 };
+
+export const getAllTheUsers = async (page: number, limit: number, email?: string) => {
+    // Create a copy of the request object to avoid mutating the original one
+    let request: any = { ...getAllUsers };
+    if(email) {
+        request.url = `${getAllUsers.url}?page=${page}&limit=${limit}&email=${email}`;
+    } else {
+        request.url = `${getAllUsers.url}?page=${page}&limit=${limit}`;
+    }  
+    const result: any = await getDataFromApi(request);
+    return result?.data;
+};
+
+export const deleteUserByAdmin = async (id: string) => {
+    let request: any = { ...deleteUser };
+    request.url = `${deleteUser.url}/${id}`;
+    const result: any = await getDataFromApi(request);
+    return result?.data;
+};
+
+export const updateUserByAdmin = async (id: string, data: any) => {
+    let request: any = { ...updateUser };
+    request.url = `${updateUser.url}/${id}`;
+    request.data = data;
+    const result: any = await getDataFromApi(request);
+    return result?.data;
+};
+
+
 
 
 

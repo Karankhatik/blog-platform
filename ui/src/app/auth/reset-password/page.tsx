@@ -1,13 +1,13 @@
 "use client";
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
-import { LoaderButton } from '@/components/Buttons';
+import { LoaderButton } from '@/components/ButtonComponent';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { validateForm, commonValidationRules } from "@/helpers/validation";
 import { ResetPasswordEmailForm, PasswordResetForm } from "@/types/validation";
 import { forgotPassword, resetPassword } from '@/services/users/user';
-import PasswordInput from '@/components/inputFields/passwordField';
+import PasswordInput from '@/components/inputFields/PasswordField';
 
 
 interface FormErrors {

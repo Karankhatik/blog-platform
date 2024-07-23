@@ -12,12 +12,11 @@ const courseParamValidation: CourseValidationSchemas = {
   createCourse: Joi.object({
     title: Joi.string().required(),
     description: Joi.string().required(),
-    userId: Joi.string().required(), // Assuming userId is a string; adjust as necessary for your ObjectId validation if needed
+     // Assuming userId is a string; adjust as necessary for your ObjectId validation if needed
   }),
   updateCourse: Joi.object({
     title: Joi.string().optional(),
-    description: Joi.string().optional(),
-    chapters: Joi.array()
+    description: Joi.string().optional(),    
   })
 };
 

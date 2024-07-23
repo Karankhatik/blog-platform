@@ -53,13 +53,12 @@ const createCourse = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         const course = new course_model_1.default({
             title: sanitisedBody.title,
             description: sanitisedBody.description,
-            userId: sanitisedBody.userId
+            // userId: sanitisedBody.userId,
         });
         yield course.save();
         res.status(httpStatus.CREATED).json({
             success: true,
             message: "Course created successfully",
-            data: course
         });
     }
     catch (error) {
@@ -70,8 +69,52 @@ const createCourse = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
 exports.createCourse = createCourse;
 const getAllCourses = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const courses = yield course_model_1.default.find();
-        res.json({ success: true, data: courses });
+        // Ensure page and limit are positive integers
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+        console.log("page: ", page, "limit: ", limit);
+        const skip = (page - 1) * limit;
+        const searchFilters = {};
+        let course = [];
+        let totalCount;
+        if (!req.query.page && !req.query.limit) {
+            const course = yield course_model_1.default.find();
+            return res.status(httpStatus.OK).json({
+                success: true,
+                message: "course found!",
+                courses: course
+            });
+        }
+        // Search query parameter
+        if (req.query.title) {
+            searchFilters.title = {
+                $regex: req.query.title,
+                $options: "i",
+            };
+            course = yield course_model_1.default.find(searchFilters)
+                .select("")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit);
+            totalCount = yield course_model_1.default.countDocuments(searchFilters);
+        }
+        else {
+            course = yield course_model_1.default.find()
+                .select("")
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit);
+            totalCount = yield course_model_1.default.countDocuments();
+        }
+        return res.status(httpStatus.OK).json({
+            success: true,
+            message: "course found!",
+            courses: course,
+            count: course.length,
+            total: totalCount,
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+        });
     }
     catch (error) {
         throw new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, "Something went wrong while fetching courses");
@@ -82,7 +125,9 @@ const getCourseById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const course = yield course_model_1.default.findById(req.params.id);
         if (!course) {
-            return res.status(404).json({ success: false, message: "Course not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "Course not found" });
         }
         res.json({ success: true, data: course });
     }
@@ -91,26 +136,46 @@ const getCourseById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.getCourseById = getCourseById;
-const updateCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateCourse = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const course = yield course_model_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!course) {
-            return res.status(404).json({ success: false, message: "Course not found" });
+        let sanitiseBody = {};
+        for (const key in req.body) {
+            const unsafeValue = req.body[key];
+            const safeValue = yield (0, sanetize_1.default)(unsafeValue);
+            sanitiseBody[key] = safeValue;
         }
-        res.json({ success: true, data: course });
+        const { description, title } = sanitiseBody;
+        const course = yield course_model_1.default.findById({
+            _id: req.params.id,
+        });
+        if (!course) {
+            return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "User not found"));
+        }
+        course.description = description ? description : course.description;
+        course.title = title ? title : course.title;
+        yield course.save();
+        res.status(httpStatus.OK).json({
+            success: true,
+            message: "Course updated successfully",
+        });
     }
     catch (error) {
         throw new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, "Something went wrong while updating courses");
     }
 });
 exports.updateCourse = updateCourse;
-const deleteCourse = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteCourse = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const course = yield course_model_1.default.findByIdAndDelete(req.params.id);
         if (!course) {
-            return res.status(404).json({ success: false, message: "Course not found" });
+            return res
+                .status(404)
+                .json({ success: false, message: "Course not found" });
         }
-        res.json({ success: true, message: "Course deleted successfully" });
+        res.status(httpStatus.OK).json({
+            success: true,
+            message: "Course deleted successfully",
+        });
     }
     catch (error) {
         throw new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, "Something went wrong while deleting courses");

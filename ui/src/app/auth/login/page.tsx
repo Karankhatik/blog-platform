@@ -7,13 +7,13 @@ import { commonValidationRules, validateForm } from '@/helpers/validation';
 import { LoginForm } from "@/types/validation";
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { LoaderButton } from '@/components/Buttons';
+import { LoaderButton } from '@/components/ButtonComponent';
 import { useAppDispatch } from "@/store/store";
 import { setAuthState, setUser } from "@/store/authSlice";
 import Toast from '@/helpers/toasters';
 import { Suspense } from 'react';
 import { login } from '@/services/commonAPIs/commonApis';
-import PasswordInput from '@/components/inputFields/passwordField';
+import PasswordInput from '@/components/inputFields/PasswordField';
 
 
 

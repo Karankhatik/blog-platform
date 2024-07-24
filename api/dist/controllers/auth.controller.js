@@ -78,26 +78,31 @@ const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0,
     try {
         const decodedToken = jsonwebtoken_1.default.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
         if (!decodedToken) {
-            return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Invalid refresh token"));
+            return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Session expired"));
         }
         // Check if the token belongs to an admin or a user
-        const admin = yield admin_model_1.default.findById(decodedToken._id).catch(err => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
-        const user = admin ? null : yield users_model_1.default.findById(decodedToken._id).catch(err => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
+        const admin = yield admin_model_1.default.findById(decodedToken._id).catch((err) => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
+        const user = admin
+            ? null
+            : yield users_model_1.default.findById(decodedToken._id).catch((err) => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
         const tokenOwner = admin || user;
         if (!tokenOwner || incomingRefreshToken !== tokenOwner.refreshToken) {
             return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Refresh token expired or used"));
         }
-        // Generate new tokens
-        const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(tokenOwner._id.toString());
-        // Send the new tokens back
-        return res
-            .status(httpStatus.OK)
-            .cookie("accessToken", accessToken, types_1.options)
-            .cookie("refreshToken", refreshToken, types_1.options)
-            .json({
-            success: true,
-            message: "Access token refreshed",
-        });
+        const tokenID = String(tokenOwner._id);
+        if (tokenID) {
+            // Generate new tokens
+            const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(tokenID);
+            // Send the new tokens back
+            return res
+                .status(httpStatus.OK)
+                .cookie("accessToken", accessToken, types_1.options)
+                .cookie("refreshToken", refreshToken, types_1.options)
+                .json({
+                success: true,
+                message: "Access token refreshed",
+            });
+        }
     }
     catch (error) {
         if (error instanceof jsonwebtoken_2.TokenExpiredError) {
@@ -125,52 +130,58 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                     message: "Invalid password.",
                 });
             }
-            const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(user._id);
-            if (user.verified) {
-                return res
-                    .status(httpStatus.OK)
-                    .cookie("accessToken", accessToken, types_1.options)
-                    .cookie("refreshToken", refreshToken, types_1.options)
-                    .json({
-                    success: true,
-                    message: "Logged in successfully",
-                    user: {
-                        name: user.name,
-                        isEditor: user === null || user === void 0 ? void 0 : user.isEditor,
-                        isRequested: user === null || user === void 0 ? void 0 : user.isRequested,
-                        email: user.email,
-                        id: user._id
-                    },
-                    accessToken,
-                    refreshToken
-                });
-            }
-            else {
-                return res.status(httpStatus.NOT_FOUND).json({
-                    success: false,
-                    message: "Please register your account first",
-                });
+            const userID = String(user._id);
+            if (userID) {
+                const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(user._id);
+                if (user.verified) {
+                    return res
+                        .status(httpStatus.OK)
+                        .cookie("accessToken", accessToken, types_1.options)
+                        .cookie("refreshToken", refreshToken, types_1.options)
+                        .json({
+                        success: true,
+                        message: "Logged in successfully",
+                        user: {
+                            name: user.name,
+                            isEditor: user === null || user === void 0 ? void 0 : user.isEditor,
+                            isRequested: user === null || user === void 0 ? void 0 : user.isRequested,
+                            email: user.email,
+                            id: user._id,
+                        },
+                        accessToken,
+                        refreshToken,
+                    });
+                }
+                else {
+                    return res.status(httpStatus.NOT_FOUND).json({
+                        success: false,
+                        message: "Please register your account first",
+                    });
+                }
             }
         }
-        const isPasswordValid = yield (0, comman_1.decryptPassword)(password, admin.password);
-        if (!isPasswordValid) {
-            return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Invalid credentials"));
-        }
-        const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(admin._id);
-        const loggedInAdmin = yield admin_model_1.default.findById(admin._id).select("-password -refreshToken");
-        return res
-            .status(httpStatus.OK)
-            .cookie("accessToken", accessToken, types_1.options)
-            .cookie("refreshToken", refreshToken, types_1.options)
-            .json({
-            success: true,
-            message: "Logged in successfully",
-            user: {
-                name: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.name,
-                isAdmin: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.isAdmin,
-                id: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin._id
+        if (admin) {
+            const isPasswordValid = yield (0, comman_1.decryptPassword)(password, admin.password);
+            if (!isPasswordValid) {
+                return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Invalid credentials"));
             }
-        });
+            const adminID = String(admin._id);
+            const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(adminID ? adminID : "");
+            const loggedInAdmin = yield admin_model_1.default.findById(admin._id).select("-password -refreshToken");
+            return res
+                .status(httpStatus.OK)
+                .cookie("accessToken", accessToken, types_1.options)
+                .cookie("refreshToken", refreshToken, types_1.options)
+                .json({
+                success: true,
+                message: "Logged in successfully",
+                user: {
+                    name: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.name,
+                    isAdmin: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.isAdmin,
+                    id: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin._id,
+                },
+            });
+        }
     }
     catch (error) {
         console.log(error);
@@ -183,10 +194,10 @@ const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         if (req.admin) {
             const admin = yield admin_model_1.default.findByIdAndUpdate(req.admin._id, {
                 $unset: {
-                    refreshToken: 1
-                }
+                    refreshToken: 1,
+                },
             }, {
-                new: true
+                new: true,
             });
             return res
                 .status(200)
@@ -197,10 +208,10 @@ const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
         else if (req.user) {
             const user = yield users_model_1.default.findByIdAndUpdate(req.user._id, {
                 $unset: {
-                    refreshToken: 1
-                }
+                    refreshToken: 1,
+                },
             }, {
-                new: true
+                new: true,
             });
             return res
                 .status(200)

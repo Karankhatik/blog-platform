@@ -1,13 +1,13 @@
-import { Request, Response, NextFunction } from 'express';
-import Admin from '../models/admin.model';
-import User from '../models/users.model';
-import { decryptPassword } from '../utils/comman';
-import sanitiseReqBody from '../helpers/sanetize';
+import { Request, Response, NextFunction } from "express";
+import Admin from "../models/admin.model";
+import User from "../models/users.model";
+import { decryptPassword } from "../utils/comman";
+import sanitiseReqBody from "../helpers/sanetize";
 import * as httpStatus from "http-status";
 import ApiError from "../utils/APIError";
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import { TokenExpiredError } from 'jsonwebtoken';
-import { options } from '../utils/types';
+import jwt, { JwtPayload } from "jsonwebtoken";
+import { TokenExpiredError } from "jsonwebtoken";
+import { options } from "../utils/types";
 
 const generateAccessAndRefereshTokens = async (userId: string) => {
     try {
@@ -25,9 +25,7 @@ const generateAccessAndRefereshTokens = async (userId: string) => {
             await user.save({ validateBeforeSave: false });
 
             return { accessToken, refreshToken };
-
         } else {
-
             const accessToken = admin.generateAccessToken();
             const refreshToken = admin.generateRefreshToken();
 
@@ -36,16 +34,21 @@ const generateAccessAndRefereshTokens = async (userId: string) => {
 
             return { accessToken, refreshToken };
         }
-
     } catch (error) {
-        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "Something went wrong while generating refresh and access tokens");
+        throw new ApiError(
+            httpStatus.INTERNAL_SERVER_ERROR,
+            "Something went wrong while generating refresh and access tokens"
+        );
     }
 };
 
-
-
-export const refreshAccessToken = async (req: Request, res: Response, next: NextFunction) => {
-    const incomingRefreshToken = req.cookies.refreshToken || req.headers["refreshToken"];
+export const refreshAccessToken = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const incomingRefreshToken =
+        req.cookies.refreshToken || req.headers["refreshToken"];
 
     if (!incomingRefreshToken) {
         return next(new ApiError(httpStatus.UNAUTHORIZED, "Session expired"));
@@ -56,35 +59,49 @@ export const refreshAccessToken = async (req: Request, res: Response, next: Next
     };
 
     try {
-        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET as string) as TokenPayload;
-
+        const decodedToken = jwt.verify(
+            incomingRefreshToken,
+            process.env.REFRESH_TOKEN_SECRET as string
+        ) as TokenPayload;
 
         if (!decodedToken) {
-            return next(new ApiError(httpStatus.UNAUTHORIZED, "Invalid refresh token"));
+            return next(new ApiError(httpStatus.UNAUTHORIZED, "Session expired"));
         }
 
         // Check if the token belongs to an admin or a user
-        const admin = await Admin.findById(decodedToken._id).catch(err => next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
-        const user = admin ? null : await User.findById(decodedToken._id).catch(err => next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
+        const admin = await Admin.findById(decodedToken._id).catch((err) =>
+            next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, err.message))
+        );
+        const user = admin
+            ? null
+            : await User.findById(decodedToken._id).catch((err) =>
+                next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, err.message))
+            );
 
         const tokenOwner = admin || user;
 
         if (!tokenOwner || incomingRefreshToken !== tokenOwner.refreshToken) {
-            return next(new ApiError(httpStatus.UNAUTHORIZED, "Refresh token expired or used"));
+            return next(
+                new ApiError(httpStatus.UNAUTHORIZED, "Refresh token expired or used")
+            );
         }
 
-        // Generate new tokens
-        const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(tokenOwner._id.toString());
+        const tokenID = String(tokenOwner._id);
 
-        // Send the new tokens back
-        return res
-            .status(httpStatus.OK)
-            .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options)
-            .json({
-                success: true,
-                message: "Access token refreshed",
-            });
+        if (tokenID) {
+            // Generate new tokens
+            const { accessToken, refreshToken } =
+                await generateAccessAndRefereshTokens(tokenID);
+            // Send the new tokens back
+            return res
+                .status(httpStatus.OK)
+                .cookie("accessToken", accessToken, options)
+                .cookie("refreshToken", refreshToken, options)
+                .json({
+                    success: true,
+                    message: "Access token refreshed",
+                });
+        }
     } catch (error) {
         if (error instanceof TokenExpiredError) {
             return next(new ApiError(httpStatus.UNAUTHORIZED, "Jwt expired"));
@@ -93,10 +110,11 @@ export const refreshAccessToken = async (req: Request, res: Response, next: Next
     }
 };
 
-
-
-export const login = async (req: Request, res: Response, next: NextFunction) => {
-
+export const login = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
         // Sanitize each input
         const email = await sanitiseReqBody(req.body.email);
@@ -117,15 +135,18 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
                     message: "Invalid password.",
                 });
             }
-            const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(user._id);
+            const userID = String(user._id);
 
-            if (user.verified) {
-                return res
-                    .status(httpStatus.OK)
-                    .cookie("accessToken", accessToken, options)
-                    .cookie("refreshToken", refreshToken, options)
-                    .json(
-                        {
+            if (userID) {
+                const { accessToken, refreshToken } =
+                    await generateAccessAndRefereshTokens(user._id);
+
+                if (user.verified) {
+                    return res
+                        .status(httpStatus.OK)
+                        .cookie("accessToken", accessToken, options)
+                        .cookie("refreshToken", refreshToken, options)
+                        .json({
                             success: true,
                             message: "Logged in successfully",
                             user: {
@@ -133,52 +154,58 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
                                 isEditor: user?.isEditor,
                                 isRequested: user?.isRequested,
                                 email: user.email,
-                                id: user._id
+                                id: user._id,
                             },
                             accessToken,
-                            refreshToken
-                        },
-                    );
-            } else {
-                return res.status(httpStatus.NOT_FOUND).json({
-                    success: false,
-                    message: "Please register your account first",
-                });
+                            refreshToken,
+                        });
+                } else {
+                    return res.status(httpStatus.NOT_FOUND).json({
+                        success: false,
+                        message: "Please register your account first",
+                    });
+                }
             }
         }
 
-        const isPasswordValid = await decryptPassword(password, admin.password);
+        if (admin) {
+            const isPasswordValid = await decryptPassword(password, admin.password);
 
-        if (!isPasswordValid) {
-            return next(new ApiError(httpStatus.UNAUTHORIZED, "Invalid credentials"));
-        }
+            if (!isPasswordValid) {
+                return next(
+                    new ApiError(httpStatus.UNAUTHORIZED, "Invalid credentials")
+                );
+            }
 
-        const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(admin._id);
+            const adminID = String(admin._id);
 
-        const loggedInAdmin = await Admin.findById(admin._id).select("-password -refreshToken");
+            const { accessToken, refreshToken } = await generateAccessAndRefereshTokens(adminID ? adminID : "");
 
+            const loggedInAdmin = await Admin.findById(admin._id).select(
+                "-password -refreshToken"
+            );
 
-        return res
-            .status(httpStatus.OK)
-            .cookie("accessToken", accessToken, options)
-            .cookie("refreshToken", refreshToken, options)
-            .json(
-                {
+            return res
+                .status(httpStatus.OK)
+                .cookie("accessToken", accessToken, options)
+                .cookie("refreshToken", refreshToken, options)
+                .json({
                     success: true,
                     message: "Logged in successfully",
                     user: {
                         name: loggedInAdmin?.name,
                         isAdmin: loggedInAdmin?.isAdmin,
-                        id: loggedInAdmin?._id
-                    }
-                },
-            );
+                        id: loggedInAdmin?._id,
+                    },
+                });
+        }
     } catch (error: any) {
         console.log(error);
-        throw next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found"));
+        throw next(
+            new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found")
+        );
     }
-}
-
+};
 
 export const logout = async (req: any, res: Response, next: NextFunction) => {
     try {
@@ -187,11 +214,11 @@ export const logout = async (req: any, res: Response, next: NextFunction) => {
                 req.admin._id,
                 {
                     $unset: {
-                        refreshToken: 1
-                    }
+                        refreshToken: 1,
+                    },
                 },
                 {
-                    new: true
+                    new: true,
                 }
             );
 
@@ -205,11 +232,11 @@ export const logout = async (req: any, res: Response, next: NextFunction) => {
                 req.user._id,
                 {
                     $unset: {
-                        refreshToken: 1
-                    }
+                        refreshToken: 1,
+                    },
                 },
                 {
-                    new: true
+                    new: true,
                 }
             );
 
@@ -219,9 +246,10 @@ export const logout = async (req: any, res: Response, next: NextFunction) => {
                 .clearCookie("refreshToken", options)
                 .json({ success: true, message: "Logged out successfully" });
         }
-
     } catch (error: any) {
         console.log(error);
-        throw next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found"));
+        throw next(
+            new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "User not found")
+        );
     }
 };

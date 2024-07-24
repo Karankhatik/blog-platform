@@ -11,15 +11,32 @@ const ChapterSchema = new Schema<IChapter>({
   content: {
     type: String,    
   },
+  chapterSlug : {
+    type: String,
+    unique: true
+  },
   userId: {
     type: String,
     required: true,
     ref: 'User'
   },
+  metaDsicription: {
+    type: String    
+  },
+  keyPhrase: {
+    type: String
+  },
+  tags: {
+    type: [String]
+  },  
   courseId: {
     type: Schema.Types.ObjectId,
     ref: 'Course'
-  }
+  },
+  feedbacks: {
+    type: [String]
+  },
+  timestamps: true,
 });
 
 export default model<IChapter>('Chapter', ChapterSchema);

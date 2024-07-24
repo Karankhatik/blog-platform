@@ -1,29 +1,28 @@
 import { Schema, model, Document } from 'mongoose';
-
-interface ICourse extends Document {
-  title: string;
-  description: string;
-  userId: string;
-  chapterIds: Schema.Types.ObjectId[];
-}
+import { ICourse } from '../utils/types';
 
 const CourseSchema = new Schema<ICourse>({
   title: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   description: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   userId: {
     type: String,
-    ref: 'User' // This reference indicates the model to which this ID relates
+    ref: 'User' 
   },
-  chapterIds: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Chapter'
-  }]
+  courseSlug : {
+    type: String,
+    unique: true,
+    lowercase: true,
+    trim: true  
+  },
+  timestamps: true,
 });
 
 const Course = model<ICourse>('Course', CourseSchema);

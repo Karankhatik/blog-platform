@@ -60,11 +60,18 @@ export interface IChapter extends Document {
   content: string;
   userId: string;
   courseId: Schema.Types.ObjectId;
+  timestamps: true;
+  chapterSlug : string,
+  metaDsicription: string,
+  keyPhrase: string,
+  tags: [string],
+  feedbacks: [string]                                   
 }
 
 export interface ICourse extends Document {
   title: string;
   description: string;
   userId: string;
-  chapters: IChapter[];
+  timestamps: true;
+  courseSlug : string
 }

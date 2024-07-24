@@ -132,7 +132,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             }
             const userID = String(user._id);
             if (userID) {
-                const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(user._id);
+                const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(userID);
                 if (user.verified) {
                     return res
                         .status(httpStatus.OK)

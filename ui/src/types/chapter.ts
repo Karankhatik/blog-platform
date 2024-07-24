@@ -5,4 +5,9 @@ export interface Chapter  {
     createdAt: string;
     userId: string;
     courseId: string;
+    chapterSlug: string;    
+    excerpt: string;
+    tags: string[];
+    metaDescription: string;
+    keyPhrase: string;
 }

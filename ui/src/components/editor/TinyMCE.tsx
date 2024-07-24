@@ -14,10 +14,14 @@ const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({
   return (
     <Editor
       init={{
-        height: 700,
-        width: 700,
+        width: "100%",
+        height: 400,
+        autoresize_min_height: 400,
+        autoresize_max_height: 800,
+        toolbar_mode: "wrap",
+        toolbar_sticky: true,
         plugins:
-          "link markdown emoticons image code table lists advlist fullscreen directionality",
+          "autoresize link markdown emoticons image code table lists advlist fullscreen directionality",
         menubar: false,
         toolbar:
           "undo redo | styles | fontsizeinput | formatselect fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | ltr rtl | outdent indent | bullist numlist | link image media | emoticons charmap | hr removeformat | code codesample preview fullscreen | save searchreplace visualchars spellchecker template pagebreak anchor nonbreaking advlist insertdatetime wordcount toc",

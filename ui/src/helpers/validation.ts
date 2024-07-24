@@ -89,12 +89,6 @@ const commonValidationRules: ValidationRules = {
 
     if (name.length > maxLength) return `Name must be no more than ${maxLength} characters long`;
 
-    // Enhanced regex for name validation, allowing international characters, spaces, and certain punctuation
-    const regex = /^[\p{L} ,.'-]+$/u;
-
-    // Regex check to ensure name contains valid characters
-    if (!regex.test(name)) return "Name contains invalid characters";
-
     return true;
   },
   /**

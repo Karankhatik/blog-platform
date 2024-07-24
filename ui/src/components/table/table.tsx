@@ -28,7 +28,7 @@ const Table: React.FC<TableProps> = ({ data, columns, uniqueKey }) => {
             <tr key={item[uniqueKey]}>
               {columns.map((column) => (
                 <td key={`${item[uniqueKey]}-${column.header}`} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {column?.render ? column?.render(item) : item[column?.accessor]}
+                  {column?.render ? column?.render(item) : item[column?.accessor || '']}
                 </td>
               ))}
             </tr>

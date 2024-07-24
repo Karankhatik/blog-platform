@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { getChapterByIdAPI } from "@/services/chapters/chapter"; // Define this API method to fetch a chapter by its ID
 import { Chapter } from "@/types/chapter";
-// import Editor from "@/components/editor/Editor";
 import Toast from "@/helpers/toasters";
 import { updateChapterAPI } from "@/services/chapters/chapter";
 import TinyMCEEditor from "@/components/editor/TinyMCE";
@@ -19,7 +18,7 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
 
   useEffect(() => {
     if (params && params.chapter && params.chapter.length > 0) {
-      const chapterId = params.chapter;
+      const chapterId = String(params.chapter);
       fetchChapter(chapterId);
     }
   }, [params]);

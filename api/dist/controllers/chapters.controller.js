@@ -121,7 +121,8 @@ const updateChapter = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             const safeValue = yield (0, sanetize_1.default)(unsafeValue);
             sanitiseBody[key] = safeValue;
         }
-        const { title, content, courseId } = sanitiseBody;
+        const { content } = req.body;
+        const { title, courseId } = sanitiseBody;
         const chapter = yield chapters_model_1.default.findById({
             _id: req.params.id,
         });

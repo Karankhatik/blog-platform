@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import { getChapterByIdAPI } from "@/services/chapters/chapter"; // Define this API method to fetch a chapter by its ID
 import { Chapter } from "@/types/chapter";
 // import Editor from "@/components/editor/Editor";
-
+import Toast from "@/helpers/toasters";
+import { updateChapterAPI } from "@/services/chapters/chapter";
 import TinyMCEEditor from "@/components/editor/TinyMCE";
 
 interface ChapterViewProps {
@@ -42,6 +43,29 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
     }
   };
 
+  const handleEditorSave = async () => {
+    if (chapter) {
+      // Perform any necessary logic to save the chapter content
+      try {
+        const newChapter = { 
+            title: chapter.title,
+            content: chapter.content,
+            courseId: chapter.courseId           
+        };
+        const response = await updateChapterAPI(chapter._id, newChapter);
+        if (response.success) {          
+            Toast.successToast({
+                message: "Chapter updated successfully",
+                autoClose: 1000,
+                position: "top-right",
+            });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+    }                 
+  }
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -56,7 +80,7 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
         />
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
-          onClick={() => console.log("chapter: ", chapter)}
+          onClick={handleEditorSave}
         >
           Save
         </button>

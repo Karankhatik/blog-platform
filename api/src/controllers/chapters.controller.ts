@@ -89,7 +89,8 @@ export const updateChapter = async (req: Request, res: Response, next: NextFunct
             const safeValue = await sanitiseReqBody(unsafeValue);
             sanitiseBody[key] = safeValue;
         }
-        const { title, content, courseId } = sanitiseBody;
+        const {content} = req.body;
+        const { title,  courseId } = sanitiseBody;
 
         const chapter = await Chapter.findById({
             _id: req.params.id,

@@ -139,7 +139,7 @@ export const login = async (
 
             if (userID) {
                 const { accessToken, refreshToken } =
-                    await generateAccessAndRefereshTokens(user._id);
+                    await generateAccessAndRefereshTokens(userID);
 
                 if (user.verified) {
                     return res

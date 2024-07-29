@@ -10,14 +10,30 @@ const ChapterSchema = new mongoose_1.Schema({
     content: {
         type: String,
     },
+    chapterSlug: {
+        type: String,
+        lowercase: true,
+        trim: true
+    },
     userId: {
         type: String,
-        required: true,
         ref: 'User'
+    },
+    metaDescription: {
+        type: String
+    },
+    keyPhrase: {
+        type: String
+    },
+    tags: {
+        type: [String]
     },
     courseId: {
         type: mongoose_1.Schema.Types.ObjectId,
         ref: 'Course'
-    }
-});
+    },
+    feedbacks: {
+        type: [String]
+    },
+}, { timestamps: true });
 exports.default = (0, mongoose_1.model)('Chapter', ChapterSchema);

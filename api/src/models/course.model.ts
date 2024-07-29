@@ -18,12 +18,10 @@ const CourseSchema = new Schema<ICourse>({
   },
   courseSlug : {
     type: String,
-    unique: true,
     lowercase: true,
     trim: true  
-  },
-  timestamps: true,
-});
+  }, 
+}, {timestamps: true});
 
 const Course = model<ICourse>('Course', CourseSchema);
 

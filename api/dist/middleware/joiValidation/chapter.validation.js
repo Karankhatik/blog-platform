@@ -12,12 +12,20 @@ const chapterParamValidation = {
         title: joi_1.default.string().required(),
         content: joi_1.default.string().allow(''),
         userId: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).required(), // Validate MongoDB ObjectId format
-        courseId: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).required()
+        courseId: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+        chapterSlug: joi_1.default.string().optional(),
+        metaDescription: joi_1.default.string().allow(''),
+        keyPhrase: joi_1.default.string().allow(''),
+        tags: joi_1.default.array().items(joi_1.default.string())
     }),
     updateChapter: joi_1.default.object({
         title: joi_1.default.string().optional(),
         content: joi_1.default.string().allow(''),
         courseId: joi_1.default.string().regex(/^[0-9a-fA-F]{24}$/).optional(),
+        chapterSlug: joi_1.default.string(),
+        metaDescription: joi_1.default.string().allow(''),
+        keyPhrase: joi_1.default.string().allow(''),
+        tags: joi_1.default.array().items(joi_1.default.string())
     })
 };
 exports.chapterParamValidation = chapterParamValidation;

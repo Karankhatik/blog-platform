@@ -4,20 +4,23 @@ const mongoose_1 = require("mongoose");
 const CourseSchema = new mongoose_1.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     userId: {
         type: String,
-        ref: 'User' // This reference indicates the model to which this ID relates
+        ref: 'User'
     },
-    chapterIds: [{
-            type: mongoose_1.Schema.Types.ObjectId,
-            ref: 'Chapter'
-        }]
-});
+    courseSlug: {
+        type: String,
+        lowercase: true,
+        trim: true
+    },
+}, { timestamps: true });
 const Course = (0, mongoose_1.model)('Course', CourseSchema);
 exports.default = Course;

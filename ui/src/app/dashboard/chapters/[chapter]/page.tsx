@@ -57,7 +57,6 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
   };
 
   const handleEditorChange = (content: any) => {
-    console.log("content: ", content);
     if (chapter) {
       setChapter({ ...chapter, content });
       updateCounts(content);
@@ -106,7 +105,7 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
     }
   };
 
-  const handleFormChange = (
+  const handleDetailChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
@@ -166,7 +165,7 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
                 name="title"
                 placeholder="Title"
                 value={chapter?.title || ""}
-                onChange={handleFormChange}
+                onChange={handleDetailChange}
                 className="p-2 border border-gray-300 rounded-md"
               />
               <select
@@ -189,7 +188,7 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
                 name="excerpt"
                 placeholder="Excerpt"
                 value={chapter?.excerpt || ""}
-                onChange={handleFormChange}
+                onChange={handleDetailChange}
                 className="p-2 border border-gray-300 rounded-md"
               />
               <input
@@ -197,14 +196,14 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
                 name="tags"
                 placeholder="Tags"
                 value={chapter?.tags || ""}
-                onChange={handleFormChange}
+                onChange={handleDetailChange}
                 className="p-2 border border-gray-300 rounded-md"
               />
               <textarea
                 name="metaDescription"
                 placeholder="Meta Description"
                 value={chapter?.metaDescription || ""}
-                onChange={handleFormChange}
+                onChange={handleDetailChange}
                 className="p-2 border border-gray-300 rounded-md"
               />
               <input
@@ -212,7 +211,7 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
                 name="chapterSlug"
                 placeholder="Chapter Slug"
                 value={chapter?.chapterSlug || ""}
-                onChange={handleFormChange}
+                onChange={handleDetailChange}
                 className="p-2 border border-gray-300 rounded-md"
               />
               <input
@@ -220,7 +219,7 @@ const ChapterView: React.FC<ChapterViewProps> = ({ params }) => {
                 name="keyPhrase"
                 placeholder="Key Phrase"
                 value={chapter?.keyPhrase || ""}
-                onChange={handleFormChange}
+                onChange={handleDetailChange}
                 className="p-2 border border-gray-300 rounded-md"
               />
             </div>            

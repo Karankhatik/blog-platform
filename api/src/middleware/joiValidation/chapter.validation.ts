@@ -13,12 +13,21 @@ const chapterParamValidation: ChapterValidationSchemas = {
     title: Joi.string().required(),
     content: Joi.string().allow(''),
     userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(), // Validate MongoDB ObjectId format
-    courseId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required()
+    courseId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    chapterSlug: Joi.string().optional(),
+    metaDescription: Joi.string().allow(''),
+    keyPhrase: Joi.string().allow(''),
+    tags: Joi.array().items(Joi.string())
+
   }),
   updateChapter: Joi.object({
     title: Joi.string().optional(),
     content: Joi.string().allow(''),
     courseId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).optional(),    
+    chapterSlug: Joi.string(),
+    metaDescription: Joi.string().allow(''),
+    keyPhrase: Joi.string().allow(''),
+    tags: Joi.array().items(Joi.string())
   })
 };
 

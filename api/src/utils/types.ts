@@ -57,15 +57,16 @@ export interface AuthRequest extends Request {
 
 export interface IChapter extends Document {
   title: string;
-  content: string;
+  content?: string;
+  chapterSlug: string;
   userId: string;
-  courseId: Schema.Types.ObjectId;
-  timestamps: true;
-  chapterSlug : string,
-  metaDsicription: string,
-  keyPhrase: string,
-  tags: [string],
-  feedbacks: [string]                                   
+  metaDescription?: string;
+  keyPhrase?: string;
+  tags?: string[];
+  courseId?: string;
+  feedbacks?: string[];
+  createdAt?: Date; // Added by Mongoose when timestamps are enabled
+  updatedAt?: Date;                                 
 }
 
 export interface ICourse extends Document {
@@ -73,5 +74,7 @@ export interface ICourse extends Document {
   description: string;
   userId: string;
   timestamps: true;
-  courseSlug : string
+  courseSlug : string;
+  createdAt?: Date; // Added by Mongoose when timestamps are enabled
+  updatedAt?: Date;  
 }

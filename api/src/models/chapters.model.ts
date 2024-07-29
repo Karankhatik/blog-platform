@@ -13,14 +13,14 @@ const ChapterSchema = new Schema<IChapter>({
   },
   chapterSlug : {
     type: String,
-    unique: true
+    lowercase: true,
+    trim: true 
   },
   userId: {
     type: String,
-    required: true,
     ref: 'User'
   },
-  metaDsicription: {
+  metaDescription: {
     type: String    
   },
   keyPhrase: {
@@ -35,8 +35,7 @@ const ChapterSchema = new Schema<IChapter>({
   },
   feedbacks: {
     type: [String]
-  },
-  timestamps: true,
-});
+  },  
+},{timestamps: true});
 
 export default model<IChapter>('Chapter', ChapterSchema);

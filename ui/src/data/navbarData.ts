@@ -5,10 +5,6 @@ export type NavbarItem = {
 };
 
 export const navbarItems: NavbarItem[] = [
-    {
-      label: 'Courses',
-      href: '/courses',
-    },
     // {
     //   label: 'About us', href: '/about-us'
     // },

@@ -3,31 +3,7 @@ import Admin from '../models/admin.model';
 import { encryptPassword, decryptPassword } from '../utils/comman';
 import sanitiseReqBody from '../helpers/sanetize';
 import * as httpStatus from "http-status";
-import  ApiError  from "../utils/APIError";
-import jwt, { JwtPayload } from 'jsonwebtoken';
 
-const options = {
-    httpOnly: true,
-    secure: true
-}
-
-const generateAccessAndRefereshTokens = async (userId: string) => {
-    try {
-        const admin = await Admin.findById(userId);
-
-        if (!admin) throw new ApiError(httpStatus.NOT_FOUND, "Admin not found");
-
-        const accessToken = admin.generateAccessToken();
-        const refreshToken = admin.generateRefreshToken();
-
-        admin.refreshToken = refreshToken;
-        await admin.save({ validateBeforeSave: false });
-
-        return { accessToken, refreshToken };
-    } catch (error) {
-        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, "Something went wrong while generating refresh and access tokens");
-    }
-};
 
 
 export const register = async (req: Request, res: Response) => {

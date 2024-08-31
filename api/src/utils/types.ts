@@ -55,26 +55,14 @@ export interface AuthRequest extends Request {
     path: '/'        // Cookie is available across the entire site
 };
 
-export interface IChapter extends Document {
+export interface IArticle extends Document {
   title: string;
   content?: string;
-  chapterSlug: string;
+  slug: string;
   userId: string;
-  metaDescription?: string;
-  keyPhrase?: string;
-  tags?: string[];
-  courseId?: string;
+  description?: string;  
   feedbacks?: string[];
   createdAt?: Date; // Added by Mongoose when timestamps are enabled
   updatedAt?: Date;                                 
 }
 
-export interface ICourse extends Document {
-  title: string;
-  description: string;
-  userId: string;
-  timestamps: true;
-  courseSlug : string;
-  createdAt?: Date; // Added by Mongoose when timestamps are enabled
-  updatedAt?: Date;  
-}

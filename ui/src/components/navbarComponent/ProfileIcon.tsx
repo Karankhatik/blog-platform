@@ -29,7 +29,7 @@ const ProfileIcon = () => {
 
     return (
         <>
-            <span onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)} className="cursor-pointer profile-icon w-9 h-9 text-white bg-zinc-800 rounded-full flex items-center justify-center">{user.name ? user?.name?.charAt(0).toUpperCase() : 'I'}</span>
+            <span onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)} className="cursor-pointer profile-icon w-9 h-9 text-white bg-zinc-800 rounded-full flex items-center justify-center">{user?.name ? user?.name?.charAt(0).toUpperCase() : 'I'}</span>
 
             {
                 isProfileMenuOpen && (

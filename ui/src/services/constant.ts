@@ -51,46 +51,24 @@ export const updateUser = {
     method: 'PUT',
 }
 
-//***************Course API's*******************
+//***************Article API's*******************
 
-export const getAllCourse = {
-    url: url + 'course',
+export const getAllArticle = {
+    url: url + 'article',
     method: 'GET',
 }
 
-export const deleteCourse = {
-    url : url + 'course',
+export const deleteArticle = {
+    url : url + 'article',
     method: 'DELETE'
 }
 
-export const updateCourse = {
-    url: url + 'course',
+export const updateArticle = {
+    url: url + 'article',
     method: 'PUT',
 }
 
-export const createCourse = {
-    url: url + 'course',
-    method: 'POST',
-};
-
-//***************Chapter API's*******************
-
-export const getAllChapter = {
-    url: url + 'chapters',
-    method: 'GET',
-}
-
-export const deleteChapter = {
-    url : url + 'chapters',
-    method: 'DELETE'
-}
-
-export const updateChapter = {
-    url: url + 'chapters',
-    method: 'PUT',
-}
-
-export const createChapter = {
-    url: url + 'chapters',
+export const createArticle = {
+    url: url + 'article',
     method: 'POST',
 };

@@ -83,7 +83,7 @@ function Navbar() {
                 </nav>
 
                 <div className="flex items-center gap-4">
-                    <ToggleThemeButton />
+                    {/* <ToggleThemeButton /> */}
                     {
                         authState && (
                             <ProfileIcon />

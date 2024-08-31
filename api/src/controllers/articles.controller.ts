@@ -1,24 +1,24 @@
 import { Request, Response, NextFunction } from 'express';
-import Chapter from '../models/chapters.model';
+import Article from '../models/article.model';
 import sanitiseReqBody from '../helpers/sanetize';
 import * as httpStatus from "http-status";
 import  ApiError  from "../utils/APIError";
 
-export const createChapter = async (req: Request, res: Response, next: NextFunction) => {
+export const createArticle = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const chapter = new Chapter(req.body);
-        await chapter.save();
+        const article = new Article(req.body);
+        await article.save();
         res.status(httpStatus.CREATED).json({
             success: true,
-            message: 'Chapter created successfully',
-            data: chapter
+            message: 'Article created successfully',
+            data: article
         });
     } catch (error:any) {
         next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message));
     }
 };
 
-export const getAllChapters = async (req: Request, res: Response) => {
+export const getAllArticles = async (req: Request, res: Response) => {
     try {
         // Ensure page and limit are positive integers
         const page = parseInt(req.query.page as string) || 1;
@@ -27,7 +27,7 @@ export const getAllChapters = async (req: Request, res: Response) => {
         const skip = (page - 1) * limit;
 
         const searchFilters: any = {};
-        let chapter: any = [];
+        let article: any = [];
         let totalCount: number;
 
         // Search query parameter
@@ -36,27 +36,27 @@ export const getAllChapters = async (req: Request, res: Response) => {
                 $regex: req.query.title as string,
                 $options: "i",
             };
-            chapter = await Chapter.find(searchFilters)
+            article = await Article.find(searchFilters)
                 .select("")
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(limit);
-            totalCount = await Chapter.countDocuments(searchFilters);
+            totalCount = await Article.countDocuments(searchFilters);
         } else {
-            chapter = await Chapter.find()
+            article = await Article.find()
                 .select("")
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(limit);
 
-            totalCount = await Chapter.countDocuments();
+            totalCount = await Article.countDocuments();
         }
 
         return res.status(httpStatus.OK).json({
             success: true,
-            message: "Chapter found!",
-            chapters: chapter,
-            count: chapter.length,
+            message: "Article found!",
+            Articles: article,
+            count: article.length,
             total: totalCount,
             currentPage: page,
             totalPages: Math.ceil(totalCount / limit),
@@ -64,24 +64,24 @@ export const getAllChapters = async (req: Request, res: Response) => {
     } catch (error: any) {
         throw new ApiError(
             httpStatus.INTERNAL_SERVER_ERROR,
-            "Something went wrong while fetching Chapters"
+            "Something went wrong while fetching Articles"
         );
     }
 };
 
-export const getChapterById = async (req: Request, res: Response) => {
+export const getArticleById = async (req: Request, res: Response) => {
     try {
-        const chapter = await Chapter.findById(req.params.id);
-        if (!chapter) {
-            return res.status(httpStatus.NOT_FOUND).json({ success: false, message: 'Chapter not found' });
+        const article = await Article.findById(req.params.id);
+        if (!article) {
+            return res.status(httpStatus.NOT_FOUND).json({ success: false, message: 'Article not found' });
         }
-        res.json({ success: true, data: chapter });
+        res.json({ success: true, data: article });
     } catch (error:any) {
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
     }
 };
 
-export const updateChapter = async (req: Request, res: Response, next: NextFunction) => {
+export const updateArticle = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let sanitiseBody: any = {};
         for (const key in req.body) {
@@ -90,52 +90,50 @@ export const updateChapter = async (req: Request, res: Response, next: NextFunct
             sanitiseBody[key] = safeValue;
         }
         const {content} = req.body;
-        const { title,  courseId } = sanitiseBody;
+        const { title } = sanitiseBody;
 
-        const chapter = await Chapter.findById({
+        const article = await Article.findById({
             _id: req.params.id,
         });
 
-        if (!chapter) {
+        if (!article) {
             return next(new ApiError(httpStatus.UNAUTHORIZED, "User not found"));
         }
 
-        chapter.content = content ? content : chapter.content;
+        article.content = content ? content : article.content;
 
-        chapter.title = title ? title : chapter.title;
+        article.title = title ? title : article.title;
 
-        chapter.courseId = courseId ? courseId : chapter.courseId;
-
-        await chapter.save();
+        await article.save();
 
         res.status(httpStatus.OK).json({
             success: true,
-            message: "chapter updated successfully",
+            message: "article updated successfully",
         });
     } catch (error: any) {
         throw new ApiError(
             httpStatus.INTERNAL_SERVER_ERROR,
-            "Something went wrong while updating chapters"
+            "Something went wrong while updating Articles"
         );
     }
 };
 
-export const deleteChapter = async (req: Request, res: Response) => {
+export const deleteArticle = async (req: Request, res: Response) => {
     try {
-        const chapter = await Chapter.findByIdAndDelete(req.params.id);
-        if (!chapter) {
+        const article = await Article.findByIdAndDelete(req.params.id);
+        if (!article) {
             return res
                 .status(404)
-                .json({ success: false, message: "chapter not found" });
+                .json({ success: false, message: "article not found" });
         }
         res.status(httpStatus.OK).json({
             success: true,
-            message: "chapter deleted successfully",
+            message: "article deleted successfully",
         });
     } catch (error: any) {
         throw new ApiError(
             httpStatus.INTERNAL_SERVER_ERROR,
-            "Something went wrong while deleting chapters"
+            "Something went wrong while deleting Articles"
         );
     }
 };

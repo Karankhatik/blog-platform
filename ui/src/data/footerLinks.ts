@@ -20,7 +20,6 @@ export const footerLinks: FooterLinkListProps[] = [
     {
       title: "Our Services",
       links: [
-        { name: "Medical courses", href: "/courses" },
         { name: "Medical carrier guidance", href: "/career-guidance" },
       ],
     },

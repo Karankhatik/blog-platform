@@ -1,37 +1,31 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import {
-    getAllChaptersAPI,
-    deleteChapterAPI,
-    updateChapterAPI,
-    createChapterAPI,
-} from "@/services/chapters/chapter";
-import {
-    getAllCourseAPI, // Define this API method to fetch all courses
-} from "@/services/course/course";
+    getAllArticleAPI,
+    deleteArticleAPI,
+    updateArticleAPI,
+    createArticleAPI,
+} from "@/services/article/article";
 import Toast from "@/helpers/toasters";
 import Modal from "@/components/modals/Modal";
 import Table from "@/components/table/table";
 import DeleteModal from "../modals/DeleteModal";
-import { Chapter } from "@/types/chapter"; // Ensure this type is defined
-import { Course } from "@/types/course";
+import { Article } from "@/types/article"; // Ensure this type is defined
 import { useSelector } from "react-redux";
 import Link from "next/link";
 
-const ChapterList: React.FC = () => {
+const ArticleList: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState("");
-    const [currentChapter, setCurrentChapter] = useState<Chapter | null>(null);
-    const [chapters, setChapters] = useState<Chapter[]>([]);
+    const [currentArticle, setCurrentArticle] = useState<Article | null>(null);
+    const [articles, setArticles] = useState<Article[]>([]);
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [openDeleteModal, setOpenDeleteModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
     const [openAddModal, setOpenAddModal] = useState(false);
-    const [newChapterTitle, setNewChapterTitle] = useState("");
-    const [newChapterContent, setNewChapterContent] = useState("");
-    const [selectedCourseId, setSelectedCourseId] = useState("");
-    const [courses, setCourses] = useState<Course[]>([]);
+    const [newArticleTitle, setNewArticleTitle] = useState("");
+    const [newArticleContent, setNewArticleContent] = useState("");
 
     const { user } = useSelector((state: any) => state.auth);
 
@@ -40,25 +34,16 @@ const ChapterList: React.FC = () => {
     console.log("user: ", user);
 
     useEffect(() => {
-        fetchChapters();
-        fetchCourses();
+        fetchArticle();
     }, []);
 
-    const fetchCourses = async () => {
-        try {
-            const response = await getAllCourseAPI();
-            setCourses(response.courses);
-        } catch (error) {
-            console.error("Failed to fetch courses:", error);
-        }
-    };
 
-    const fetchChapters = async () => {
+    const fetchArticle = async () => {
         setLoading(true);
         try {
-            const response = await getAllChaptersAPI(currentPage, limit);
-            const { chapters, totalPages } = response;
-            setChapters(chapters);
+            const response = await getAllArticleAPI(currentPage, limit);
+            const { articles, totalPages } = response;
+            setArticles(articles);
             setTotalPages(totalPages);
             setLoading(false);
         } catch (error) {
@@ -82,9 +67,9 @@ const ChapterList: React.FC = () => {
         setLoading(true);
         setCurrentPage(1);
         try {
-            const response = await getAllChaptersAPI(1, limit, title);
-            const { chapters, totalPages } = response;
-            setChapters(chapters);
+            const response = await getAllArticleAPI(1, limit, title);
+            const { articles, totalPages } = response;
+            setArticles(articles);
             setTotalPages(totalPages);
             setLoading(false);
         } catch (error) {
@@ -97,15 +82,15 @@ const ChapterList: React.FC = () => {
         handleSearch,
     ]);
 
-    const handleDeleteChapter = async () => {
-        if (currentChapter) {
+    const handleDeleteArticle = async () => {
+        if (currentArticle) {
             setLoading(true);
             try {
-                const response = await deleteChapterAPI(currentChapter._id);
+                const response = await deleteArticleAPI(currentArticle._id);
                 if (response.success) {
                     setOpenDeleteModal(false);
-                    //Toast.successToast("Chapter deleted successfully");
-                    fetchChapters();
+                    //Toast.successToast("Article deleted successfully");
+                    fetchArticle();
                 }
             } catch (error) {
                 console.error(error);
@@ -113,25 +98,24 @@ const ChapterList: React.FC = () => {
         }
     };
 
-    const handleUpdateChapter = async (e: React.FormEvent) => {
+    const handleUpdateArticle = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (currentChapter) {
+        if (currentArticle) {
             setLoading(true);
             try {
-                const updatedChapter = {
-                    ...currentChapter,
-                    title: currentChapter.title,
-                    content: currentChapter.content,
-                    courseId: currentChapter.courseId,
+                const updatedArticle = {
+                    ...currentArticle,
+                    title: currentArticle.title,
+                    content: currentArticle.content,
                 };
-                const response = await updateChapterAPI(
-                    currentChapter._id,
-                    updatedChapter
+                const response = await updateArticleAPI(
+                    currentArticle._id,
+                    updatedArticle
                 );
                 if (response.success) {
                     setOpenEditModal(false);
-                    // Toast.successToast("Chapter updated successfully");
-                    fetchChapters();
+                    // Toast.successToast("Article updated successfully");
+                    fetchArticle();
                 }
             } catch (error) {
                 console.error(error);
@@ -139,26 +123,24 @@ const ChapterList: React.FC = () => {
         }
     };
 
-    const handleAddChapter = async (e: React.FormEvent) => {
+    const handleAddArticle = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         try {
-            const newChapter = {
-                title: newChapterTitle,
-                content: newChapterContent,
-                courseId: selectedCourseId,
+            const newArticle = {
+                title: newArticleTitle,
+                content: newArticleContent,
                 userId: user?.id,
             };
-            const response = await createChapterAPI(newChapter);
+            const response = await createArticleAPI(newArticle);
             if (response.success) {
-                fetchChapters();
+                fetchArticle();
                 setOpenAddModal(false);
-                setNewChapterTitle("");
-                setNewChapterContent("");
-                setSelectedCourseId("");
+                setNewArticleTitle("");
+                setNewArticleContent("");
                 setLoading(false);
                 Toast.successToast({
-                    message: "Chapter added successfully",
+                    message: "Article added successfully",
                     autoClose: 1000,
                     position: "top-right",
                 });
@@ -168,38 +150,23 @@ const ChapterList: React.FC = () => {
         }
     };
 
-    const courseDropdown = () => (
-        <select
-            value={selectedCourseId || ""}
-            onChange={(e) => setSelectedCourseId(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        >
-            <option value="" disabled>
-                Not selected
-            </option>
-            {courses.map((course) => (
-                <option key={course._id} value={course._id}>
-                    {course.title}
-                </option>
-            ))}
-        </select>
-    );
+    
 
 
 
     const handlePageChange = (newPage: number) => {
         if (newPage > 0 && newPage <= totalPages) {
-            fetchChaptersWhenPageChanges(newPage);
+            fetchArticleWhenPageChanges(newPage);
         }
     };
 
-    const fetchChaptersWhenPageChanges = async (newPage: number) => {
+    const fetchArticleWhenPageChanges = async (newPage: number) => {
         setLoading(true);
         setCurrentPage(newPage);
         try {
-            const response = await getAllChaptersAPI(newPage, limit, searchTerm);
-            const { chapters, totalPages } = response;
-            setChapters(chapters);
+            const response = await getAllArticleAPI(newPage, limit, searchTerm);
+            const { articles, totalPages } = response;
+            setArticles(articles);
             setTotalPages(totalPages);
             setLoading(false);
         } catch (error) {
@@ -207,41 +174,18 @@ const ChapterList: React.FC = () => {
         }
     };
 
-    const courseDropdownForUpdate = () => (
-        <select
-            value={currentChapter?.courseId}
-            onChange={(e) =>
-                setCurrentChapter({
-                    ...currentChapter,
-                    courseId: e.target.value,
-                } as Chapter)
-            }
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        >
-            {courses.map((course) => (
-                <option key={course._id} value={course._id}>
-                    {course.title}
-                </option>
-            ))}
-        </select>
-    );
+    
 
     const columns = [
-        { header: "Title", accessor: "title" },
-        {
-            header: "Course",
-            render: (chapter: Chapter) => {
-                return courses.find((course) => course._id === chapter.courseId)?.title;
-            },
-        },
+        { header: "Title", accessor: "title" },        
         {
             header: "Actions",
-            render: (chapter: Chapter) => (
+            render: (article: Article) => (
                 <>
                     <button
                         onClick={() => {
                             setOpenEditModal(true);
-                            setCurrentChapter(chapter);
+                            setCurrentArticle(article);
                         }}
                         className="text-indigo-600 hover:text-indigo-900 mr-2"
                     >
@@ -250,7 +194,7 @@ const ChapterList: React.FC = () => {
                     <button
                         onClick={() => {
                             setOpenDeleteModal(true);
-                            setCurrentChapter(chapter);
+                            setCurrentArticle(article);
                         }}
                         className="text-red-600 mr-2 hover:text-red-900"
                     >
@@ -260,7 +204,7 @@ const ChapterList: React.FC = () => {
                     <button
                         className="text-indigo-600 hover:text-indigo-900 mr-2"
                     >
-                        <Link href={`/dashboard/chapters/${chapter._id}`} > View </Link>
+                        <Link href={`/dashboard/article/${article._id}`} > View </Link>
                     </button>
                 </>
             ),
@@ -280,14 +224,14 @@ const ChapterList: React.FC = () => {
                 onClick={() => setOpenAddModal(true)}
                 className="px-4 py-2 bg-gray-300 lg:ml-2 md:ml-2 sm:ml-2 text-gray-800 rounded-md hover:bg-gray-400"
             >
-                Add Chapter
+                Add article
             </button>
 
             {loading ? (
-                <p>Loading chapters...</p>
+                <p>Loading article...</p>
             ) : (
                 <>
-                    <Table data={chapters} columns={columns} uniqueKey="_id" />
+                    <Table data={articles} columns={columns} uniqueKey="_id" />
                     <div className="flex justify-between items-center mt-4 gap-x-4">
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
@@ -312,11 +256,11 @@ const ChapterList: React.FC = () => {
 
             <Modal
                 open={openAddModal}
-                onClose={() => { setOpenAddModal(false); setNewChapterTitle(''); setNewChapterContent(''); setSelectedCourseId(''); }}
-                header="Add Chapter"
+                onClose={() => { setOpenAddModal(false); setNewArticleTitle(''); setNewArticleContent(''); }}
+                header="Add article"
                 width="600px"
                 body={
-                    <form onSubmit={handleAddChapter}>
+                    <form onSubmit={handleAddArticle}>
                         <div className="mb-4">
                             <label
                                 className="block text-gray-700 text-sm font-bold mb-2"
@@ -328,8 +272,8 @@ const ChapterList: React.FC = () => {
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 type="text"
                                 placeholder="Title"
-                                value={newChapterTitle}
-                                onChange={(e) => setNewChapterTitle(e.target.value)}
+                                value={newArticleTitle}
+                                onChange={(e) => setNewArticleTitle(e.target.value)}
                                 required
                             />
                         </div>
@@ -343,18 +287,17 @@ const ChapterList: React.FC = () => {
                             <textarea
                                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 placeholder="Content"
-                                value={newChapterContent}
-                                onChange={(e) => setNewChapterContent(e.target.value)}
+                                value={newArticleContent}
+                                onChange={(e) => setNewArticleContent(e.target.value)}
                                 required
                             />
                         </div> */}
-                        {courseDropdown()}
                         <div className="flex justify-end space-x-2 mt-4">
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                 type="submit"
                             >
-                                Add Chapter
+                                Add article
                             </button>
                         </div>
                     </form>
@@ -364,10 +307,10 @@ const ChapterList: React.FC = () => {
             <Modal
                 open={openEditModal}
                 onClose={() => setOpenEditModal(false)}
-                header="Edit Chapter"
+                header="Edit article"
                 width="600px"
                 body={
-                    <form onSubmit={handleUpdateChapter}>
+                    <form onSubmit={handleUpdateArticle}>
                         <div className="flex flex-col space-y-4">
                             <div>
                                 <label
@@ -378,12 +321,12 @@ const ChapterList: React.FC = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    value={currentChapter?.title || ""}
+                                    value={currentArticle?.title || ""}
                                     onChange={(e) =>
-                                        setCurrentChapter({
-                                            ...currentChapter,
+                                        setCurrentArticle({
+                                            ...currentArticle,
                                             title: e.target.value,
-                                        } as Chapter)
+                                        } as Article)
                                     }
                                     className="mt-1 block w-full text-typography px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required
@@ -398,21 +341,18 @@ const ChapterList: React.FC = () => {
                                     Content:
                                 </label>
                                 <textarea
-                                    value={currentChapter?.content || ""}
+                                    value={currentArticle?.content || ""}
                                     onChange={(e) =>
-                                        setCurrentChapter({
-                                            ...currentChapter,
+                                        setCurrentArticle({
+                                            ...currentArticle,
                                             content: e.target.value,
-                                        } as Chapter)
+                                        } as Article)
                                     }
                                     required
                                     className="mt-1 block w-full text-typography px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
 
                                 />
                             </div> */}
-
-                            {courseDropdownForUpdate()}
-
                             <div className="flex justify-end space-x-2 mt-4">
                                 <button
                                     type="submit"
@@ -436,12 +376,12 @@ const ChapterList: React.FC = () => {
 
             <DeleteModal
                 open={openDeleteModal}
-                modalText="Are you sure you want to delete this chapter?"
+                modalText="Are you sure you want to delete this article?"
                 onClose={() => setOpenDeleteModal(false)}
-                onDeleteUser={handleDeleteChapter}
+                onDeleteUser={handleDeleteArticle}
             />
         </div>
     );
 };
 
-export default ChapterList;
+export default ArticleList;

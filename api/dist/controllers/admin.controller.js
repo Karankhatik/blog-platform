@@ -40,26 +40,6 @@ const admin_model_1 = __importDefault(require("../models/admin.model"));
 const comman_1 = require("../utils/comman");
 const sanetize_1 = __importDefault(require("../helpers/sanetize"));
 const httpStatus = __importStar(require("http-status"));
-const APIError_1 = __importDefault(require("../utils/APIError"));
-const options = {
-    httpOnly: true,
-    secure: true
-};
-const generateAccessAndRefereshTokens = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const admin = yield admin_model_1.default.findById(userId);
-        if (!admin)
-            throw new APIError_1.default(httpStatus.NOT_FOUND, "Admin not found");
-        const accessToken = admin.generateAccessToken();
-        const refreshToken = admin.generateRefreshToken();
-        admin.refreshToken = refreshToken;
-        yield admin.save({ validateBeforeSave: false });
-        return { accessToken, refreshToken };
-    }
-    catch (error) {
-        throw new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, "Something went wrong while generating refresh and access tokens");
-    }
-});
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let sanitisedBody = {};

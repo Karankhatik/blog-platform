@@ -55,7 +55,7 @@ export const getAllArticles = async (req: Request, res: Response) => {
         return res.status(httpStatus.OK).json({
             success: true,
             message: "Article found!",
-            Articles: article,
+            articles: article,
             count: article.length,
             total: totalCount,
             currentPage: page,
@@ -89,8 +89,8 @@ export const updateArticle = async (req: Request, res: Response, next: NextFunct
             const safeValue = await sanitiseReqBody(unsafeValue);
             sanitiseBody[key] = safeValue;
         }
-        const {content} = req.body;
-        const { title } = sanitiseBody;
+        const {content, } = req.body;
+        const { title, draftStage, slug, description, feedbacks } = sanitiseBody;
 
         const article = await Article.findById({
             _id: req.params.id,
@@ -103,6 +103,14 @@ export const updateArticle = async (req: Request, res: Response, next: NextFunct
         article.content = content ? content : article.content;
 
         article.title = title ? title : article.title;
+
+        article.draftStage = draftStage ? draftStage : article.draftStage;
+
+        article.slug = slug ? slug : article.slug;
+
+        article.description = description ? description : article.description;
+
+        article.feedbacks = feedbacks ? feedbacks : article.feedbacks;
 
         await article.save();
 

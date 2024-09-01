@@ -25,6 +25,10 @@ const ArticleSchema = new Schema<IArticle>({
   feedbacks: {
     type: [String]
   },  
+  draftStage: {
+    type: Boolean,
+    default: true
+  }
 },{timestamps: true});
 
 export default model<IArticle>('Article', ArticleSchema);

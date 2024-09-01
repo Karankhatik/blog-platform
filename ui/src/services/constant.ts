@@ -72,3 +72,11 @@ export const createArticle = {
     url: url + 'article',
     method: 'POST',
 };
+
+//***************sendMail API's*******************
+
+export const sendEmail = {
+    url: url + 'sendEmail',
+    method: 'POST',
+};
+

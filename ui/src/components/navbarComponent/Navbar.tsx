@@ -46,7 +46,7 @@ function Navbar() {
     //   }, []);    
 
     return (
-        <nav className="flex h-16 items-center justify-between">
+        <nav className="flex h-16 items-center mx-auto  px-2 md:px-8 lg:px-8 justify-between bg-black text-white">
 
             <div className="flex-1 md:flex md:items-center md:gap-6">
                 {
@@ -57,12 +57,12 @@ function Navbar() {
                             </span>
 
                             <Link href={'/'}>
-                                <span className="hidden md:block text-typography text-lg ">Intake Learn</span>
+                                <span className="hidden md:block text-typography text-lg ">Karan Khatik</span>
                             </Link>
                         </>
                     ) : (
                         <Link href={'/'}>
-                            <span className="block text-typography text-lg ">Intake Learn</span>
+                            <span className="block text-typography text-lg ">Karan Khatik</span>
                         </Link>
                     )
                 }
@@ -98,10 +98,10 @@ function Navbar() {
                     </div>
 
                     {isMobileMenuOpen && (
-                        <div className="md:hidden block absolute top-16 left-0 right-0  z-10">
+                        <div className="md:hidden block absolute top-12 left-0 right-0  z-10">
                             <nav aria-label="Global">
                                 <div
-                                    className="absolute end-3 z-10 mt-2 rounded-lg border border-borderColor bg-primary w-39 shadow-lg"
+                                    className="absolute end-3 z-10  rounded-md border border-[#12375c] bg-black w-39 shadow-lg"
                                     role="menu"
                                 >
                                     {navbarItems.map((item, index) => (

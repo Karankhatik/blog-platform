@@ -15,17 +15,18 @@ const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({
     <Editor
       init={{
         width: "100%",
-        height: 400,
-        autoresize_min_height: 400,
-        autoresize_max_height: 800,
+        height: 600, // Increased height for better coding visibility
         toolbar_mode: "wrap",
         toolbar_sticky: true,
         plugins:
-          "autoresize link markdown emoticons image code table lists advlist fullscreen directionality",
+          "autoresize link markdown emoticons image code table lists advlist fullscreen directionality codesample charmap textpattern preview",
         menubar: false,
         toolbar:
-          "table tabledelete | tableprops tablerowprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol| undo redo | styles | fontsizeinput | formatselect fontselect fontsizeselect | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | ltr rtl | outdent indent | bullist numlist | link image media | emoticons charmap | hr removeformat | code codesample preview fullscreen | save searchreplace visualchars spellchecker template pagebreak anchor nonbreaking advlist insertdatetime wordcount toc",
+          "undo redo | styles | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent | bullist numlist | link image media | codesample code | emoticons charmap | hr removeformat | preview fullscreen | save searchreplace visualchars spellchecker template pagebreak anchor nonbreaking advlist insertdatetime wordcount toc",
         font_size_input_default_unit: "pt",
+        codesample_dialog_width: 600,
+        codesample_dialog_height: 400,
+        content_css: "//www.tiny.cloud/css/codepen.min.css", // Optional: Add custom CSS
       }}
       value={initialValue}
       onEditorChange={onEditorChange}

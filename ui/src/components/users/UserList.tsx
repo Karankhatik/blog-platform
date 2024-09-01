@@ -10,6 +10,9 @@ import Modal from "@/components/modals/Modal";
 import Table from "../table/table";
 import DeleteModal from "../modals/DeleteModal";
 import {User} from "@/types/user";
+import { LiaEdit } from "react-icons/lia";
+import { AiOutlineDelete } from "react-icons/ai";
+
 
 const UserList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -156,7 +159,9 @@ const UserList: React.FC = () => {
             }}
             className="text-indigo-600 hover:text-indigo-900 mr-2"
           >
-            Edit
+            <LiaEdit className="h-12 w-6"/>
+       
+        
           </button>
           <button
             onClick={() => {
@@ -165,7 +170,7 @@ const UserList: React.FC = () => {
             }}
             className="text-red-600 hover:text-red-900"
           >
-            Delete
+            <AiOutlineDelete className="h-12 w-6"/>
           </button>
         </>
       ),
@@ -190,7 +195,7 @@ const UserList: React.FC = () => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 disabled:opacity-50"
+            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
           >
             Prev
           </button>
@@ -200,7 +205,7 @@ const UserList: React.FC = () => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 disabled:opacity-50"
+            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
           >
             Next
           </button>

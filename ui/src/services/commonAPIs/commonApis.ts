@@ -1,4 +1,4 @@
-import { loginAPI, logoutApI } from '../constant';
+import { loginAPI, logoutApI, sendEmail } from '../constant';
 import  getDataFromApi  from '../apiCall';
 import { LoginForm } from "@/types/validation";
 
@@ -20,5 +20,18 @@ export const logout = async () => {
   } catch (error) {    
   }
 };
+
+export const sendEmailAPI = async( name: string, message:string) => {
+
+  try {
+    let request:any = sendEmail;
+    request.data = {name: name, message: message};
+    const response:any = await getDataFromApi(request);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+
+}
 
 

@@ -63,6 +63,8 @@ export interface IArticle extends Document {
   description?: string;  
   feedbacks?: string[];
   createdAt?: Date; // Added by Mongoose when timestamps are enabled
-  updatedAt?: Date;                                 
+  updatedAt?: Date;   
+  draftStage: boolean;
+
 }
 

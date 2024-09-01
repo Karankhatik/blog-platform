@@ -5,11 +5,16 @@ export type NavbarItem = {
 };
 
 export const navbarItems: NavbarItem[] = [
-    // {
-    //   label: 'About us', href: '/about-us'
-    // },
-    // { label: 'Contact us', href: '/contact-us' },
-    { label: 'FAQs', href: '/faqs' },
+    {
+      label: 'Articles',
+      href: '/articles',
+    },
+    {
+      label: 'About me', href: '/about-me'
+    },
+    {
+      label: 'Contact me', href: '/contact-me'
+    }, 
     { label: 'Login', href: '/auth/login' },
     { label: 'Register', href: '/auth/register' },
 

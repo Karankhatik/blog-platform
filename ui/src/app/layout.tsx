@@ -6,6 +6,7 @@ import Navbar from "@/components/navbarComponent/Navbar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Script from 'next/script'
+import Footer from "@/components/footer/Footer";
 //import tinymce from "../../public/tinymce/tinymce"
 
 const ReduxProvider = dynamic(() => import("@/store/reduxProvider"), {
@@ -27,13 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-      <ReduxProvider>      
-      <div className='bg-primary'>
-      <div className='mx-auto  px-2 md:px-8 lg:px-8'>
+      <ReduxProvider> 
+        <div className="bg-black">
         <Navbar/>
         {children}
-      </div>
-      </div>
+        <Footer/>
+        </div>
+        
       <ToastContainer />
       </ReduxProvider>
         </body>

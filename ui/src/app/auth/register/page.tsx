@@ -156,21 +156,21 @@ const SignUp: React.FC = () => {
   }
 
   return (
-    <main className="w-full mt-10 flex flex-col items-center justify-center px-4">
-      <div className="max-w-sm w-full border border-gray-300 p-8 text-gray-600 space-y-5 rounded-lg shadow-2xl" style={{ minHeight: '500px' }}>
+    <main className="w-full h-screen flex flex-col items-center justify-center px-4 ">
+      <div className="max-w-sm w-full border border-[#12375c]  p-8 space-y-5 rounded-lg shadow-2xl" style={{ minHeight: '500px' }}>
         {showOTP ? (
-          <div className="mt-5">
-            <button className="text-black hover:text-orange-500" onClick={() => { setOtp(''); setSuccess(''); setShowOTP(false); setTimer(120); setTimerActive(false); }}>
+          <div className="mt-5 h-full">
+            <button className="text-gray-400 hover:text-gray-500" onClick={() => { setOtp(''); setSuccess(''); setShowOTP(false); setTimer(120); setTimerActive(false); }}>
               {backIcon}
             </button>
-            <p className="text-gray-800 text-2xl font-bold sm:text-3xl mb-4 mt-3">Enter OTP</p>
+            <p className=" text-2xl font-bold sm:text-3xl mb-4 mt-3">Enter OTP</p>
             <p className="text-sm mb-8 text-gray-600">A 6-digit OTP has been sent to your email.
               {timer === 0 ? 'OTP expired' : `It will expire in ${formatTime()} .`}</p>
             <input
               value={otp}
               name="otp"
               onChange={(e: ChangeEvent<HTMLInputElement>) => setOtp(e.target.value)}
-              className="border border-gray-300 rounded-md text-lg p-2 w-full mb-2"
+              className="shadow appearance-none mb-4 border rounded w-full py-2 px-3 text-grey-500 bg-black"
               maxLength={6}
               placeholder="Enter OTP"
               pattern="\d*"
@@ -186,7 +186,7 @@ const SignUp: React.FC = () => {
         ) : (
           <>
             <div className="text-center pb-2">
-              <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl mt-5">Sign Up</h3>
+              <h3 className="text-2xl font-bold sm:text-3xl mt-5">Sign Up</h3>
             </div>
 
             <form onSubmit={handleSubmit}>
@@ -195,7 +195,7 @@ const SignUp: React.FC = () => {
                 name="name"
                 type="text"
                 placeholder="Full Name"
-                className="block w-full px-4 py-2 mb-2 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-500 bg-black"
                 value={fullName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)}
               />
@@ -205,7 +205,7 @@ const SignUp: React.FC = () => {
                 name="email"
                 type="text"
                 placeholder="Email"
-                className="block w-full px-4 py-2 mb-2 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="shadow appearance-none border mt-4 rounded w-full py-2 px-3 text-grey-500 bg-black"
                 value={email}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               />

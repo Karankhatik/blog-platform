@@ -108,6 +108,10 @@ const commonValidationRules: ValidationRules = {
 
     return true;
   },
+  message: (value) => {
+    if (value.length === 0) return "Please enter a message";
+    return true;
+  }
 };
 
 /**

@@ -19,10 +19,10 @@ const articleParamValidation: ArticleValidationSchemas = {
   updateArticle: Joi.object({
     title: Joi.string().optional(),
     content: Joi.string().allow(''),   
-    slug: Joi.string(),
-    userId: Joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
+    slug: Joi.string(),    
     description: Joi.string().allow(''),
-    feedbacks: Joi.array().items(Joi.string())   
+    feedbacks: Joi.array().items(Joi.string()),
+    draftStage: Joi.boolean()
   })
 };
 

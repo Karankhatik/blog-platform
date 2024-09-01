@@ -29,6 +29,9 @@ export const updateArticleAPI = async (id: string, data: any) => {
     request.data = {
         title: data.title,
         content: data.content,
+        description: data.description,
+        slug: data.slug,
+        draftStage: data.draftStage
     };
     const result: any = await getDataFromApi(request);
     return result?.data;

@@ -20,7 +20,7 @@ interface LoaderButtonProps {
 export const LoaderButton: React.FC<LoaderButtonProps> = ({ loading, buttonText }) => (
   <button
     disabled={loading}
-    className={`inline-flex items-center justify-center gap-2 rounded border border-transparent px-4 py-2 text-sm font-medium text-white ${loading ? 'bg-gray-400' : 'bg-black hover:bg-orange-500'} transition-colors duration-150 ease-in-out w-full`}
+    className={`inline-flex items-center justify-center gap-2 rounded border border-transparent px-4 py-2 text-sm font-medium text-white ${loading ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-700'} transition-colors duration-150 ease-in-out w-full`}
   >
     {loading ? (
       <>
@@ -49,28 +49,6 @@ export const SearchLoaderButton: React.FC<LoaderButtonProps> = ({ loading, butto
   </button>
 );
 
-// export const TopButton = ({ isToolTipVisible }) => {
-//   const scrollToTop = () => {
-//     window.scrollTo({
-//       top: 0,
-//       behavior: 'smooth',
-//     });
-//   };
-//   return (
-//     <div className="mt-1 w-8 cursor-pointer hover:text-orange-500 ">
-//       {
-//         isToolTipVisible ?
-//           <TopToolTip text='Back to top'>
-//             <Image onClick={() => scrollToTop()} src={arrowIcon} alt="topIcon" width={30} height={30} />
-//           </TopToolTip>
-//           :
-//           <Image onClick={() => scrollToTop()} src={arrowIcon} alt="topIcon" width={30} height={30} />
-
-//       }
-
-//     </div>
-//   )
-// }
 
 
 interface NavButtonProps {

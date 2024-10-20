@@ -4,7 +4,8 @@ const mongoose_1 = require("mongoose");
 const ArticleSchema = new mongoose_1.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
     content: {
         type: String,
@@ -19,7 +20,8 @@ const ArticleSchema = new mongoose_1.Schema({
         ref: 'User'
     },
     description: {
-        type: String
+        type: String,
+        trim: true
     },
     feedbacks: {
         type: [String]
@@ -27,6 +29,10 @@ const ArticleSchema = new mongoose_1.Schema({
     draftStage: {
         type: Boolean,
         default: true
-    }
+    },
+    articleImage: {
+        type: String,
+        trim: true
+    },
 }, { timestamps: true });
 exports.default = (0, mongoose_1.model)('Article', ArticleSchema);

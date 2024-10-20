@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
       <ReduxProvider> 
-        <div className="bg-black">
+        <div className="bg-background">
         <Navbar/>
         {children}
         <Footer/>

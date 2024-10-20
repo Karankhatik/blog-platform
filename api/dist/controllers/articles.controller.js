@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteArticle = exports.updateArticle = exports.getArticleById = exports.getAllArticles = exports.createArticle = void 0;
+exports.deleteArticle = exports.updateArticle = exports.getArticleBySlug = exports.getArticleById = exports.getAllArticles = exports.createArticle = void 0;
 const article_model_1 = __importDefault(require("../models/article.model"));
 const sanetize_1 = __importDefault(require("../helpers/sanetize"));
 const httpStatus = __importStar(require("http-status"));
@@ -113,6 +113,20 @@ const getArticleById = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getArticleById = getArticleById;
+const getArticleBySlug = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const article = yield article_model_1.default.findOne({ slug: req.params.slug }).exec();
+        if (!article) {
+            return res.status(httpStatus.NOT_FOUND).json({ success: false, message: 'Article not found' });
+        }
+        res.json({ success: true, data: article });
+    }
+    catch (error) {
+        console.log("error", error);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    }
+});
+exports.getArticleBySlug = getArticleBySlug;
 const updateArticle = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let sanitiseBody = {};
@@ -122,7 +136,7 @@ const updateArticle = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             sanitiseBody[key] = safeValue;
         }
         const { content, } = req.body;
-        const { title, draftStage, slug, description, feedbacks } = sanitiseBody;
+        const { title, draftStage, slug, description, feedbacks, articleImage } = sanitiseBody;
         const article = yield article_model_1.default.findById({
             _id: req.params.id,
         });
@@ -135,6 +149,7 @@ const updateArticle = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         article.slug = slug ? slug : article.slug;
         article.description = description ? description : article.description;
         article.feedbacks = feedbacks ? feedbacks : article.feedbacks;
+        article.articleImage = articleImage ? articleImage : article.articleImage;
         yield article.save();
         res.status(httpStatus.OK).json({
             success: true,

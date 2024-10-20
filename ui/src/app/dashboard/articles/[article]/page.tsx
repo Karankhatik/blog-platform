@@ -150,7 +150,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
           Preview
         </button>
       </div>
-      <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-4">
+      <h3 className="text-lg md:text-xl lg:text-2xl font-bold mb-8">
         {article?.title}
       </h3>
       {preview ? (
@@ -168,7 +168,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
               onEditorChange={handleEditorChange}
             />
           </div>
-          <div className="w-full lg:w-3/12 p-4 bg-gray-100 rounded-lg shadow-md lg:ml-4 mt-4 lg:mt-0">
+          <div className="w-full lg:w-3/12 p-4 rounded-lg shadow-md lg:ml-4 mt-4 lg:mt-0">
             <h4 className="text-md font-bold mb-2">Article Details</h4>
             <div className="flex flex-col space-y-2">
               <input
@@ -177,7 +177,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
                 placeholder="Title"
                 value={article?.title || ""}
                 onChange={handleDetailChange}
-                className="p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md bg-background"
               />
 
               <textarea
@@ -185,7 +185,7 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
                 placeholder="Meta Description"
                 value={article?.description || ""}
                 onChange={handleDetailChange}
-                className="p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md bg-background"
               />
               <input
                 type="text"
@@ -193,10 +193,10 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
                 placeholder="Article Slug"
                 value={article?.slug || ""}
                 onChange={handleDetailChange}
-                className="p-2 border border-gray-300 rounded-md"
+                className="p-2 border border-gray-300 rounded-md bg-background"
               />
             </div>
-            <div className="mt-4 text-sm text-gray-700">
+            <div className="mt-4 text-sm">
               Word Count: {wordCount} | Image Count: {imageCount}
             </div>
           </div>

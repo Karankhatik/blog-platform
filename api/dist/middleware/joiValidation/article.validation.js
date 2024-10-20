@@ -21,7 +21,8 @@ const articleParamValidation = {
         slug: joi_1.default.string(),
         description: joi_1.default.string().allow(''),
         feedbacks: joi_1.default.array().items(joi_1.default.string()),
-        draftStage: joi_1.default.boolean()
+        draftStage: joi_1.default.boolean(),
+        articleImage: joi_1.default.string(),
     })
 };
 exports.articleParamValidation = articleParamValidation;

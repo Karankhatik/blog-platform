@@ -76,7 +76,6 @@ const otpSendToEmailForSignUp = (otp) => {
                 </div>
                 <div class="content">
                     <p>The OTP is valid for 5 minutes. Please do not share it with anyone.</p>
-                    <p>Best regards,<br>Intake Learn </p>
                 </div>
                 <div class="footer">
                     <p>If you did not request this email, please ignore it.</p>

@@ -32,9 +32,7 @@ const ArticleList: React.FC = () => {
 
     const { user } = useSelector((state: any) => state.auth);
 
-    const limit = 3; // Number of items per page
-
-    console.log("user: ", user);
+    const limit = 3; 
 
     useEffect(() => {
         fetchArticle();
@@ -221,7 +219,7 @@ const ArticleList: React.FC = () => {
                 type="text"
                 placeholder="Search by title"
                 onChange={(e) => debouncedHandleSearch(e.target.value)}
-                className="mb-4 mt-2 px-3 py-2 border rounded-md"
+                className="mb-4 mt-2 px-3 py-2 border rounded-md text-grey-500 "
             />
 
             <button
@@ -244,7 +242,7 @@ const ArticleList: React.FC = () => {
                         >
                             Prev
                         </button>
-                        <span className="text-sm text-gray-700">
+                        <span className="text-sm">
                             Page {currentPage} of {totalPages}
                         </span>
                         <button
@@ -319,7 +317,7 @@ const ArticleList: React.FC = () => {
                             <div>
                                 <label
                                     htmlFor="title"
-                                    className="block text-sm font-medium text-gray-700"
+                                    className="block text-sm font-medium"
                                 >
                                     Title:
                                 </label>
@@ -332,7 +330,7 @@ const ArticleList: React.FC = () => {
                                             title: e.target.value,
                                         } as Article)
                                     }
-                                    className="mt-1 block w-full text-typography px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="mt-1 bg-background block w-full text-typography px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                                     required
                                 />
                             </div>

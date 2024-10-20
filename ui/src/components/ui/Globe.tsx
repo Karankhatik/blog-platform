@@ -19,14 +19,14 @@ const GlobeComponent: React.FC = () => {
       height: canvas.offsetHeight * 2,
       phi: 0,
       theta: 0,
-      dark: 0,
+      dark: 1,
       diffuse: 1.2,
       scale: 1,
       mapSamples: 16000,
-      mapBrightness: 6,
-      baseColor: [1, 1, 1],
+      mapBrightness: 8,
+      baseColor: [0.0, 0.0, 0.5],
       markerColor: [1, 0.5, 1],
-      glowColor: [1, 1, 1],
+      glowColor: [0.0, 0.0, 0.2],
       offset: [0, 0],
       markers: [
       { location: [20.5937, 78.9629], size: 0.1 }, // India

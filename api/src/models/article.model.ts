@@ -5,10 +5,11 @@ import { IArticle } from '../utils/types';
 const ArticleSchema = new Schema<IArticle>({
   title: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   },
   content: {
-    type: String,    
+    type: String,        
   },
   slug : {
     type: String,
@@ -20,7 +21,8 @@ const ArticleSchema = new Schema<IArticle>({
     ref: 'User'
   },
   description: {
-    type: String    
+    type: String,
+    trim: true    
   }, 
   feedbacks: {
     type: [String]
@@ -28,7 +30,11 @@ const ArticleSchema = new Schema<IArticle>({
   draftStage: {
     type: Boolean,
     default: true
-  }
+  },
+  articleImage: {
+    type: String,
+    trim: true
+  },
 },{timestamps: true});
 
 export default model<IArticle>('Article', ArticleSchema);

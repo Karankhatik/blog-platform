@@ -82,7 +82,7 @@ const LoginWithoutSuspense = () => {
   }
 
   return (
-    <main className="w-full h-screen flex flex-col items-center justify-center px-4 ">
+    <main className="w-full h-screen flex flex-col items-center mt-16 px-4 ">
       <div className="max-w-sm w-full border p-8 space-y-5 rounded-lg border-[#12375c] shadow-2xl" style={{ minHeight: '500px' }}>       <div className="text-center pb-2">
         <div className="mt-5">
           <h3 className="text-2xl font-bold sm:text-3xl">Login to your account</h3>
@@ -94,7 +94,7 @@ const LoginWithoutSuspense = () => {
             <input
               placeholder="Email"
               name="email"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-500 bg-black"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-500 bg-background"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -107,7 +107,7 @@ const LoginWithoutSuspense = () => {
           </div>
 
           <div className="flex items-center justify-between text-sm">
-            <Link href="/auth/reset-password" className="text-center text-gray-600 hover:text-gray-700">Forgot password?</Link>
+            <Link href="/auth/reset-password" className="text-center  hover:text-gray-700">Forgot password?</Link>
           </div>
 
           <LoaderButton loading={loading} buttonText="continue" />

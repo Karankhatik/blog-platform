@@ -20,13 +20,9 @@ body{
 }
 
 
-
-
-
-
 @layer base {
   :root {
-    --background: 0 0% 0%; /* Black background */
+    --background: #1F323C; /* Black background */
     --foreground: 210 40% 98%;
 
     --card: 0 0% 0%;

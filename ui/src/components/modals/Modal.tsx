@@ -41,7 +41,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <div
       className={classNames(
-        "fixed inset-0 z-10 p-8 text-white bg-gray-600/90",
+        "fixed inset-0 z-10 p-8 bg-gray-600/90",
         `${open ? "visible" : "invisible"}`
       )}
       onClick={onOverlayClick}
@@ -52,13 +52,13 @@ const Modal: React.FC<ModalProps> = ({
         style={{ width, height }}
       >
         <button
-          className="absolute -top-2 -right-2 flex justify-center rounded-full h-8 w-8 bg-gray-600 cursor-pointer shadow-xl"
+          className="absolute -top-2 -right-2 flex justify-center rounded-full h-8 w-8cursor-pointer shadow-xl"
           onClick={onClose}
           title="Close"
         >
           <span className="text-2xl leading-7 select-none">&times;</span>
         </button>
-        <div className="overflow-hidden bg-white rounded shadow-xl">
+        <div className="overflow-hidden bg-background rounded shadow-xl">
           <div className="block p-4 text-typography">
             <h1 className="text-lg text-typography">{header}</h1>
           </div>

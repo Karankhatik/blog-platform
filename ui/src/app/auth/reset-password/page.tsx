@@ -85,17 +85,18 @@ const ResetPassword = () => {
       }
 
         return (
-            <main className="w-full mt-10 flex flex-col items-center justify-center px-4">
-                <div className="max-w-sm w-full border border-gray-300 p-8 text-gray-600 space-y-5 rounded-lg shadow-2xl" style={{ minHeight: '400px' }}>
+            <main className="w-full h-screen flex flex-col mt-16 items-center px-4">
+                <div className="max-w-sm w-full border border-[#12375c] p-8  space-y-5 rounded-lg shadow-2xl" style={{ minHeight: '400px' }}>
                     {step === 1 ? (
                         <>
                             <div className="text-center pb-2">
-                                <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl mt-5">Reset Password</h3>
+                                <h3 className="text-2xl font-bold sm:text-3xl mt-5">Reset Password</h3>
                             </div>
                             <form onSubmit={handleEmailSubmit}>
                                 <input
                                     placeholder="Email"
-                                    className="block w-full px-4 py-2 mb-2 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                    name='email'
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-500 bg-background"
                                     value={email}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                                 />
@@ -106,13 +107,13 @@ const ResetPassword = () => {
                     ) : (
                         <>
                             <div className="text-center pb-2">
-                                <h3 className="text-gray-800 text-2xl font-bold sm:text-3xl mt-5">Enter New Password</h3>
+                                <h3 className="text-2xl font-bold sm:text-3xl mt-5">Enter New Password</h3>
                             </div>
                             <form onSubmit={handlePasswordSubmit}>
                                 <input
                                     type="text"
                                     placeholder="OTP"
-                                    className="block w-full px-4 py-2 mb-2 text-gray-700 bg-white border rounded-md focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-500 bg-background"
                                     value={otp}
                                     onChange={(e: ChangeEvent<HTMLInputElement>) => setOtp(e.target.value)}
                                     maxLength={6}

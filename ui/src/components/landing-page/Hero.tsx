@@ -7,10 +7,11 @@ import { GrContactInfo } from "react-icons/gr";
 import { HoverBorderGradient } from "@/components/ui/border-hover";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowBigRight, Newspaper } from "lucide-react";
 
 export function Hero() {
   return (
-    <section className="relative h-screen flex items-center justify-center bg-background/[0.96] py-16 md:py-48">
+    <section className="relative h-screen flex  justify-center bg-background/[0.96] py-16 md:py-48">
       <Spotlight
         className="z-10 -top-20 left-0 md:left-60 md:-top-20"
         fill="white"
@@ -21,21 +22,14 @@ export function Hero() {
         transition={{ ease: "easeOut", duration: 1.5 }}
         className="flex flex-col items-center gap-4 sm:mt-[-70px]"
       >
-        <HoverBorderGradient className="flex items-center gap-2 text-sm">
-          <FaCircle className="size-2 animate-pulse fill-green-600 text-green-600" />
-          Available for work
-        </HoverBorderGradient>
+       
         <div className="text-3xl text-white sm:text-5xl md:text-7xl font-bold">
-          Karan Khatik
+        Welcome to TechBlog
         </div>
-        <div className="text-3xl text-white sm:text-5xl md:text-7xl font-bold">
-          Full-Stack Developer
-        </div>
-        <p className="text-gray-400 text-center text-xs sm:text-sm">
-          I am passionate about crafting innovative fullstack web applications,
-          <br />
-          merging creativity and functionality to deliver exceptional user
-          experiences.
+        
+        <p className="text-gray-400 text-center text-xl sm:text-xl">
+        Your daily dose of tech news, insights, and innovations. <br/>
+        Stay ahead of the curve with our expert analysis and in-depth articles.
         </p>
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -45,20 +39,12 @@ export function Hero() {
         >
           <Button asChild>
             <Link
-              href="/Mayank_resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/articles"  
             >
-              <FaDownload className="mr-2" />
-              Download My Resume
+             
+              Read Latest Posts
             </Link>
-          </Button>
-          <Button asChild>
-            <Link href="/#contact">
-              <GrContactInfo className="mr-2 text-xl" />
-              Contact Me
-            </Link>
-          </Button>
+          </Button>          
         </motion.div>
       </motion.div>
     </section>

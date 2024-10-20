@@ -156,7 +156,7 @@ const SignUp: React.FC = () => {
   }
 
   return (
-    <main className="w-full h-screen flex flex-col items-center justify-center px-4 ">
+    <main className="w-full h-screen flex flex-col items-center mt-16 px-4 ">
       <div className="max-w-sm w-full border border-[#12375c]  p-8 space-y-5 rounded-lg shadow-2xl" style={{ minHeight: '500px' }}>
         {showOTP ? (
           <div className="mt-5 h-full">
@@ -164,13 +164,13 @@ const SignUp: React.FC = () => {
               {backIcon}
             </button>
             <p className=" text-2xl font-bold sm:text-3xl mb-4 mt-3">Enter OTP</p>
-            <p className="text-sm mb-8 text-gray-600">A 6-digit OTP has been sent to your email.
+            <p className="text-sm mb-8">A 6-digit OTP has been sent to your email.
               {timer === 0 ? 'OTP expired' : `It will expire in ${formatTime()} .`}</p>
             <input
               value={otp}
               name="otp"
               onChange={(e: ChangeEvent<HTMLInputElement>) => setOtp(e.target.value)}
-              className="shadow appearance-none mb-4 border rounded w-full py-2 px-3 text-grey-500 bg-black"
+              className="shadow appearance-none mb-4 border rounded w-full py-2 px-3 text-grey-500 bg-background"
               maxLength={6}
               placeholder="Enter OTP"
               pattern="\d*"
@@ -195,7 +195,7 @@ const SignUp: React.FC = () => {
                 name="name"
                 type="text"
                 placeholder="Full Name"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-500 bg-black"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-grey-500 bg-background"
                 value={fullName}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setFullName(e.target.value)}
               />
@@ -205,7 +205,7 @@ const SignUp: React.FC = () => {
                 name="email"
                 type="text"
                 placeholder="Email"
-                className="shadow appearance-none border mt-4 rounded w-full py-2 px-3 text-grey-500 bg-black"
+                className="shadow appearance-none border mt-4 rounded w-full py-2 px-3 text-grey-500 bg-background"
                 value={email}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               />

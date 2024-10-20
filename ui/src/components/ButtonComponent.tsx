@@ -20,7 +20,7 @@ interface LoaderButtonProps {
 export const LoaderButton: React.FC<LoaderButtonProps> = ({ loading, buttonText }) => (
   <button
     disabled={loading}
-    className={`inline-flex items-center justify-center gap-2 rounded border border-transparent px-4 py-2 text-sm font-medium text-white ${loading ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-700'} transition-colors duration-150 ease-in-out w-full`}
+    className={`inline-flex items-center mt-4 justify-center gap-2 rounded border border-transparent px-4 py-2 text-sm font-medium text-white ${loading ? 'bg-gray-400' : 'bg-gray-600 hover:bg-gray-700'} transition-colors duration-150 ease-in-out w-full`}
   >
     {loading ? (
       <>
@@ -36,7 +36,7 @@ export const LoaderButton: React.FC<LoaderButtonProps> = ({ loading, buttonText 
 export const SearchLoaderButton: React.FC<LoaderButtonProps> = ({ loading, buttonText }) => (
   <button
     disabled={loading}
-    className={`inline-flex items-center justify-center rounded-full gap-2 min-w-[130px] border border-transparent px-4 py-2 text-sm font-medium text-white $ ${loading ? 'bg-gray-400' : 'bg-black hover:bg-orange-500'} transition-colors duration-150 ease-in-out w-full`}
+    className={`inline-flex items-center justify-center rounded-full gap-2 min-w-[130px] border border-transparent px-4 py-2 text-sm font-medium text-white $ ${loading ? 'bg-gray-400' : 'bg-background hover:bg-orange-500'} transition-colors duration-150 ease-in-out w-full`}
   >
     {loading ? (
       <>

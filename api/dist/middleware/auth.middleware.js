@@ -19,7 +19,6 @@ const users_model_1 = __importDefault(require("../models/users.model"));
 const admin_model_1 = __importDefault(require("../models/admin.model"));
 const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = req.headers['access-token'];
-    console.log(accessToken);
     let token = req.cookies.accessToken || accessToken;
     // Check token
     if (!token) {

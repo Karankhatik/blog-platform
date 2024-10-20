@@ -71,12 +71,12 @@ const generateAccessAndRefereshTokens = (userId) => __awaiter(void 0, void 0, vo
     }
 });
 const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const incomingRefreshToken = req.cookies.refreshToken || req.headers["refreshToken"];
-    if (!incomingRefreshToken) {
+    const incomingAcessToken = req.cookies.accessToken || req.headers["acessToken"];
+    let decodedToken = jsonwebtoken_1.default.decode(incomingAcessToken);
+    if (!incomingAcessToken) {
         return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Session expired"));
     }
     try {
-        const decodedToken = jsonwebtoken_1.default.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
         if (!decodedToken) {
             return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Session expired"));
         }
@@ -86,10 +86,16 @@ const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0,
             ? null
             : yield users_model_1.default.findById(decodedToken._id).catch((err) => next(new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, err.message)));
         const tokenOwner = admin || user;
-        if (!tokenOwner || incomingRefreshToken !== tokenOwner.refreshToken) {
-            return next(new APIError_1.default(httpStatus.UNAUTHORIZED, "Refresh token expired or used"));
+        let checkUserSession = null;
+        if (tokenOwner) {
+            try {
+                checkUserSession = jsonwebtoken_1.default.verify(tokenOwner === null || tokenOwner === void 0 ? void 0 : tokenOwner.refreshToken, process.env.REFRESH_TOKEN_SECRET);
+            }
+            catch (error) {
+                new APIError_1.default(httpStatus.UNAUTHORIZED, "Refresh token expired or used");
+            }
         }
-        const tokenID = String(tokenOwner._id);
+        const tokenID = String(tokenOwner === null || tokenOwner === void 0 ? void 0 : tokenOwner._id);
         if (tokenID) {
             // Generate new tokens
             const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(tokenID);
@@ -97,10 +103,10 @@ const refreshAccessToken = (req, res, next) => __awaiter(void 0, void 0, void 0,
             return res
                 .status(httpStatus.OK)
                 .cookie("accessToken", accessToken, types_1.options)
-                .cookie("refreshToken", refreshToken, types_1.options)
                 .json({
                 success: true,
                 message: "Access token refreshed",
+                accessToken
             });
         }
     }
@@ -132,12 +138,11 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             }
             const userID = String(user._id);
             if (userID) {
-                const { accessToken, refreshToken } = yield generateAccessAndRefereshTokens(userID);
+                const { accessToken } = yield generateAccessAndRefereshTokens(userID);
                 if (user.verified) {
                     return res
                         .status(httpStatus.OK)
                         .cookie("accessToken", accessToken, types_1.options)
-                        .cookie("refreshToken", refreshToken, types_1.options)
                         .json({
                         success: true,
                         message: "Logged in successfully",
@@ -148,8 +153,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                             email: user.email,
                             id: user._id,
                         },
-                        accessToken,
-                        refreshToken,
+                        accessToken
                     });
                 }
                 else {
@@ -171,7 +175,6 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
             return res
                 .status(httpStatus.OK)
                 .cookie("accessToken", accessToken, types_1.options)
-                .cookie("refreshToken", refreshToken, types_1.options)
                 .json({
                 success: true,
                 message: "Logged in successfully",
@@ -180,6 +183,7 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
                     isAdmin: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin.isAdmin,
                     id: loggedInAdmin === null || loggedInAdmin === void 0 ? void 0 : loggedInAdmin._id,
                 },
+                accessToken
             });
         }
     }
@@ -216,7 +220,6 @@ const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* (
             return res
                 .status(200)
                 .clearCookie("accessToken", types_1.options)
-                .clearCookie("refreshToken", types_1.options)
                 .json({ success: true, message: "Logged out successfully" });
         }
     }

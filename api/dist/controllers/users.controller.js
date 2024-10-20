@@ -52,7 +52,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             otp: sanitiseBody.otp,
             otp_expiry: sanitiseBody.otp_expiry,
         });
-        yield (0, sendMail_1.default)({ email: sanitiseBody.email, subject: "Email Verification - Intake Learn", bodyHtml: htmlContent });
+        yield (0, sendMail_1.default)({ email: sanitiseBody.email, subject: "Email Verification - TechBlog", bodyHtml: htmlContent });
         let resMessage = "OTP sent to your email, please verify your account";
         sanitiseBody.password = null;
         sanitiseBody.otp = null;
@@ -185,7 +185,7 @@ const reSendOtp = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         user.otp_expiry = new Date(Date.now() + Number(process.env.OTP_EXPIRE) * 60 * 1000);
         yield user.save();
         let htmlContent = yield (0, otpSendToEmailForSignUp_1.otpSendToEmailForSignUp)(otp);
-        yield (0, sendMail_1.default)({ email: email, subject: "Resend OTP - Intake Learn", bodyHtml: htmlContent });
+        yield (0, sendMail_1.default)({ email: email, subject: "Resend OTP - TechBlog", bodyHtml: htmlContent });
         res.status(http_status_1.default.OK).json({ success: true, message: `OTP resent successfully` });
     }
     catch (error) {

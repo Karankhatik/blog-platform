@@ -81,6 +81,20 @@ export const getArticleById = async (req: Request, res: Response) => {
     }
 };
 
+export const getArticleBySlug = async (req: Request, res: Response) => {
+    try {       
+        const article = await Article.findOne({ slug: req.params.slug }).exec();
+        if (!article) {
+            return res.status(httpStatus.NOT_FOUND).json({ success: false, message: 'Article not found' });
+        }
+        res.json({ success: true, data: article });
+    } catch (error:any) {
+        console.log("error", error);
+        res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
+    }
+};
+
+
 export const updateArticle = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let sanitiseBody: any = {};
@@ -90,7 +104,7 @@ export const updateArticle = async (req: Request, res: Response, next: NextFunct
             sanitiseBody[key] = safeValue;
         }
         const {content, } = req.body;
-        const { title, draftStage, slug, description, feedbacks } = sanitiseBody;
+        const { title, draftStage, slug, description, feedbacks, articleImage } = sanitiseBody;
 
         const article = await Article.findById({
             _id: req.params.id,
@@ -111,6 +125,8 @@ export const updateArticle = async (req: Request, res: Response, next: NextFunct
         article.description = description ? description : article.description;
 
         article.feedbacks = feedbacks ? feedbacks : article.feedbacks;
+
+        article.articleImage = articleImage ? articleImage : article.articleImage;
 
         await article.save();
 

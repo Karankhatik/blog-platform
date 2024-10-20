@@ -33,26 +33,31 @@ const ProfileIcon = () => {
 
             {
                 isProfileMenuOpen && (
-                    <div className="absolute w-64 top-10 z-10">
+                    <div className="absolute right-10 mt-1 top-12 w-32 z-10 rounded-md border border-[#12375c] bg-background shadow-lg">
                         <div
-                            className="absolute  z-10 mt-5 rounded-lg border border-borderColor bg-primary w-39 shadow-lg" role="menu"
+                            className="relative p-1" role="menu"
                         >
-                            <div>
+                            {/* <div>
                                 <Link href={'/profile'} onClick={() => setIsProfileMenuOpen(false)}>
-                                    <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" role="menuitem">
+                                    <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm " role="menuitem">
                                         Profile
                                     </span>
                                 </Link>
-                            </div>
-                            <div>
-                                <Link href={'/dashboard'} onClick={() => setIsProfileMenuOpen(false)}>
-                                    <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" role="menuitem">
+                            </div> */}
+                            {
+                                user?.isEditor || user?.isAdmin && (
+<div>
+                                <Link href={'/dashboard/articles'} onClick={() => setIsProfileMenuOpen(false)}>
+                                    <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm" role="menuitem">
                                         Dashboard
                                     </span>
                                 </Link>
                             </div>
+                                )
+                            }
+                            
                             <div>
-                                <span onClick={() => handleLogout()} className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm text-typography-hover" role="menuitem">
+                                <span onClick={() => handleLogout()} className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm" role="menuitem">
                                     Logout
                                 </span>
                             </div>

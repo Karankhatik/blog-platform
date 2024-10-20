@@ -184,7 +184,7 @@ const UserList: React.FC = () => {
           type="text"
           placeholder="Search by email"
           onChange={(e) => debouncedHandleSearch(e.target.value)}
-          className="mb-4 mt-2 px-3 py-2 border rounded-md"
+          className="mb-4 mt-2 px-3 py-2 border rounded-md text-grey-500 bg-background"
         />
         <div className="overflow-x-auto">
           <div className="min-w-md lg:min-w-lg">
@@ -199,7 +199,7 @@ const UserList: React.FC = () => {
           >
             Prev
           </button>
-          <span className="text-sm text-gray-700">
+          <span className="text-sm">
             Page {currentPage} of {totalPages}
           </span>
           <button
@@ -224,7 +224,7 @@ const UserList: React.FC = () => {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium "
                 >
                   Name:
                 </label>
@@ -238,14 +238,14 @@ const UserList: React.FC = () => {
                       name: e.target.value,
                     } as User)
                   }
-                  className="mt-1 block w-full text-typography px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 bg-background block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   required
                 />
               </div>
               <div>
                 <label
                   htmlFor="isEditor"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium"
                 >
                   Editor:
                 </label>
@@ -258,7 +258,7 @@ const UserList: React.FC = () => {
                       isEditor: e.target.value === "true",
                     } as User)
                   }
-                  className="mt-1 block text-typography w-full pl-3 pr-10 py-2  border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  className="mt-1 bg-background block w-full pl-3 pr-10 py-2  border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
@@ -267,7 +267,7 @@ const UserList: React.FC = () => {
               <div>
                 <label
                   htmlFor="isRequested"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium"
                 >
                  Requested:
                 </label>
@@ -280,7 +280,7 @@ const UserList: React.FC = () => {
                       isRequested: e.target.value === "true",
                     } as User)
                   }
-                  className="mt-1 block text-typography w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  className="mt-1 block bg-background w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>

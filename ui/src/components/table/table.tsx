@@ -13,21 +13,22 @@ interface TableProps {
 const Table: React.FC<TableProps> = ({ data, columns, uniqueKey }) => {
   return (
     <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200 shadow-lg">
-        <thead className="bg-gray-50">
+      <table className="min-w-full  shadow-lg">
+        <thead className="border-b">
           <tr>
             {columns.map((column) => (
-              <th key={column.header} scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th key={column.header} scope="col" className="px-6 py-3 text-left text-xs font-bold  uppercase tracking-wider">
                 {column.header}
               </th>
             ))}
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        
+        <tbody className="">
           {data?.map((item) => (
             <tr key={item[uniqueKey]}>
               {columns.map((column) => (
-                <td key={`${item[uniqueKey]}-${column.header}`} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td key={`${item[uniqueKey]}-${column.header}`} className="px-6 py-4 whitespace-nowrap text-sm">
                   {column?.render ? column?.render(item) : item[column?.accessor || '']}
                 </td>
               ))}

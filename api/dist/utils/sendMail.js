@@ -19,7 +19,7 @@ const sendMail = (_a) => __awaiter(void 0, [_a], void 0, function* ({ email, sub
         },
     });
     yield transport.sendMail({
-        from: process.env.SMTP_USER,
+        from: "TechBlog noreply@techblog.com",
         to: email,
         subject: subject,
         html: bodyHtml,

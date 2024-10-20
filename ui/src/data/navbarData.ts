@@ -10,22 +10,11 @@ export const navbarItems: NavbarItem[] = [
       href: '/articles',
     },
     {
-      label: 'About me', href: '/about-me'
+      label: 'About us', href: '/about-us'
     },
     {
-      label: 'Contact me', href: '/contact-me'
+      label: 'Contact us', href: '/contact-us'
     }, 
     { label: 'Login', href: '/auth/login' },
     { label: 'Register', href: '/auth/register' },
-
-
-    // {
-    //   label: 'Company',
-    //   href: '#',
-    //   subMenu: [
-    //     { label: 'About Us', href: '/about-us' },
-    //     { label: 'Contact Us', href: '/contact-us' },
-    //     { label: 'FAQs', href: '/faqs' },
-    //   ],
-    // },
   ];

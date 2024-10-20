@@ -47,10 +47,13 @@ export const refreshAccessToken = async (
     res: Response,
     next: NextFunction
 ) => {
-    const incomingRefreshToken =
-        req.cookies.refreshToken || req.headers["refreshToken"];
 
-    if (!incomingRefreshToken) {
+    const incomingAcessToken =
+        req.cookies.accessToken || req.headers["acessToken"];
+
+    let decodedToken = jwt.decode(incomingAcessToken) as TokenPayload;
+
+    if (!incomingAcessToken) {
         return next(new ApiError(httpStatus.UNAUTHORIZED, "Session expired"));
     }
 
@@ -58,11 +61,7 @@ export const refreshAccessToken = async (
         _id: string;
     };
 
-    try {
-        const decodedToken = jwt.verify(
-            incomingRefreshToken,
-            process.env.REFRESH_TOKEN_SECRET as string
-        ) as TokenPayload;
+    try {       
 
         if (!decodedToken) {
             return next(new ApiError(httpStatus.UNAUTHORIZED, "Session expired"));
@@ -80,13 +79,19 @@ export const refreshAccessToken = async (
 
         const tokenOwner = admin || user;
 
-        if (!tokenOwner || incomingRefreshToken !== tokenOwner.refreshToken) {
-            return next(
-                new ApiError(httpStatus.UNAUTHORIZED, "Refresh token expired or used")
-            );
+        let checkUserSession = null;
+        if(tokenOwner) {
+            try {
+                checkUserSession = jwt.verify(
+                    tokenOwner?.refreshToken,
+                    process.env.REFRESH_TOKEN_SECRET as string
+                ) as TokenPayload;
+            } catch(error){
+                new ApiError(httpStatus.UNAUTHORIZED, "Refresh token expired or used");
+            }            
         }
 
-        const tokenID = String(tokenOwner._id);
+        const tokenID = String(tokenOwner?._id);
 
         if (tokenID) {
             // Generate new tokens
@@ -95,11 +100,11 @@ export const refreshAccessToken = async (
             // Send the new tokens back
             return res
                 .status(httpStatus.OK)
-                .cookie("accessToken", accessToken, options)
-                .cookie("refreshToken", refreshToken, options)
+                .cookie("accessToken", accessToken, options)                
                 .json({
                     success: true,
                     message: "Access token refreshed",
+                    accessToken
                 });
         }
     } catch (error) {
@@ -138,14 +143,13 @@ export const login = async (
             const userID = String(user._id);
 
             if (userID) {
-                const { accessToken, refreshToken } =
+                const { accessToken} =
                     await generateAccessAndRefereshTokens(userID);
 
                 if (user.verified) {
                     return res
                         .status(httpStatus.OK)
                         .cookie("accessToken", accessToken, options)
-                        .cookie("refreshToken", refreshToken, options)
                         .json({
                             success: true,
                             message: "Logged in successfully",
@@ -156,8 +160,7 @@ export const login = async (
                                 email: user.email,
                                 id: user._id,
                             },
-                            accessToken,
-                            refreshToken,
+                            accessToken
                         });
                 } else {
                     return res.status(httpStatus.NOT_FOUND).json({
@@ -187,8 +190,7 @@ export const login = async (
 
             return res
                 .status(httpStatus.OK)
-                .cookie("accessToken", accessToken, options)
-                .cookie("refreshToken", refreshToken, options)
+                .cookie("accessToken", accessToken, options)                
                 .json({
                     success: true,
                     message: "Logged in successfully",
@@ -197,6 +199,7 @@ export const login = async (
                         isAdmin: loggedInAdmin?.isAdmin,
                         id: loggedInAdmin?._id,
                     },
+                    accessToken
                 });
         }
     } catch (error: any) {
@@ -242,8 +245,7 @@ export const logout = async (req: any, res: Response, next: NextFunction) => {
 
             return res
                 .status(200)
-                .clearCookie("accessToken", options)
-                .clearCookie("refreshToken", options)
+                .clearCookie("accessToken", options)                
                 .json({ success: true, message: "Logged out successfully" });
         }
     } catch (error: any) {

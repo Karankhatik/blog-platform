@@ -45,7 +45,7 @@ const register = async (req: Request, res: Response) => {
       otp: sanitiseBody.otp,
       otp_expiry: sanitiseBody.otp_expiry,
     });
-    await sendMail({ email: sanitiseBody.email, subject: "Email Verification - Intake Learn", bodyHtml: htmlContent });
+    await sendMail({ email: sanitiseBody.email, subject: "Email Verification - TechBlog", bodyHtml: htmlContent });
 
     let resMessage = "OTP sent to your email, please verify your account";
     sanitiseBody.password = null;
@@ -195,7 +195,7 @@ const reSendOtp = async (req: Request, res: Response, next: NextFunction) => {
 
     let htmlContent = await otpSendToEmailForSignUp(otp);
 
-    await sendMail({ email: email, subject: "Resend OTP - Intake Learn", bodyHtml: htmlContent });
+    await sendMail({ email: email, subject: "Resend OTP - TechBlog", bodyHtml: htmlContent });
     res.status(httpStatus.OK).json({ success: true, message: `OTP resent successfully` });
 
   } catch (error) {

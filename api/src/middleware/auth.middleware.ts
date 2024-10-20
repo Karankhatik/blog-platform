@@ -5,15 +5,12 @@ import User from '../models/users.model';
 import Admin from '../models/admin.model';
 import { TokenPayload, AuthRequest } from '../utils/types';
 
-
-
-
-
 const protect = async (req: AuthRequest, res: Response, next: NextFunction) => {
 
-  const accessToken = req.headers['access-token'];
-  console.log(accessToken)
+  const accessToken = req.headers['access-token'];  
+
   let token = req.cookies.accessToken || accessToken;
+  
   // Check token
   if (!token) {
     return res.status(httpStatus.UNAUTHORIZED).json({ success: false, message: "Unauthorized request" });

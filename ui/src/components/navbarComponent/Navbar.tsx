@@ -1,17 +1,15 @@
 "use client";
 import React, { useState } from "react";
-
 import menuIcon from '@/assets/menu.svg';
-import burgerMenu from '@/assets/burger-menu.svg';
 import Image from "next/image";
 import Link from "next/link";
 import { navbarItems } from '@/data/navbarData';
-import ToggleThemeButton from "@/components/ToggleThemeButton";
 import { useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "@/store/store";
 import { setIsOpenDashboardSidebar } from '@/store/isOpenSlice';
 import { usePathname } from "next/navigation";
 import ProfileIcon from "./ProfileIcon";
+import { RiMenuFold2Line } from "react-icons/ri";
 
 
 function Navbar() {
@@ -22,6 +20,8 @@ function Navbar() {
     const { authState } = useSelector((state: any) => state.auth);
     const isOpenDashboardSidebar = useAppSelector((state) => state.isOpen.isOpenDashboardSidebar);
     const pathname = usePathname()
+
+    const { user } = useSelector((state: any) => state.auth);
 
     // useEffect(() => {
     //     const disableRightClick = (event: MouseEvent): void => {
@@ -46,23 +46,23 @@ function Navbar() {
     //   }, []);    
 
     return (
-        <nav className="flex h-16 items-center mx-auto  px-2 md:px-8 lg:px-8 justify-between bg-black text-white">
+        <nav className="flex h-16 items-center mx-auto  px-2 md:px-8 lg:px-8 justify-between bg-background text-white">
 
             <div className="flex-1 md:flex md:items-center md:gap-6">
                 {
                     pathname.includes('dashboard') ? (
                         <>
                             <span className=' cursor-pointer' onClick={() => dispatch(setIsOpenDashboardSidebar(!isOpenDashboardSidebar))}>
-                                <Image src={burgerMenu} alt="burherMenu" width={25} height={25} />
+                                <RiMenuFold2Line className="w-6 h-6" />
                             </span>
 
                             <Link href={'/'}>
-                                <span className="hidden md:block text-typography text-lg ">Karan Khatik</span>
+                                <span className="hidden md:block text-typography text-lg ">TechBlog</span>
                             </Link>
                         </>
                     ) : (
                         <Link href={'/'}>
-                            <span className="block text-typography text-lg ">Karan Khatik</span>
+                            <span className="block text-typography text-lg ">TechBlog</span>
                         </Link>
                     )
                 }
@@ -70,15 +70,31 @@ function Navbar() {
             <div className="md:flex md:items-center md:gap-12">
                 <nav aria-label="Global" className="hidden md:block">
                     <ul className="flex items-center gap-4 text-sm">
-                        {navbarItems.map((item, index) =>
-                            (item.label === "Login" || item.label === "Register") && authState ? null : (
-                                <li key={index}>
-                                    <Link href={item.href}>
-                                        <span className="text-typography-hover text-sm">{item.label}</span>
-                                    </Link>
-                                </li>
-                            )
-                        )}
+                        {navbarItems.map((item, index) => {
+                            {console.log("pathname: ", pathname)}
+                            if ((item.label === "Login" || item.label === "Register")) {
+                                if (pathname === '/articles' && !authState) {
+                                    return (
+                                        <li key={index}>
+                                            <Link href={item.href}>
+                                                <span className="text-typography-hover text-sm">{item.label}</span>
+                                            </Link>
+                                        </li>
+                                    );
+                                } else {
+                                    return null;
+                                }
+                            } else {
+                                return (                                    
+                                    <li key={index}>
+                                        <Link href={item.href}>
+                                            <span className="text-typography-hover text-sm">{item.label}</span>
+                                        </Link>
+                                    </li>
+                                );
+                            }
+                        })}
+
                     </ul>
                 </nav>
 
@@ -101,7 +117,7 @@ function Navbar() {
                         <div className="md:hidden block absolute top-12 left-0 right-0  z-10">
                             <nav aria-label="Global">
                                 <div
-                                    className="absolute end-3 z-10  rounded-md border border-[#12375c] bg-black w-39 shadow-lg"
+                                    className="absolute end-3 z-10  rounded-md border border-[#12375c] bg-background w-39 shadow-lg"
                                     role="menu"
                                 >
                                     {navbarItems.map((item, index) => (

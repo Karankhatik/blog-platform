@@ -22,7 +22,8 @@ const articleParamValidation: ArticleValidationSchemas = {
     slug: Joi.string(),    
     description: Joi.string().allow(''),
     feedbacks: Joi.array().items(Joi.string()),
-    draftStage: Joi.boolean()
+    draftStage: Joi.boolean(),
+    articleImage: Joi.string(),
   })
 };
 

@@ -51,3 +51,10 @@ export const getArticleByIdAPI = async (id: string) => {
     const result: any = await getDataFromApi(request);
     return result?.data;
 }
+
+export const getArticleBySlugAPI = async (slug: string) => {
+    let request: any = { ...getAllArticle };
+    request.url = `${getAllArticle.url}/getArticleBySlug/${slug}`;
+    const result: any = await getDataFromApi(request);
+    return result?.data;
+}

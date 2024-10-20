@@ -65,6 +65,7 @@ export interface IArticle extends Document {
   createdAt?: Date; // Added by Mongoose when timestamps are enabled
   updatedAt?: Date;   
   draftStage: boolean;
+  articleImage?: string;
 
 }
 

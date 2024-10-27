@@ -34,39 +34,29 @@ app.use((req: Request,res: Response, next: NextFunction) => {
 });
 
 // Define allowed origins
-const allowedOrigins: string[] = [
-  'http://localhost:3000',
-  'https://tech-blog-taupe-seven.vercel.app/'
-];
+// const allowedOrigins: string[] = [
+//   'http://localhost:3000',
+//   'https://tech-blog-taupe-seven.vercel.app/'
+// ];
 
-// Define CORS options with TypeScript typing
-const corsOptions: cors.CorsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true); 
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  credentials: true,
-  optionsSuccessStatus: 200 
-};
+// // Define CORS options with TypeScript typing
+// const corsOptions: cors.CorsOptions = {
+//   origin: (origin, callback) => {
+//     if (!origin || allowedOrigins.includes(origin)) {
+//       callback(null, true); 
+//     } else {
+//       callback(new Error('Not allowed by CORS'));
+//     }
+//   },
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+//   credentials: true,
+//   optionsSuccessStatus: 200 
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 // set helmet to protect server from malicious attacks...
-app.use(helmet({
-  contentSecurityPolicy: {
-      useDefaults: true,
-      directives: {
-          "block-all-mixed-content": []
-      },
-  },
-  frameguard: {
-      action: "deny"
-  }
-}));
+app.use(helmet());
 
 app.use(helmet());
 

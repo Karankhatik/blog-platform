@@ -26,7 +26,7 @@ const ArticleList: React.FC = () => {
     setLoading(true)
     try {
       const response = await getAllArticleAPI(page, limit, searchTerm)
-      const { articles: fetchedArticles, totalPages } = response
+      const { articles: fetchedArticles, totalPages } = response;
       setArticles(prev => (page === 1 ? fetchedArticles : [...prev, ...fetchedArticles]))
       setTotalPages(totalPages)
       setLoading(false)
@@ -67,41 +67,40 @@ const ArticleList: React.FC = () => {
 
   const handleScroll = () => {
     if (
-      window.innerHeight + document.documentElement.scrollTop !==
-        document.documentElement.offsetHeight ||
-      isFetchingMore ||
-      currentPage >= totalPages
+      window.innerHeight + window.scrollY >
+      document.body.scrollHeight ||
+      currentPage < totalPages
     ) {
-      return
+      setIsFetchingMore(true)
+      setCurrentPage(prev => prev + 1)
+      fetchArticle(currentPage + 1)
     }
-    setIsFetchingMore(true)
-    setCurrentPage(prev => prev + 1)
-    fetchArticle(currentPage + 1)
+
   }
 
   return (
     <div className="p-4 min-h-screen bg-gray-900">
-       <div className="mt-8 mb-10 mx-auto max-w-xl py-2 px-6 rounded-full border flex">
-                <input
-                    type="text"
-                    placeholder="Search courses..."
-                    className="text-typography bg-transparent w-full focus:outline-none pr-4 font-semibold border-0 focus:ring-0 px-0 py-0"
-                    onChange={(e) => debouncedHandleSearch(e.target.value)}
-                />
-                <span>
-                    <button
-                        className={`inline-flex items-center justify-center rounded-full gap-2 min-w-[130px] border border-transparent px-4 py-2 text-sm font-medium text-black $ ${loading ? 'bg-gray-400' : 'bg-primary text-primary-foreground'} transition-colors duration-150 ease-in-out w-full`}
-                    >
-                        Search
-                    </button>
-                </span>
-            </div>
+      <div className="mt-8 mb-10 mx-auto max-w-xl py-2 px-6 rounded-full border flex">
+        <input
+          type="text"
+          placeholder="Search courses..."
+          className="text-typography bg-transparent w-full focus:outline-none pr-4 font-semibold border-0 focus:ring-0 px-0 py-0"
+          onChange={(e) => debouncedHandleSearch(e.target.value)}
+        />
+        <span>
+          <button
+            className={`inline-flex items-center justify-center rounded-full gap-2 min-w-[130px] border border-transparent px-4 py-2 text-sm font-medium text-black $ ${loading ? 'bg-gray-400' : 'bg-primary text-primary-foreground'} transition-colors duration-150 ease-in-out w-full`}
+          >
+            Search
+          </button>
+        </span>
+      </div>
 
       {loading && currentPage === 1 ? (
         <p className="text-white text-center">Loading articles...</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {articles.map(article => (
+          {articles?.map(article => (
             <Card key={article._id} className="bg-gray-800 border-gray-700 hover:border-gray-600 transition-all duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl flex flex-col">
               <CardHeader>
                 <CardTitle className="text-xl font-bold text-white line-clamp-2">

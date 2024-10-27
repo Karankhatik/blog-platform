@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from "react-toastify";
 
-const url = process.env.NEXT_PUBLIC_API_SERVER_URL;
+const url = "https://intake-learn.onrender.com/api/v1/";
 
 const axios_instance = axios.create({
   headers: {

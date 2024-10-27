@@ -1,4 +1,4 @@
-const url = process.env.NEXT_PUBLIC_API_SERVER_URL;
+const url = "https://intake-learn.onrender.com/api/v1/";
 
 //***************Login API's*******************
 export const loginAPI = {

@@ -13,7 +13,7 @@ import { setAuthState, setUser } from "@/store/authSlice";
 import Toast from '@/helpers/toasters';
 import { Suspense } from 'react';
 import { login } from '@/services/commonAPIs/commonApis';
-import PasswordInput from '@/components/inputFields/PasswordField';
+import PasswordInput from '@/components/input-fields/PasswordField';
 
 
 

@@ -74,7 +74,8 @@ const getAllArticles = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 .select("")
                 .sort({ createdAt: -1 })
                 .skip(skip)
-                .limit(limit);
+                .limit(limit)
+                .populate({ path: "userId", select: "name" });
             totalCount = yield article_model_1.default.countDocuments(searchFilters);
         }
         else {
@@ -82,7 +83,8 @@ const getAllArticles = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 .select("")
                 .sort({ createdAt: -1 })
                 .skip(skip)
-                .limit(limit);
+                .limit(limit)
+                .populate({ path: "userId", select: "name" });
             totalCount = yield article_model_1.default.countDocuments();
         }
         return res.status(httpStatus.OK).json({
@@ -115,7 +117,9 @@ const getArticleById = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getArticleById = getArticleById;
 const getArticleBySlug = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const article = yield article_model_1.default.findOne({ slug: req.params.slug }).exec();
+        const article = yield article_model_1.default.findOne({ slug: req.params.slug })
+            .populate({ path: "userId", select: "name" }) // Populate userId with name
+            .exec();
         if (!article) {
             return res.status(httpStatus.NOT_FOUND).json({ success: false, message: 'Article not found' });
         }

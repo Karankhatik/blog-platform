@@ -1,18 +1,15 @@
-"use client"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Laptop, Mail } from "lucide-react"
+import { Mail } from "lucide-react"
 
 export default function AboutPage() {
-  const handleSignUp = () => {
-    window.location.href = "mailto:ikarankhatik.com?subject=I want to become an editor&body=Hello, I'm interested in becoming an editor for TechBlog."
-  }
+
 
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32">
+        <section className="w-full py-6 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
@@ -24,8 +21,8 @@ export default function AboutPage() {
             </div>
           </div>
         </section>
-      
-        <section className="w-full py-6 bg-white">
+
+        <section className="w-full py-2 bg-white">
           <div className="container px-4 md:px-6">
             <div className="mx-auto max-w-2xl space-y-4">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center">Become an Editor</h2>
@@ -43,9 +40,11 @@ export default function AboutPage() {
                   </p>
                 </CardContent>
                 <CardFooter>
-                  <Button onClick={handleSignUp} className="w-full">
-                    <Mail className="mr-2 h-4 w-4" />
-                    Sign Up to Become an Editor
+
+                  <Button className="w-full">
+                    <Link href="/auth/register">
+                      Sign Up to Become an Editor
+                    </Link>
                   </Button>
                 </CardFooter>
               </Card>
@@ -53,7 +52,7 @@ export default function AboutPage() {
           </div>
         </section>
       </main>
-     
+
     </div>
   )
 }

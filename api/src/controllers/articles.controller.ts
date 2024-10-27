@@ -40,15 +40,16 @@ export const getAllArticles = async (req: Request, res: Response) => {
                 .select("")
                 .sort({ createdAt: -1 })
                 .skip(skip)
-                .limit(limit);
+                .limit(limit)
+                .populate({ path: "userId", select: "name" });
             totalCount = await Article.countDocuments(searchFilters);
         } else {
             article = await Article.find()
                 .select("")
                 .sort({ createdAt: -1 })
                 .skip(skip)
-                .limit(limit);
-
+                .limit(limit)
+                .populate({ path: "userId", select: "name" });
             totalCount = await Article.countDocuments();
         }
 
@@ -83,16 +84,21 @@ export const getArticleById = async (req: Request, res: Response) => {
 
 export const getArticleBySlug = async (req: Request, res: Response) => {
     try {       
-        const article = await Article.findOne({ slug: req.params.slug }).exec();
+        const article = await Article.findOne({ slug: req.params.slug })
+            .populate({ path: "userId", select: "name" }) // Populate userId with name
+            .exec();
+
         if (!article) {
             return res.status(httpStatus.NOT_FOUND).json({ success: false, message: 'Article not found' });
         }
+
         res.json({ success: true, data: article });
-    } catch (error:any) {
+    } catch (error: any) {
         console.log("error", error);
         res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error.message);
     }
 };
+
 
 
 export const updateArticle = async (req: Request, res: Response, next: NextFunction) => {

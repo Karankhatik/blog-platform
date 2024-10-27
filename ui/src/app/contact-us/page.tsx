@@ -1,17 +1,9 @@
 "use client";
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { validateForm, commonValidationRules } from '@/helpers/validation';
 import { useRouter } from 'next/navigation';
 import { LoaderButton } from '@/components/ButtonComponent';
 import Toast from '@/helpers/toasters';
-import {
-  FaInstagram,
-  FaLink,
-  FaLinkedin,  
-  FaTwitter,
-} from "react-icons/fa6";
-import { GrGithub, GrMailOption } from "react-icons/gr";
 import { sendEmailAPI } from '@/services/commonAPIs/commonApis';
 
 type FormErrors = { [key: string]: string };

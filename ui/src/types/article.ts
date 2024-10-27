@@ -4,7 +4,10 @@ export interface Article  {
     content: string;
     createdAt: string;
     updatedAt: string;
-    userId: string;
+    userId: {
+        _id: string;
+        name: string;
+    };
     slug: string;    
     description: string;
 }

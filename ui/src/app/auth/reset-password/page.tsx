@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { validateForm, commonValidationRules } from "@/helpers/validation";
 import { ResetPasswordEmailForm, PasswordResetForm } from "@/types/validation";
 import { forgotPassword, resetPassword } from '@/services/users/user';
-import PasswordInput from '@/components/inputFields/PasswordField';
+import PasswordInput from '@/components/input-fields/PasswordField';
 
 
 interface FormErrors {

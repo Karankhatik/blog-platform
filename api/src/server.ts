@@ -36,7 +36,7 @@ app.use((req: Request,res: Response, next: NextFunction) => {
 // Define allowed origins
 const allowedOrigins: string[] = [
   'http://localhost:3000',
-  'https://tect-blog.vercel.app'
+  'https://tech-blog-taupe-seven.vercel.app/'
 ];
 
 // Define CORS options with TypeScript typing

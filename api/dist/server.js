@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 // Define allowed origins
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://tect-blog.vercel.app'
+    'https://tech-blog-taupe-seven.vercel.app/'
 ];
 // Define CORS options with TypeScript typing
 const corsOptions = {
@@ -52,17 +52,7 @@ const corsOptions = {
 };
 app.use((0, cors_1.default)(corsOptions));
 // set helmet to protect server from malicious attacks...
-app.use((0, helmet_1.default)({
-    contentSecurityPolicy: {
-        useDefaults: true,
-        directives: {
-            "block-all-mixed-content": []
-        },
-    },
-    frameguard: {
-        action: "deny"
-    }
-}));
+app.use((0, helmet_1.default)());
 app.use((0, helmet_1.default)());
 app.use("/api/v1", routes_1.default);
 app.use((req, res, next) => {

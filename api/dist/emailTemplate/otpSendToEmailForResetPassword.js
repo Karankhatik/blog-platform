@@ -84,7 +84,7 @@ const otpSendToEmailForResetPassword = (otp) => __awaiter(void 0, void 0, void 0
             </div>
             <div class="content">
                 <p>The OTP is valid for 5 minutes. Please do not share it with anyone.</p>
-                <p>Best regards,<br>Intake Learn</p>
+                <p>Best regards,<br>TechBlog</p>
             </div>
             <div class="footer">
                 <p>If you did not request this email, please ignore it.</p>

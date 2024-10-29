@@ -16,7 +16,7 @@ const ReduxProvider = dynamic(() => import("@/store/reduxProvider"), {
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "TechBlog Learn",
+  title: "TechBlog",
   description: "Education Platform",
 };
 

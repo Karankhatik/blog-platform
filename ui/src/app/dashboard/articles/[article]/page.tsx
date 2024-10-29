@@ -23,11 +23,22 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
   const [imageCount, setImageCount] = useState<number>(0);
 
   useEffect(() => {
-    console.log("params: ", params);
     if (params && params.article && params.article.length > 0) {
       const articleId = String(params.article);
       fetchArticle(articleId);
     }
+    // Load an external script
+    const script = document.createElement("script");
+    script.src = "/tinymce/tinymce.min.js"; 
+    script.async = true; // Load asynchronously
+
+    // Append the script to the body
+    document.body.appendChild(script);
+
+    // Clean up the script when the component unmounts
+    return () => {
+      document.body.removeChild(script);
+    };
   }, [params]);
 
   const fetchArticle = async (chapterId: string) => {

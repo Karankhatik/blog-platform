@@ -6,6 +6,7 @@ import { Article } from "@/types/article"
 import "@/styles/article.css"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { ArrowLeft, Clock, User, ChevronRight } from "lucide-react"
 
 interface ArticleViewProps {
   params: {
@@ -71,31 +72,33 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
         <nav className="flex mb-4 md:mb-6 text-sm overflow-x-auto whitespace-nowrap">
           <ol className="flex items-center space-x-1 md:space-x-3">
             <li><Link href="/" className="hover:text-primary transition-colors">Home</Link></li>
-            <li>/</li>
+            <li><ChevronRight className="h-4 w-4 flex-shrink-0" /></li>
             <li><Link href="/articles" className="hover:text-primary transition-colors">Articles</Link></li>
-            <li>/</li>
+            <li><ChevronRight className="h-4 w-4 flex-shrink-0" /></li>
             <li className="text-gray-400 truncate max-w-[150px] sm:max-w-[200px] md:max-w-[300px]">{article.title}</li>
           </ol>
         </nav>
 
-        <button
 
+        <Link
+          href="/articles"
           className="mb-4 md:mb-6  transition-colors"
-          onClick={() => window.history.back()}
         >
           <span className="mr-2">←</span> Back
-        </button>
+        </Link>
 
-        <article className="bg-gray-800 rounded-lg shadow-xl p-4">
+        <article className="bg-gray-800 mt-2 rounded-lg shadow-xl p-4">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 md:mb-6 leading-tight">
             {article.title}
           </h1>
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-sm text-gray-400 ">
             <div className="flex items-center mb-2 sm:mb-0">
+              <User className="w-5 h-5 mr-2 flex-shrink-0" />
               <span className="font-medium">{article.userId?.name || 'Anonymous'}</span>
             </div>
             <div className="flex items-center">
+              <Clock className="w-5 h-5 mr-2 flex-shrink-0" />
               <span>
                 {article.updatedAt !== article.createdAt
                   ? `Updated on ${formatDate(article.updatedAt)}`

@@ -38,7 +38,7 @@ export default function RootLayout({
       <ToastContainer />
       </ReduxProvider>
         </body>
-        <Script src="/tinymce/tinymce.min.js"  />
+        
     </html>
     
   );

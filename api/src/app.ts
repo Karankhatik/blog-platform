@@ -4,9 +4,7 @@ import connectionDatabase from "./config/database";
 
 
 connectionDatabase();
-// setInterval(() => {
-//   console.log("PING API")
-// }, 5000)
+
 const port = process.env.PORT || 8000;
 
 app.listen(port, () => {  

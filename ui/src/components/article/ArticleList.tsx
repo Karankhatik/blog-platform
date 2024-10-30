@@ -204,7 +204,7 @@ const ArticleList: React.FC = () => {
                     </button>
 
                     <button
-                        className="mr-2  hover:text-gray-900"
+                        className="mr-2  hover:text-gray-400"
                     >
                         <Link href={`/dashboard/articles/${article._id}`} > <FiArrowRightCircle className="h-12 w-6" /> </Link>
                     </button>
@@ -219,12 +219,12 @@ const ArticleList: React.FC = () => {
                 type="text"
                 placeholder="Search by title"
                 onChange={(e) => debouncedHandleSearch(e.target.value)}
-                className="mb-4 mt-2 px-3 py-2 border rounded-md text-grey-500 "
+                className="mb-4 mt-2 px-3 py-2 border rounded-md text-grey-500 bg-background"
             />
 
             <button
                 onClick={() => setOpenAddModal(true)}
-                className="px-4 py-2 bg-gray-300 lg:ml-2 md:ml-2 sm:ml-2 text-gray-800 rounded-md hover:bg-gray-400"
+                className="px-4 py-2 bg-white lg:ml-2 md:ml-2 sm:ml-2 text-black rounded-md hover:bg-gray-200"
             >
                 Add article
             </button>
@@ -238,7 +238,7 @@ const ArticleList: React.FC = () => {
                         <button
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={currentPage === 1}
-                            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
+                            className="px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 cursor-pointer disabled:cursor-not-allowed"
                         >
                             Prev
                         </button>
@@ -248,7 +248,7 @@ const ArticleList: React.FC = () => {
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={currentPage === totalPages}
-                            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
+                            className="px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 cursor-pointer disabled:cursor-not-allowed"
                         >
                             Next
                         </button>
@@ -278,22 +278,7 @@ const ArticleList: React.FC = () => {
                                 onChange={(e) => setNewArticleTitle(e.target.value)}
                                 required
                             />
-                        </div>
-                        {/* <div className="mb-4">
-                            <label
-                                className="block text-gray-700 text-sm font-bold mb-2"
-                                htmlFor="description"
-                            >
-                                Content
-                            </label>
-                            <textarea
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                placeholder="Content"
-                                value={newArticleContent}
-                                onChange={(e) => setNewArticleContent(e.target.value)}
-                                required
-                            />
-                        </div> */}
+                        </div>                       
                         <div className="flex justify-end space-x-2 mt-4">
                             <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -334,27 +319,7 @@ const ArticleList: React.FC = () => {
                                     required
                                 />
                             </div>
-
-                            {/* <div>
-                                <label
-                                    htmlFor="description"
-                                    className="block text-sm font-medium text-gray-700"
-                                >
-                                    Content:
-                                </label>
-                                <textarea
-                                    value={currentArticle?.content || ""}
-                                    onChange={(e) =>
-                                        setCurrentArticle({
-                                            ...currentArticle,
-                                            content: e.target.value,
-                                        } as Article)
-                                    }
-                                    required
-                                    className="mt-1 block w-full text-typography px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-
-                                />
-                            </div> */}
+                            
                             <div className="flex justify-end space-x-2 mt-4">
                                 <button
                                     type="submit"

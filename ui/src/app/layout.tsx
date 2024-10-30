@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import { Inter } from "next/font/google";
+import { Inter} from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/navbar-component/Navbar";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Script from 'next/script'
 import Footer from "@/components/footer/Footer";
-//import tinymce from "../../public/tinymce/tinymce"
 
 const ReduxProvider = dynamic(() => import("@/store/reduxProvider"), {
   ssr: false
 });
 
+// Load fonts with specific weights and subsets
 const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "TechBlog",
@@ -27,19 +27,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-      <ReduxProvider> 
-        <div className="bg-background">
-        <Navbar/>
-        {children}
-        <Footer/>
-        </div>
-        
-      <ToastContainer />
-      </ReduxProvider>
-        </body>
-        
+      <body  className={`${inter.className}`}> 
+        <ReduxProvider>
+          <div className="bg-background">
+            <Navbar />
+            <main> 
+              {children}
+            </main>
+            <Footer /> 
+          </div>
+          <ToastContainer /> 
+        </ReduxProvider>
+      </body>
     </html>
-    
   );
 }

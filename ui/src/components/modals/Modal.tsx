@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import classNames from "classnames";
+import clsx from "clsx";
 
 interface ModalProps {
   open: boolean;
@@ -40,7 +40,7 @@ const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
-      className={classNames(
+      className={clsx(
         "fixed inset-0 z-10 p-8 bg-gray-600/90",
         `${open ? "visible" : "invisible"}`
       )}

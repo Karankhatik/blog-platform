@@ -195,7 +195,7 @@ const UserList: React.FC = () => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 cursor-pointer disabled:cursor-not-allowed"
           >
             Prev
           </button>
@@ -205,7 +205,7 @@ const UserList: React.FC = () => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 cursor-pointer disabled:cursor-not-allowed"
+            className="px-4 py-2 bg-white text-black rounded-md hover:bg-gray-200 cursor-pointer disabled:cursor-not-allowed"
           >
             Next
           </button>
@@ -238,7 +238,7 @@ const UserList: React.FC = () => {
                       name: e.target.value,
                     } as User)
                   }
-                  className="mt-1 bg-background block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                  className="mt-1 bg-background block w-full px-3 py-2 border border-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   required
                 />
               </div>
@@ -258,7 +258,7 @@ const UserList: React.FC = () => {
                       isEditor: e.target.value === "true",
                     } as User)
                   }
-                  className="mt-1 bg-background block w-full pl-3 pr-10 py-2  border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  className="mt-1 bg-background block w-full pl-3 pr-10 py-2  border-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
@@ -280,7 +280,7 @@ const UserList: React.FC = () => {
                       isRequested: e.target.value === "true",
                     } as User)
                   }
-                  className="mt-1 block bg-background w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                  className="mt-1 block bg-background w-full pl-3 pr-10 py-2 text-base border-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
                 >
                   <option value="true">Yes</option>
                   <option value="false">No</option>
@@ -295,7 +295,7 @@ const UserList: React.FC = () => {
                 </button>
                 <button
                   type="button"
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded"
+                  className="bg-white hover:bg-gray-400 text-black font-semibold py-2 px-4 rounded"
                   onClick={() => setOpenEditModal(false)}
                 >
                   Cancel

@@ -2,14 +2,12 @@
 import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { toast } from 'react-toastify';
 import { LoaderButton } from '@/components/ButtonComponent';
-import { useRouter, useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import { validateForm, commonValidationRules } from "@/helpers/validation";
 import { ResetPasswordEmailForm, PasswordResetForm } from "@/types/validation";
 import { forgotPassword, resetPassword } from '@/services/users/user';
 import PasswordInput from '@/components/input-fields/PasswordField';
-
-
+import { useSelector } from "react-redux";
+import { useRouter } from 'next/navigation';
 interface FormErrors {
     [key: string]: string;
 }
@@ -22,7 +20,7 @@ const ResetPassword = () => {
     const [step, setStep] = useState<number>(1);
     const [errors, setErrors] = useState<FormErrors>({});
     const router = useRouter();
-
+    const { authState } = useSelector((state: any) => state.auth);
     const handleEmailSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const formData: ResetPasswordEmailForm = {
@@ -78,6 +76,10 @@ const ResetPassword = () => {
             setErrors(errors);
 
         }
+    }
+
+    if(authState) {
+        router.push('/');  
     }
 
     const gettingPasswordValue = (password: string) => {

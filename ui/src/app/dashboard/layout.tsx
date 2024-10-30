@@ -8,8 +8,7 @@ const Layout = ({
     children,
 }: Readonly<{
     children: React.ReactNode;
-}>) => {
-    const dispatch = useAppDispatch();
+}>) => {    
     const isOpenDashboardSidebar = useAppSelector((state) => state.isOpen.isOpenDashboardSidebar);
 
     return (

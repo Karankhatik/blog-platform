@@ -29,7 +29,7 @@ export const sendEmailAPI = async( name: string, message:string) => {
     const response:any = await getDataFromApi(request);
     return response.data;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 
 }

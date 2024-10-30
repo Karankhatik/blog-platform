@@ -1,12 +1,10 @@
 "use client";
 // Import necessary modules
-import googleIconSvg from '@/assets/icons/googleIcon.svg';
-import React, { useState, useTransition, useEffect, FormEvent, ChangeEvent } from 'react';
-import Image from 'next/image';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import { validateForm, registrationValidationRules } from "@/helpers/validation";
 import { registerUser, verifyEmail, resendEmailOTP } from '@/services/users/user';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
+import { useSelector } from "react-redux";
 import { LoaderButton } from '@/components/ButtonComponent';
 import { useRouter } from 'next/navigation';
 import { RegistrationForm } from '@/types/validation';
@@ -41,7 +39,7 @@ const SignUp: React.FC = () => {
   const [otp, setOtp] = useState<string>('');
   const [loadingOtp, setLoadingOtp] = useState<boolean>(false);
   const router = useRouter();
-
+  const { authState } = useSelector((state: any) => state.auth);
   // Track timer state for interval cleanup
   const [timerActive, setTimerActive] = useState<boolean>(false);
 
@@ -153,6 +151,10 @@ const SignUp: React.FC = () => {
       setPassword(password);
     }
 
+  }
+
+  if(authState) {
+    router.push('/');  
   }
 
   return (

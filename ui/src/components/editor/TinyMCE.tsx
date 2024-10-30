@@ -26,7 +26,6 @@ const TinyMCEEditor: React.FC<TinyMCEEditorProps> = ({
         font_size_input_default_unit: "pt",
         codesample_dialog_width: 600,
         codesample_dialog_height: 400,
-        content_css: "//www.tiny.cloud/css/codepen.min.css", // Optional: Add custom CSS
       }}
       value={initialValue}
       onEditorChange={onEditorChange}

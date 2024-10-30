@@ -70,8 +70,7 @@ function Navbar() {
             <div className="md:flex md:items-center md:gap-12">
                 <nav aria-label="Global" className="hidden md:block">
                     <ul className="flex items-center gap-4 text-sm">
-                        {navbarItems.map((item, index) => {
-                            {console.log("pathname: ", pathname)}
+                        {navbarItems.map((item, index) => {                           
                             if ((item.label === "Login" || item.label === "Register")) {
                                 if (pathname === '/articles' && !authState) {
                                     return (

@@ -1,7 +1,5 @@
 "use client";
 import React, { useState } from 'react';
-import Image from 'next/image';
-import googleIconSvg from '@/assets/icons/googleIcon.svg'
 import Link from 'next/link';
 import { commonValidationRules, validateForm } from '@/helpers/validation';
 import { LoginForm } from "@/types/validation";
@@ -14,7 +12,7 @@ import Toast from '@/helpers/toasters';
 import { Suspense } from 'react';
 import { login } from '@/services/commonAPIs/commonApis';
 import PasswordInput from '@/components/input-fields/PasswordField';
-
+import { useSelector } from "react-redux";
 
 
 type FormErrors = { [key: string]: string };
@@ -27,6 +25,8 @@ const LoginWithoutSuspense = () => {
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
+  const { authState } = useSelector((state: any) => state.auth);
 
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState<boolean>(false);
@@ -80,6 +80,12 @@ const LoginWithoutSuspense = () => {
   const gettingPasswordValue = (password: string) => {
     setPassword(password);
   }
+
+  if(authState) {
+    router.push('/');  
+  }
+
+  console.log(authState)
 
   return (
     <main className="w-full h-screen flex flex-col items-center mt-16 px-4 ">

@@ -17,8 +17,6 @@ axios_instance.interceptors.request.use(config => {
 });
 
 const refresh_token = async () => {  
-  console.log("hre it is coming?");
-  console.log("acc", localStorage.getItem('acessToken'))
   return await axios.post(`${url}auth/refreshToken`, { acessToken: localStorage.getItem('acessToken') }, {
     withCredentials: true,
   });
@@ -63,7 +61,7 @@ const getDataFromApi = async (request: any) => {
       window.location.href = "/auth/login";
       window.location.reload();
     } else {
-      toast.error(errMessage);
+      //toast.error(errMessage);
       return { flag: false, error: err.response };
     }
   }

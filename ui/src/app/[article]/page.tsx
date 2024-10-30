@@ -5,8 +5,7 @@ import { getArticleBySlugAPI } from "@/services/article/article"
 import { Article } from "@/types/article"
 import "@/styles/article.css"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowLeft, Clock, User, ChevronRight } from "lucide-react"
+import {  Clock, User, ChevronRight } from "lucide-react"
 
 interface ArticleViewProps {
   params: {
@@ -57,11 +56,11 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-4">
         <h2 className="text-xl md:text-2xl font-bold mb-4 text-center">Article not found</h2>
-        <Button asChild variant="outline">
+        <button>
           <Link href="/articles">
             <span className="mr-2">←</span> Back to Articles
           </Link>
-        </Button>
+        </button>
       </div>
     )
   }

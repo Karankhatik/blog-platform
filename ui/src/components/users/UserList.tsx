@@ -24,7 +24,7 @@ const UserList: React.FC = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
 
-  const limit = 3; // Number of items per page
+  const limit = 10; // Number of items per page
 
   useEffect(() => {
     fetchUsers();

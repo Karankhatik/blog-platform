@@ -32,7 +32,7 @@ const ArticleList: React.FC = () => {
 
     const { user } = useSelector((state: any) => state.auth);
 
-    const limit = 3; 
+    const limit = 10; 
 
     useEffect(() => {
         fetchArticle();

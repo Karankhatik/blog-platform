@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 
@@ -41,11 +40,11 @@ export default function AboutPage() {
                 </CardContent>
                 <CardFooter>
 
-                  <Button className="w-full">
+                  <button className="w-full bg-primary text-black hover:bg-primary/90 transition duration-300 rounded-md px-4 py-3 text-sm">
                     <Link href="/auth/register">
                       Sign Up to Become an Editor
                     </Link>
-                  </Button>
+                  </button>
                 </CardFooter>
               </Card>
             </div>

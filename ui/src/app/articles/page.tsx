@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from "react"
 import { getAllArticleAPI } from "@/services/article/article"
 import { Article } from "@/types/article"
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Clock, User, ArrowRight } from "lucide-react"
 
@@ -91,7 +90,7 @@ const ArticleList: React.FC = () => {
           <button
             className={`inline-flex items-center justify-center rounded-full gap-2 min-w-[130px] border border-transparent px-4 py-2 text-sm font-medium text-black $ ${loading ? 'bg-gray-400' : 'bg-primary text-primary-foreground'} transition-colors duration-150 ease-in-out w-full`}
           >
-            Search 
+            Search
           </button>
         </span>
       </div>
@@ -122,10 +121,11 @@ const ArticleList: React.FC = () => {
               </CardContent>
               <CardFooter className="mt-auto">
                 <Link href={`/${article.slug}`} className="w-full">
-                  <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
-                    Read More
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
+                  <button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-sm">
+                    <span>
+                      Read More
+                    </span>
+                  </button>
                 </Link>
               </CardFooter>
             </Card>

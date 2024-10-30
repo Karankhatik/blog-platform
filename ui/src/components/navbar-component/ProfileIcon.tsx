@@ -27,6 +27,8 @@ const ProfileIcon = () => {
         }
     }
 
+    console.log("user", user)
+
     return (
         <>
             <span onClick={() => setIsProfileMenuOpen(!isProfileMenuOpen)} className="cursor-pointer profile-icon w-9 h-9 text-white bg-zinc-800 rounded-full flex items-center justify-center">{user?.name ? user?.name?.charAt(0).toUpperCase() : 'I'}</span>
@@ -45,7 +47,7 @@ const ProfileIcon = () => {
                                 </Link>
                             </div> */}
                             {
-                                user?.isEditor || user?.isAdmin && (
+                                (user?.isEditor || user?.isAdmin) && (
 <div>
                                 <Link href={'/dashboard/articles'} onClick={() => setIsProfileMenuOpen(false)}>
                                     <span className="block btn-button cursor-pointer rounded-lg px-4 py-2 text-sm" role="menuitem">

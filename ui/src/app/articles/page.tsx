@@ -1,9 +1,12 @@
+"use client"
 import React, { useState, useEffect, useCallback } from "react";
 import { getAllArticleAPI } from "@/services/article/article";
 import { Article } from "@/types/article";
 import Link from "next/link";
 import { Clock, User } from "lucide-react";
 
+
+const MAX_DESCRIPTION_LENGTH = 100;
 const ArticleList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [articles, setArticles] = useState<Article[]>([]);
@@ -105,7 +108,11 @@ const ArticleList: React.FC = () => {
                 </h3>
               </div>
               <div className="flex-grow">
-                <p className="text-white mb-4 line-clamp-3">{article?.description}</p>
+                <p className="text-white mb-4 line-clamp-3">
+                  {article?.description.length > MAX_DESCRIPTION_LENGTH
+                    ? `${article.description.slice(0, MAX_DESCRIPTION_LENGTH)}...`
+                    : article.description}.
+                </p>
                 <div className="flex items-center justify-between text-white text-sm">
                   <div className="flex items-center" aria-label={`Published on ${new Date(article.createdAt).toLocaleDateString()}`}>
                     <Clock className="w-4 h-4 mr-1" aria-hidden="true" />

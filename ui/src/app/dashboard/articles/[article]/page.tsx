@@ -153,9 +153,9 @@ const ArticleView: React.FC<ArticleViewProps> = ({ params }) => {
         >
           Update
         </button>
-        <button onClick={handleDraftSave} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-2 md:py-2 md:px-4 rounded-full transition duration-300 text-xs md:text-sm">
+        {/* <button onClick={handleDraftSave} className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-1 px-2 md:py-2 md:px-4 rounded-full transition duration-300 text-xs md:text-sm">
           Draft
-        </button>
+        </button> */}
         <button
           className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-2 md:py-2 md:px-4 rounded-full transition duration-300 text-xs md:text-sm"
           onClick={() => setPreview(!preview)}

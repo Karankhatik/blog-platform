@@ -335,8 +335,7 @@ const ArticleList: React.FC = () => {
                                     Cancel
                                 </button>
                             </div>
-                        </div>
-                        <button type="submit">Update</button>
+                        </div>                        
                     </form>
                 }
             />

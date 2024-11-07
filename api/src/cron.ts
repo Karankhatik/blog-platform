@@ -1,7 +1,7 @@
 import cron from "node-cron";
 import axios from "axios";
 
-const BACKEND_URL = "https://intake-learn.onrender.com/ping/server";
+const BACKEND_URL = "http://localhost:8000/ping/server";
 
 function hitBackendUrl() {
   axios

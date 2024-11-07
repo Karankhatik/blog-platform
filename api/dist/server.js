@@ -30,7 +30,9 @@ app.use((req, res, next) => {
 // Define allowed origins
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://tech-blog-taupe-seven.vercel.app'
+    'https://tech-blog-taupe-seven.vercel.app',
+    'https://intake-learn.onrender.com',
+    'http://localhost:8000'
 ];
 // Define CORS options with TypeScript typing
 const corsOptions = {
@@ -51,6 +53,10 @@ app.use((0, cors_1.default)(corsOptions));
 app.use((0, helmet_1.default)());
 app.use((0, helmet_1.default)());
 app.use("/api/v1", routes_1.default);
+app.get("/ping/server", (req, res) => {
+    console.log("coming here");
+    res.send("ping server");
+});
 app.use((req, res, next) => {
     return next(new APIError_1.default(http_status_1.default.NOT_FOUND, "API Not Found"));
 });
@@ -59,8 +65,5 @@ app.use((err, req, res, next) => {
     res.status(err.status || http_status_1.default.INTERNAL_SERVER_ERROR)
         .header('Content-Type', 'application/json')
         .json({ success: false, message: err.message });
-});
-app.get("/ping/server", (req, res) => {
-    res.send("ping server");
 });
 exports.default = app;

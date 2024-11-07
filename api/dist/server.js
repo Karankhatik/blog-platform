@@ -60,7 +60,7 @@ app.use((err, req, res, next) => {
         .header('Content-Type', 'application/json')
         .json({ success: false, message: err.message });
 });
-app.get("/", (req, res) => {
-    res.send("Express + TypeScript Server");
+app.get("/ping/server", (req, res) => {
+    res.send("ping server");
 });
 exports.default = app;

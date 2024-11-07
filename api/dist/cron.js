@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const node_cron_1 = __importDefault(require("node-cron"));
 const axios_1 = __importDefault(require("axios"));
-const BACKEND_URL = 'https://your-backend-url.com/api-endpoint';
+const BACKEND_URL = 'https://intake-learn.onrender.com/ping/server';
 function hitBackendUrl() {
     axios_1.default.get(BACKEND_URL)
         .then(response => {

@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import fileUpload from 'express-fileupload';
 import logger from 'morgan';
 import helmet from 'helmet';
 import httpStatus from 'http-status';
@@ -15,13 +14,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
+require("./cron");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(fileUpload({
-    limits: { fileSize: 50 * 1024 * 1024 },
-    useTempFiles: true,
-}));
 
 app.use(logger(`\x1b[37m\x1b[7m :date \x1b[0m \x1b[33m\x1b[1m:status\x1b[0m \x1b[2m:url\x1b[0m \x1b[1m\x1b[33m:method\x1b[0m :res[content-length] - :response-time ms`));
 
@@ -74,8 +71,8 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server");
+app.get("/ping/server", (req: Request, res: Response) => {
+  res.send("ping server");
 });
 
 export default app;

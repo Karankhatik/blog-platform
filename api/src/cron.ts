@@ -1,7 +1,7 @@
 import cron from "node-cron";
 import axios from "axios";
 
-const BACKEND_URL = "http://localhost:8000/ping/server";
+const BACKEND_URL = "https://intake-learn.onrender.com/ping/server";
 
 function hitBackendUrl() {
   axios
@@ -15,6 +15,6 @@ function hitBackendUrl() {
 }
 
 // Schedule the cron job to run every 10 minutes
-cron.schedule("*/10 * * * *", hitBackendUrl);
+cron.schedule("* * * * *", hitBackendUrl);
 
 console.log("Cron job scheduled to hit the backend URL every 10 minutes.");

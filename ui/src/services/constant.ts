@@ -58,6 +58,11 @@ export const getAllArticle = {
     method: 'GET',
 }
 
+export const getAllYourArticle = {
+    url: url + 'article/your-articles',
+    method: 'GET',
+}
+
 export const deleteArticle = {
     url : url + 'article',
     method: 'DELETE'

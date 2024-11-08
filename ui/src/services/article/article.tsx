@@ -1,5 +1,5 @@
 import getDataFromApi from '../apiCall';
-import { getAllArticle, deleteArticle, updateArticle, createArticle } from '../constant';
+import { getAllArticle, getAllYourArticle, deleteArticle, updateArticle, createArticle } from '../constant';
 
 
 export const getAllArticleAPI = async (page: number, limit: number, title?: string) => {
@@ -9,6 +9,18 @@ export const getAllArticleAPI = async (page: number, limit: number, title?: stri
         request.url = `${getAllArticle.url}?page=${page}&limit=${limit}&title=${title}`;
     } else {
         request.url = `${getAllArticle.url}?page=${page}&limit=${limit}`;
+    }
+    const result: any = await getDataFromApi(request);
+    return result?.data;
+};
+
+export const getAllYourArticleAPI = async (page: number, limit: number, title?: string) => {
+    // Create a copy of the request object to avoid mutating the original one
+    let request: any = { ...getAllYourArticle };
+    if(title) {
+        request.url = `${getAllYourArticle.url}?page=${page}&limit=${limit}&title=${title}`;
+    } else {
+        request.url = `${getAllYourArticle.url}?page=${page}&limit=${limit}`;
     }
     const result: any = await getDataFromApi(request);
     return result?.data;

@@ -18,6 +18,59 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
     }
 };
 
+export const getAllArticlesForEditor = async (req: Request, res: Response) => {
+    try {
+        // Ensure page and limit are positive integers
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 3;
+        const skip = (page - 1) * limit;
+
+        // Set up search filters based on conditions
+        const searchFilters: any = {};
+
+        // Add user filter if req.user exists        
+        if (req?.user) {
+            console.log( req.user._id)
+            searchFilters.userId = req.user._id;
+        }
+
+        // Add title filter if provided
+        if (req.query.title) {
+            searchFilters.title = {
+                $regex: req.query.title as string,
+                $options: "i",
+            };
+        }
+
+        // Query for articles with filters, sorting, pagination, and user population
+        const articles = await Article.find(searchFilters)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .populate({ path: "userId", select: "name" });
+
+        // Get the total count of filtered articles
+        const totalCount = await Article.countDocuments(searchFilters);
+
+        return res.status(httpStatus.OK).json({
+            success: true,
+            message: "Articles found!",
+            articles,
+            count: articles.length,
+            total: totalCount,
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+        });
+    } catch (error: any) {
+        console.log("Error fetching articles:", error);
+        throw new ApiError(
+            httpStatus.INTERNAL_SERVER_ERROR,
+            "Something went wrong while fetching Articles"
+        );
+    }
+};
+
+
 export const getAllArticles = async (req: Request, res: Response) => {
     try {
         // Ensure page and limit are positive integers

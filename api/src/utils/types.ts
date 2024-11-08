@@ -2,6 +2,7 @@
 import { Document, Schema } from 'mongoose';
 import { JwtPayload } from 'jsonwebtoken';
 import { Request } from 'express';
+import express from "express";
 
 export interface IAdmin extends Document {
     name: string;
@@ -26,6 +27,19 @@ export interface IUser extends Document {
     otp_expiry?: Date | null;     
     generateAccessToken: () => string;
     generateRefreshToken: () => string;
+  }
+
+  declare global {
+    namespace Express {
+      interface User {
+        _id: string; 
+        name?: string;
+        email?: string;
+      }
+      interface Request {
+        user?: User; // Optional user property
+      }
+    }
   }
 
 export interface EmailOptions {
@@ -68,4 +82,5 @@ export interface IArticle extends Document {
   articleImage?: string;
 
 }
+
 

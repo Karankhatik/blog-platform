@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteArticle = exports.updateArticle = exports.getArticleBySlug = exports.getArticleById = exports.getAllArticles = exports.createArticle = void 0;
+exports.deleteArticle = exports.updateArticle = exports.getArticleBySlug = exports.getArticleById = exports.getAllArticles = exports.getAllArticlesForEditor = exports.createArticle = void 0;
 const article_model_1 = __importDefault(require("../models/article.model"));
 const sanetize_1 = __importDefault(require("../helpers/sanetize"));
 const httpStatus = __importStar(require("http-status"));
@@ -55,6 +55,50 @@ const createArticle = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 exports.createArticle = createArticle;
+const getAllArticlesForEditor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // Ensure page and limit are positive integers
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 3;
+        const skip = (page - 1) * limit;
+        // Set up search filters based on conditions
+        const searchFilters = {};
+        // Add user filter if req.user exists
+        if (req === null || req === void 0 ? void 0 : req.user) {
+            console.log(req.user._id);
+            searchFilters.userId = req.user._id;
+        }
+        // Add title filter if provided
+        if (req.query.title) {
+            searchFilters.title = {
+                $regex: req.query.title,
+                $options: "i", // Case-insensitive search
+            };
+        }
+        // Query for articles with filters, sorting, pagination, and user population
+        const articles = yield article_model_1.default.find(searchFilters)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit)
+            .populate({ path: "userId", select: "name" });
+        // Get the total count of filtered articles
+        const totalCount = yield article_model_1.default.countDocuments(searchFilters);
+        return res.status(httpStatus.OK).json({
+            success: true,
+            message: "Articles found!",
+            articles,
+            count: articles.length,
+            total: totalCount,
+            currentPage: page,
+            totalPages: Math.ceil(totalCount / limit),
+        });
+    }
+    catch (error) {
+        console.log("Error fetching articles:", error);
+        throw new APIError_1.default(httpStatus.INTERNAL_SERVER_ERROR, "Something went wrong while fetching Articles");
+    }
+});
+exports.getAllArticlesForEditor = getAllArticlesForEditor;
 const getAllArticles = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // Ensure page and limit are positive integers

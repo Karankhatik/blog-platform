@@ -7,6 +7,7 @@ const router = Router();
 
 router.post('/', protect, authorize, validateArticleMiddleware(articleParamValidation.createArticle), articleController.createArticle);
 router.get('/',  articleController.getAllArticles);
+router.get('/your-articles', protect, authorize, articleController.getAllArticlesForEditor);
 router.get('/:id', protect, articleController.getArticleById);
 router.get('/getArticleBySlug/:slug', articleController.getArticleBySlug);
 router.put('/:id', protect, authorize, validateArticleMiddleware(articleParamValidation.updateArticle), articleController.updateArticle);

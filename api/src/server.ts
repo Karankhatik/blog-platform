@@ -34,8 +34,7 @@ app.use((req: Request,res: Response, next: NextFunction) => {
 const allowedOrigins: string[] = [
   'http://localhost:3000',
   'https://tech-blog-taupe-seven.vercel.app',
-  'https://intake-learn.onrender.com',
-  'http://localhost:8000'
+  'https://intake-learn.onrender.com',  
 ];
 
 // Define CORS options with TypeScript typing

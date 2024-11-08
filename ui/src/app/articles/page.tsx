@@ -14,7 +14,7 @@ const ArticleList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
-  const limit = 3;
+  const limit = 10;
 
   useEffect(() => {
     fetchArticle();
@@ -109,7 +109,7 @@ const ArticleList: React.FC = () => {
               </div>
               <div className="flex-grow">
                 <p className="text-white mb-4 line-clamp-3">
-                  {article?.description.length > MAX_DESCRIPTION_LENGTH
+                  {article?.description?.length > MAX_DESCRIPTION_LENGTH
                     ? `${article.description.slice(0, MAX_DESCRIPTION_LENGTH)}...`
                     : article.description}.
                 </p>

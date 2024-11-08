@@ -31,6 +31,7 @@ const auth_middleware_2 = require("../middleware/auth.middleware");
 const router = (0, express_1.Router)();
 router.post('/', auth_middleware_1.protect, auth_middleware_2.authorize, (0, article_validation_1.validateArticleMiddleware)(article_validation_1.articleParamValidation.createArticle), articleController.createArticle);
 router.get('/', articleController.getAllArticles);
+router.get('/your-articles', auth_middleware_1.protect, auth_middleware_2.authorize, articleController.getAllArticlesForEditor);
 router.get('/:id', auth_middleware_1.protect, articleController.getArticleById);
 router.get('/getArticleBySlug/:slug', articleController.getArticleBySlug);
 router.put('/:id', auth_middleware_1.protect, auth_middleware_2.authorize, (0, article_validation_1.validateArticleMiddleware)(article_validation_1.articleParamValidation.updateArticle), articleController.updateArticle);

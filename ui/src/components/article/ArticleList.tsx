@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import {
-    getAllArticleAPI,
+    getAllYourArticleAPI,
     deleteArticleAPI,
     updateArticleAPI,
     createArticleAPI,
@@ -42,7 +42,7 @@ const ArticleList: React.FC = () => {
     const fetchArticle = async () => {
         setLoading(true);
         try {
-            const response = await getAllArticleAPI(currentPage, limit);
+            const response = await getAllYourArticleAPI(currentPage, limit);
             const { articles, totalPages } = response;
             setArticles(articles);
             setTotalPages(totalPages);
@@ -68,7 +68,7 @@ const ArticleList: React.FC = () => {
         setLoading(true);
         setCurrentPage(1);
         try {
-            const response = await getAllArticleAPI(1, limit, title);
+            const response = await getAllYourArticleAPI(1, limit, title);
             const { articles, totalPages } = response;
             setArticles(articles);
             setTotalPages(totalPages);
@@ -165,7 +165,7 @@ const ArticleList: React.FC = () => {
         setLoading(true);
         setCurrentPage(newPage);
         try {
-            const response = await getAllArticleAPI(newPage, limit, searchTerm);
+            const response = await getAllYourArticleAPI(newPage, limit, searchTerm);
             const { articles, totalPages } = response;
             setArticles(articles);
             setTotalPages(totalPages);

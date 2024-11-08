@@ -32,7 +32,6 @@ const allowedOrigins = [
     'http://localhost:3000',
     'https://tech-blog-taupe-seven.vercel.app',
     'https://intake-learn.onrender.com',
-    'http://localhost:8000'
 ];
 // Define CORS options with TypeScript typing
 const corsOptions = {
@@ -54,7 +53,6 @@ app.use((0, helmet_1.default)());
 app.use((0, helmet_1.default)());
 app.use("/api/v1", routes_1.default);
 app.get("/ping/server", (req, res) => {
-    console.log("coming here");
     res.send("ping server");
 });
 app.use((req, res, next) => {

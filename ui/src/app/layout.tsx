@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar-component/Navbar";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Footer from "@/components/footer/Footer";
+import Script from "next/script";
 
 const ReduxProvider = dynamic(() => import("@/store/reduxProvider"), {
   ssr: false
@@ -39,6 +40,7 @@ export default function RootLayout({
           <ToastContainer /> 
         </ReduxProvider>
       </body>
+      <Script src="/tinymce/tinymce.min.js" strategy="afterInteractive"  />
     </html>
   );
 }

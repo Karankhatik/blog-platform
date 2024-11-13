@@ -63,7 +63,7 @@ const getAllArticlesForEditor = (req, res) => __awaiter(void 0, void 0, void 0, 
         const skip = (page - 1) * limit;
         // Set up search filters based on conditions
         const searchFilters = {};
-        // Add user filter if req.user exists
+        // Add user filter if req.user exists        
         if (req === null || req === void 0 ? void 0 : req.user) {
             console.log(req.user._id);
             searchFilters.userId = req.user._id;
@@ -72,7 +72,7 @@ const getAllArticlesForEditor = (req, res) => __awaiter(void 0, void 0, void 0, 
         if (req.query.title) {
             searchFilters.title = {
                 $regex: req.query.title,
-                $options: "i", // Case-insensitive search
+                $options: "i",
             };
         }
         // Query for articles with filters, sorting, pagination, and user population

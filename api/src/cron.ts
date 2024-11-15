@@ -15,6 +15,6 @@ function hitBackendUrl() {
 }
 
 // Schedule the cron job to run every 10 minutes
-cron.schedule("* * * * *", hitBackendUrl);
+cron.schedule("*/10 * * * *", hitBackendUrl);
 
 console.log("Cron job scheduled to hit the backend URL every 10 minutes.");
